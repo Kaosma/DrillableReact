@@ -36,17 +36,20 @@ export const CreatePractice = ({navigation}: {navigation: any}) => {
         );
     };
 
-    const EmptySlot = () => {
-        <View style={{flexDirection: 'row', justifyContent: 'space-between', backgroundColor: '#3a3535', borderRadius: 2, shadowColor: 'black', shadowRadius: 7, width: '100%'}}>
-
-        </View>
-    }
-
     interface PracticeDrill {
         title: string;
         id: string;
         duration: number;
     }
+
+    const EmptySlot = () => {
+        return(
+            <View style={{alignItems: 'center', justifyContent: 'center', backgroundColor: '#3a3535', opacity:0.8, borderColor: '#000000', borderWidth:2,borderRadius: 2, shadowColor: 'black', shadowRadius: 3, height: 70,width: '100%'}}>    
+                <Icon icon={plusOutlined} width='60' height='60' style={{color: '#ff7315'}} />   
+            </View>
+        );
+    }
+
     const [practiceDrills, setDrills] = useState<PracticeDrill[]>([]);
     return (
         <View style={styles.rootContainer}>
@@ -61,12 +64,7 @@ export const CreatePractice = ({navigation}: {navigation: any}) => {
                     />
                     }}
                 />
-                
-                <View style={{alignItems: 'center', justifyContent: 'center', backgroundColor: '#3a3535', opacity:0.8, borderColor: '#000000', borderWidth:2,borderRadius: 2, shadowColor: 'black', shadowRadius: 3, height: 70,width: '100%'}}>
-                    
-                  <Icon icon={plusOutlined} width='60' height='60' style={{color: '#ff7315'}} />
-                    
-                </View>
+                <EmptySlot></EmptySlot>
             </View>
             <StatusBar style="auto" />
         </View>

@@ -29,13 +29,13 @@ export const TabsComponent = ({navigation}: {navigation: any}) => {
         }}>
 
           <Tab.Screen name="Drill bank" component={DrillBank} options={{ tabBarIcon: ({ focused, color}) => {
-            return <Icon icon={basketballIcon} style={{color: '#f4f4f4'}} />;  // <---- android
+            return <Icon icon={basketballIcon} height="25" width="25"style={{color: '#f4f4f4'}} />;  // <---- android
           }}} />
           <Tab.Screen name="Manage Teams" component={ManageTeams} options={{ tabBarIcon: ({ focused, color}) => {
-            return <Icon icon={peopleTeam16Filled} style={{color: '#f4f4f4'}} />;  // <---- android
+            return <Icon icon={peopleTeam16Filled} height="25" width="25"style={{color: '#f4f4f4'}} />;  // <---- android
           }}} />
           <Tab.Screen name="Clip Board" component={ClipBoard} options={{ tabBarIcon: ({ focused, color}) => {
-            return <Icon icon={clipboardEditOutline} style={{color: '#f4f4f4'}} />;  // <---- android
+            return <Icon icon={clipboardEditOutline} height="25" width="25"style={{color: '#f4f4f4'}} />;  // <---- android
           }}} />
       </Tab.Navigator>
       

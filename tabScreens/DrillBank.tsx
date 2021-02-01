@@ -2,22 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import { Text, View, TouchableOpacity, Image, FlatList } from 'react-native';
 import { styles } from "../styles"
-import * as firebase from 'firebase';
-import 'firebase/firestore';
-
-const firebaseConfig = {
-    apiKey: "AIzaSyCB7F6NnS7SFnnwnZT-OJQsLWpMNum4tew",
-    authDomain: "drillable.firebaseapp.com",
-    databaseURL: "https://drillable.firebaseio.com",
-    projectId: "drillable",
-    storageBucket: "drillable.appspot.com",
-    messagingSenderId: "15822012428",
-    appId: "1:15822012428:web:f39d48df19d01589ff6e29",
-    measurementId: "G-9RHEXC0EKZ"
-};
-  
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+import { db } from "../DatabaseRequest"
 
 export const DrillBank = ({navigation}: {navigation: any}) => {
 
@@ -89,7 +74,6 @@ export const DrillBank = ({navigation}: {navigation: any}) => {
 
     useEffect(() => {
         getDrillsFromDatabase();
-        console.log('NUNUNUNU');
     }, []);
 
     return (
