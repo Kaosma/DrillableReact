@@ -1,26 +1,36 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useEffect, useState } from 'react';
-import { Text, View, TouchableOpacity, Image, FlatList } from 'react-native';
+import React, { useEffect, useState, useContext } from 'react';
+import { Text, View, TouchableOpacity, Image, FlatList} from 'react-native';
 import { styles } from "../styles"
 import { db } from "../DatabaseRequest"
+import { Rating, AirbnbRating } from 'react-native-ratings';
+import { DrillsContext } from "../App"
 
 export const DrillBank = ({navigation}: {navigation: any}) => {
 
-    type DrillProps = {title: string; numberOfPlayers: number; duration: number}
+    const { practiceDrills, setDrills, addDrill } = useContext(DrillsContext);
+
+    type DrillProps = {propTitle: string; propNumberOfPlayers: number; propDuration: number; propId: string}
   
-    const Drill = ({title, numberOfPlayers, duration}: DrillProps) => {
+    const Drill = ({propTitle, propNumberOfPlayers, propDuration, propId}: DrillProps) => {
+        const drillInstance: Drill = {
+            title: propTitle,
+            numberOfPlayers: propNumberOfPlayers,
+            duration: propDuration,
+            id: propId
+        }
         return (
             <View style={styles.drillContainer}>
                 <View style={{flex: 4, flexDirection: 'row', }}>
                     <View style={{flex: 3, marginLeft: 20}}>
                     <View style={{flex: 2, flexDirection: 'row', alignItems: 'center'}}>
-                        <Text style={{flex: 1, color: '#f4f4f4', fontSize: 22}}>{title}</Text>
+                        <Text style={{flex: 1, color: '#f4f4f4', fontSize: 22}}>{propTitle}</Text>
                         {/*<Text style={{flex: 1, color: '#f4f4f4', fontSize: 20}}>{rating}★</Text>*/}
                     </View>
 
                     <View style={{flex: 3, flexDirection: 'row', marginTop: 10}}>
-                        <Text style={{flex: 1, color: '#f4f4f4', fontSize: 17}}>No. Players: {numberOfPlayers}</Text>
-                        <Text style={{flex: 1, color: '#f4f4f4', fontSize: 17}}>Duration: {duration}</Text>
+                        <Text style={{flex: 1, color: '#f4f4f4', fontSize: 17}}>No. Players: {propNumberOfPlayers}</Text>
+                        <Text style={{flex: 1, color: '#f4f4f4', fontSize: 17}}>Duration: {propDuration}</Text>
                     </View>
                     </View>
 
@@ -33,17 +43,20 @@ export const DrillBank = ({navigation}: {navigation: any}) => {
                 </View>
 
                 <View style={{flex: 1, flexDirection: 'row', marginLeft: 20}}>
-                    <TouchableOpacity style={styles.drillContainerButton} onPress={()=>{
-                        navigation.navigate("PracticeCreator")
-                    }}>RATE</TouchableOpacity>
+                    <TouchableOpacity style={styles.drillContainerButton}>RATE</TouchableOpacity>
                     <TouchableOpacity style={styles.drillContainerButton}>VIEW</TouchableOpacity>
+                    <TouchableOpacity 
+                      style={styles.drillContainerButton} 
+                      onPress={()=>{
+                        navigation.navigate("PracticeCreator"); addDrill(drillInstance);
+                      }}>ADD</TouchableOpacity>
                 </View>
             </View>
         );
     };
     interface Drill {
         title: string;
-        //id: string;
+        id: string;
         duration: number;
         numberOfPlayers: number
         //recommendedNumber: number;
@@ -52,6 +65,7 @@ export const DrillBank = ({navigation}: {navigation: any}) => {
         //category: string;
         //numberOfRatings: number;
     }
+
     const [drillsList, setDrillsList] = useState<Drill[]>([]);
 
     function getDrillsFromDatabase() {
@@ -64,7 +78,8 @@ export const DrillBank = ({navigation}: {navigation: any}) => {
             const drillName = data.name
             const drillLength = data.length
             const drillNumberOfPlayers = data.numberOfPlayers
-            array.push({title: drillName, duration: drillLength, numberOfPlayers: drillNumberOfPlayers})});
+            const drillId = data.id
+            array.push({title: drillName, duration: drillLength, numberOfPlayers: drillNumberOfPlayers, id: drillId})});
             setDrillsList(array);
         })
         .catch(function(error) {
@@ -86,6 +101,7 @@ export const DrillBank = ({navigation}: {navigation: any}) => {
                     title = {item.title}
                     duration = {item.duration}
                     numberOfPlayers = {item.numberOfPlayers}
+                    id= {item.id}
                     />
                     }}
                 />

@@ -17,6 +17,6 @@ export const styles = StyleSheet.create({
     drillContainerButton: {
       color: '#ffffff',
       fontFamily: 'Roboto',
-      marginRight: 30
+      marginRight: 20
     }
   });
