@@ -9,51 +9,7 @@ import { DrillsContext } from "../App"
 export const DrillBank = ({navigation}: {navigation: any}) => {
 
     const { practiceDrills, setDrills, addDrill } = useContext(DrillsContext);
-
-    type DrillProps = {propTitle: string; propNumberOfPlayers: number; propDuration: number; propId: string}
   
-    const Drill = ({propTitle, propNumberOfPlayers, propDuration, propId}: DrillProps) => {
-        const drillInstance: Drill = {
-            title: propTitle,
-            numberOfPlayers: propNumberOfPlayers,
-            duration: propDuration,
-            id: propId
-        }
-        return (
-            <View style={styles.drillContainer}>
-                <View style={{flex: 4, flexDirection: 'row', }}>
-                    <View style={{flex: 3, marginLeft: 20}}>
-                    <View style={{flex: 2, flexDirection: 'row', alignItems: 'center'}}>
-                        <Text style={{flex: 1, color: '#f4f4f4', fontSize: 22}}>{propTitle}</Text>
-                        {/*<Text style={{flex: 1, color: '#f4f4f4', fontSize: 20}}>{rating}★</Text>*/}
-                    </View>
-
-                    <View style={{flex: 3, flexDirection: 'row', marginTop: 10}}>
-                        <Text style={{flex: 1, color: '#f4f4f4', fontSize: 17}}>No. Players: {propNumberOfPlayers}</Text>
-                        <Text style={{flex: 1, color: '#f4f4f4', fontSize: 17}}>Duration: {propDuration}</Text>
-                    </View>
-                    </View>
-
-                    <View style={{flex: 1, }}>
-                    <Image 
-                        source={require('../assets/adaptive-icon.png')} 
-                        style={{width: 50, height: 50,}} 
-                    />
-                    </View>
-                </View>
-
-                <View style={{flex: 1, flexDirection: 'row', marginLeft: 20}}>
-                    <TouchableOpacity style={styles.drillContainerButton}>RATE</TouchableOpacity>
-                    <TouchableOpacity style={styles.drillContainerButton}>VIEW</TouchableOpacity>
-                    <TouchableOpacity 
-                      style={styles.drillContainerButton} 
-                      onPress={()=>{
-                        navigation.navigate("PracticeCreator"); addDrill(drillInstance);
-                      }}>ADD</TouchableOpacity>
-                </View>
-            </View>
-        );
-    };
     interface Drill {
         title: string;
         id: string;
@@ -91,18 +47,53 @@ export const DrillBank = ({navigation}: {navigation: any}) => {
         getDrillsFromDatabase();
     }, []);
 
+    function rateDrill() {
+        
+    }
+
     return (
         <View style={styles.rootContainer}>
             <View style={{width: '100%'}}>
                 <FlatList
                     data={drillsList}
                     renderItem={({item}) => {
-                    return <Drill 
-                    title = {item.title}
-                    duration = {item.duration}
-                    numberOfPlayers = {item.numberOfPlayers}
-                    id= {item.id}
-                    />
+                    return <View style={styles.drillContainer}>
+                    <View style={{flex: 4, flexDirection: 'row', }}>
+                        <View style={{flex: 3, marginLeft: 20}}>
+                        <View style={{flex: 2, flexDirection: 'row', alignItems: 'center'}}>
+                            <Text style={{flex: 1, color: '#f4f4f4', fontSize: 22}}>{item.title}</Text>
+                            {/*<Text style={{flex: 1, color: '#f4f4f4', fontSize: 20}}>{rating}★</Text>*/}
+                        </View>
+    
+                        <View style={{flex: 3, flexDirection: 'row', marginTop: 10}}>
+                            <Text style={{flex: 1, color: '#f4f4f4', fontSize: 17}}>No. Players: {item.numberOfPlayers}</Text>
+                            <Text style={{flex: 1, color: '#f4f4f4', fontSize: 17}}>Duration: {item.duration}</Text>
+                        </View>
+                        </View>
+    
+                        <View style={{flex: 1, }}>
+                        <Image 
+                            source={require('../assets/adaptive-icon.png')} 
+                            style={{width: 50, height: 50,}} 
+                        />
+                        </View>
+                    </View>
+    
+                    <View style={{flex: 1, flexDirection: 'row', marginLeft: 20}}>
+                        <TouchableOpacity style={styles.drillContainerButton}>RATE</TouchableOpacity>
+                        <TouchableOpacity 
+                          style={styles.drillContainerButton}
+                          onPress={() => {
+                            navigation.navigate("ViewDrill", item);
+                        }}>VIEW</TouchableOpacity>
+
+                        <TouchableOpacity 
+                          style={styles.drillContainerButton} 
+                          onPress={()=>{
+                            navigation.navigate("PracticeCreator"); addDrill(item);
+                        }}>ADD</TouchableOpacity>
+                    </View>
+                </View>
                     }}
                 />
             </View>

@@ -5,6 +5,8 @@ import { ManageTeams } from "./tabScreens/ManageTeams";
 import { ClipBoard } from "./tabScreens/ClipBoard";
 import { DrillBank } from "./tabScreens/DrillBank"
 import { CreatePractice } from './navigationScreens/CreatePractice';
+import { ViewDrill } from './navigationScreens/ViewDrill';
+import { PracticeSettings } from './navigationScreens/PracticeSettings';
 import { styles } from "./styles"
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
@@ -16,70 +18,89 @@ import clipboardEditOutline from '@iconify-icons/mdi/clipboard-edit-outline';
 import peopleTeam16Filled from '@iconify-icons/fluent/people-team-16-filled';
 import coneIcon from '@iconify-icons/bi/cone';
 
-
 const Stack = createStackNavigator();
+const Tab = createMaterialTopTabNavigator();
+export const DrillsContext = createContext();
 
 export const TabsComponent = ({navigation}: {navigation: any}) => {
-    const Tab = createMaterialTopTabNavigator();
-    
     return(
-      <>
-        <Tab.Navigator tabBarOptions={{
-          showIcon:'true',
-          style: { backgroundColor: '#ff7315' }, 
-          activeTintColor:'#f4f4f4',
-          indicatorStyle:{backgroundColor:'#f4f4f4'},
-          }}>
+        <>
+            <Tab.Navigator tabBarOptions={{
+              showIcon:'true',
+              style: { backgroundColor: '#ff7315' }, 
+              activeTintColor:'#f4f4f4',
+              indicatorStyle:{backgroundColor:'#f4f4f4'},
+              }}>
 
-            <Tab.Screen name="Drill bank" component={DrillBank} options={{ tabBarIcon: ({ focused, color}) => {
-              return <Icon icon={coneIcon} height="25" width="25"style={{color: '#f4f4f4'}} />;  // <---- android
-            }}} />
-            <Tab.Screen name="Manage Teams" component={ManageTeams} options={{ tabBarIcon: ({ focused, color}) => {
-              return <Icon icon={peopleTeam16Filled} height="25" width="25"style={{color: '#f4f4f4'}} />;  // <---- android
-            }}} />
-            <Tab.Screen name="Clip Board" component={ClipBoard} options={{ tabBarIcon: ({ focused, color}) => {
-              return <Icon icon={clipboardEditOutline} height="25" width="25"style={{color: '#f4f4f4'}} />;  // <---- android
-            }}} />
-        </Tab.Navigator>
-        <FAB 
-          icon={require('./assets/basketball_iOS.png')}
-          color="#f4f4f4"
-          style={{ position: 'absolute', bottom: 40, right: 20, backgroundColor: '#fc5c14'}} 
-          onPress={() => navigation.navigate("PracticeCreator")}
-        />
-      </>
+                <Tab.Screen name="Drill bank" component={DrillBank} options={{ tabBarIcon: ({ focused, color}) => {
+                  return <Icon icon={coneIcon} height="25" width="25"style={{color: '#f4f4f4'}} />;  // <---- android
+                }}} />
+                <Tab.Screen name="Manage Teams" component={ManageTeams} options={{ tabBarIcon: ({ focused, color}) => {
+                  return <Icon icon={peopleTeam16Filled} height="25" width="25"style={{color: '#f4f4f4'}} />;  // <---- android
+                }}} />
+                <Tab.Screen name="Clip Board" component={ClipBoard} options={{ tabBarIcon: ({ focused, color}) => {
+                  return <Icon icon={clipboardEditOutline} height="25" width="25"style={{color: '#f4f4f4'}} />;  // <---- android
+                }}} />
+            </Tab.Navigator>
+
+            <FAB 
+              icon={require('./assets/basketball_iOS.png')}
+              color="#f4f4f4"
+              style={{ position: 'absolute', bottom: 40, right: 20, backgroundColor: '#fc5c14'}} 
+              onPress={() => navigation.navigate("PracticeCreator")}
+            />
+        </>
     );
 }
-export const DrillsContext = createContext();
+
 
 export default function App({navigation}: {navigation: any}) {
     
     const [practiceDrills, setDrills] = useState<Drill[]>([]);
+
     const addDrill = (drill: Drill) => {
-      const drillsList = practiceDrills;
-      drillsList.push(drill)
-      setDrills(drillsList)
+        const drillsList = [...practiceDrills];
+        drillsList.push(drill)
+        setDrills(drillsList)
     };
+
+    const removeDrill = (index: number) => {
+        const drillsList = [...practiceDrills];
+        drillsList.splice(index,1)
+        setDrills(drillsList)
+    }
+
     interface Drill {
-      title: string;
-      id: string;
-      duration: number;
-      numberOfPlayers: number
-      //recommendedNumber: number;
-      //imageUrl: string;
-      //description: string;
-      //category: string;
-      //numberOfRatings: number;
-  }
+        title: string;
+        id: string;
+        duration: number;
+        numberOfPlayers: number
+        //recommendedNumber: number;
+        //imageUrl: string;
+        //description: string;
+        //category: string;
+        //numberOfRatings: number;
+    }
 
     return (
         <NavigationContainer>
-            <DrillsContext.Provider value={{practiceDrills, setDrills, addDrill}}>
-                <Stack.Navigator>
-                    <Stack.Screen name="Tabs" component={TabsComponent} />
+            <DrillsContext.Provider value={{practiceDrills, setDrills, addDrill, removeDrill}}>
+                <Stack.Navigator screenOptions={{
+                  headerTintColor: '#f4f4f4',
+                  headerStyle: {
+                    backgroundColor:'#ff7315'
+                  },
+                  headerTitleStyle: {
+                    fontWeight: 'bold',
+                  }}}>
+
+                    <Stack.Screen name="Tabs" component={TabsComponent} options={{headerShown:false}} />
                     <Stack.Screen name="PracticeCreator" component={CreatePractice} />
                     <Stack.Screen name="DrillBank" component={DrillBank} options={({ route }) => ({ title:"ChooseDrill"})} />
+                    <Stack.Screen name="ViewDrill" component={ViewDrill} />
+                    <Stack.Screen name="PracticeSettings" component={PracticeSettings} />
                 </Stack.Navigator>
+                <StatusBar style="auto" />
             </DrillsContext.Provider>
         </NavigationContainer>
     );

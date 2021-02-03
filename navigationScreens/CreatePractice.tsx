@@ -6,57 +6,23 @@ import { styles } from "../styles"
 import plusSquareFill from '@iconify-icons/bi/plus-square-fill';
 import plusOutlined from '@iconify-icons/ant-design/plus-outlined';
 import { DrillsContext } from "../App"
+import xCircle from '@iconify-icons/bi/x-circle';
+import eyeFilled from '@iconify-icons/ant-design/eye-filled';
 
 
 
 export const CreatePractice = ({navigation}: {navigation: any}) => {
 
-    const { practiceDrills, setDrills } = useContext(DrillsContext);
-    
-    type PracticeDrillProps = {title: string; duration: number; index: number}
-
-    const AddedDrill = ({title, duration, index}: PracticeDrillProps) => {
-        return (
-            <View style={{flexDirection: 'row', justifyContent: 'space-between', backgroundColor: '#3a3535', borderRadius: 2, shadowColor: 'black', shadowRadius: 7, width: '100%'}}>
-                <View style={{flexDirection: 'row'}}>
-                    <View style={{alignItems: 'center', justifyContent: 'center', borderRadius: 2, backgroundColor: '#f4f4f4', height: 50, margin: 10}}>
-                        <Text style={{color:'#3a3535', margin: 10, fontSize: 20, fontFamily: 'roboto', fontWeight: '500'}}>{index}</Text>
-                    </View>
-                    <View style={{alignItems: 'center', justifyContent: 'center', borderRadius: 2, backgroundColor: '#f4f4f4', height: 50, marginTop: 10, marginBottom: 10}}>
-                        <Text style={{color:'#3a3535', margin: 10, fontSize: 20, fontFamily: 'roboto', fontWeight: '500'}}>{title}</Text>
-                    </View>
-                </View>
-          
-                <View style={{flexDirection: 'row'}}>
-                    <View style={{alignItems: 'center', justifyContent: 'center', borderRadius: 2, backgroundColor: '#f4f4f4', height: 50, marginLeft: 10, marginTop: 10, marginBottom: 10}}>
-                        <Text style={{color:'#3a3535', margin: 10, fontSize: 20, fontFamily: 'roboto', fontWeight: '500'}}>{duration}min</Text>
-                    </View>
-                    <TouchableOpacity 
-                      style={{
-                        alignItems: 'center', 
-                        justifyContent: 'center', 
-                        borderRadius: 25, 
-                        width: 50, 
-                        height: 50, 
-                        margin: 10}}
-                      onPress={() => {
-                        console.log(practiceDrills)
-                      }}>
-                        <Text style={{color:'red', fontSize: 50}}>⊗</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-        );
-    };
+    const { practiceDrills, setDrills, removeDrill } = useContext(DrillsContext);
 
     const EmptySlot = () => {
         return(
             <TouchableOpacity style={{
               alignItems: 'center', 
+              marginTop: 10,
               justifyContent: 'center', 
               flexDirection:'row', 
               backgroundColor: '#3a3535', 
-              borderColor: '#000000', 
               borderWidth:2,
               borderRadius: 2, 
               shadowColor: 'black', 
@@ -72,15 +38,53 @@ export const CreatePractice = ({navigation}: {navigation: any}) => {
 
     return (
         <View style={styles.rootContainer}>
-            <View style={{width: '100%'}}>
+            <View style={{width: '90%'}}>
                 <FlatList
                     data={practiceDrills}
-                    renderItem={({item}) => {
-                    return <AddedDrill 
-                    title = {item.title}
-                    duration = {item.duration}
-                    index = {1}
-                    />
+                    renderItem={({item, index}) => {
+                    return <View style={{marginTop: 10,flexDirection: 'row', justifyContent: 'space-between', backgroundColor: '#3a3535', borderRadius: 2, shadowColor: 'black', shadowRadius: 3, width: '100%'}}>
+                        <View style={{flexDirection: 'row'}}>
+                            <View style={{alignItems: 'center', justifyContent: 'center', borderRadius: 2, backgroundColor: '#f4f4f4', height: 50, margin: 10}}>
+                                <Text style={{color:'#3a3535', margin: 10, fontSize: 20, fontFamily: 'roboto', fontWeight: '500'}}>{index+1}</Text>
+                            </View>
+                            <View style={{alignItems: 'center', justifyContent: 'center', borderRadius: 2, backgroundColor: '#f4f4f4', height: 50, marginTop: 10, marginBottom: 10}}>
+                                <Text style={{color:'#3a3535', margin: 10, fontSize: 20, fontFamily: 'roboto', fontWeight: '500'}}>{item.title}</Text>
+                            </View>
+                        </View>
+                
+                        <View style={{flexDirection: 'row'}}>
+                            <View style={{alignItems: 'center', justifyContent: 'center', borderRadius: 2, backgroundColor: '#3a3535', height: 50, marginLeft: 10, marginTop: 10, marginBottom: 10}}>
+                                <Text style={{color:'#f4f4f4', margin: 10, fontSize: 20, fontFamily: 'roboto', fontWeight: '500'}}>{item.duration}min</Text>
+                            </View>
+                            <TouchableOpacity 
+                            style={{
+                                alignItems: 'center', 
+                                justifyContent: 'center', 
+                                borderRadius: 25, 
+                                width: 50, 
+                                height: 50, 
+                                margin: 10}}
+                            onPress={() => {
+                                removeDrill(index);
+                            }}>
+                                <Icon icon={xCircle} height="40" width="40"style={{color: '#fc5c14'}} />
+                            </TouchableOpacity>
+                            <TouchableOpacity 
+                            style={{
+                                alignItems: 'center', 
+                                justifyContent: 'center', 
+                                borderRadius: 25, 
+                                width: 50, 
+                                height: 50, 
+                                marginTop: 10,
+                                marginBottom: 10}}
+                            onPress={() => {
+                                navigation.navigate("ViewDrill", item);
+                            }}>
+                                <Icon icon={eyeFilled} height="45" width="45"style={{color: '#f4f4f4'}} />
+                            </TouchableOpacity>
+                        </View>
+                    </View>
                     }}
                 />
                 <EmptySlot></EmptySlot>
