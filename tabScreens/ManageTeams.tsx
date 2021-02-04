@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, TouchableOpacity, Image, FlatList } from 'react
 import { styles } from "../styles"
 import Slider from '@react-native-community/slider';
 
+// Returning the manage teams screen
 export const ManageTeams = ({navigation}: {navigation: any}) => {
     return (
         <View style={styles.rootContainer}>
