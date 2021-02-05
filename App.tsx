@@ -9,21 +9,22 @@ import { DrillBank } from './tabScreens/DrillBank';
 import { CreatePractice } from './navigationScreens/CreatePractice';
 import { ViewDrill } from './navigationScreens/ViewDrill';
 import { PracticeSettings } from './navigationScreens/PracticeSettings';
-import { styles } from './styles';
+import { DrillsContext } from './Context';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import { createStackNavigator, HeaderTitle } from '@react-navigation/stack';
-import { useTheme, Portal, FAB } from 'react-native-paper';
+import { createStackNavigator } from '@react-navigation/stack';
+import { FAB } from 'react-native-paper';
 import { Icon, InlineIcon } from '@iconify/react';
 //import basketballIcon from '@iconify-icons/carbon/basketball';
 //import clipboardEditOutline from '@iconify-icons/mdi/clipboard-edit-outline';
 //import peopleTeam16Filled from '@iconify-icons/fluent/people-team-16-filled';
 //import coneIcon from '@iconify-icons/bi/cone';
-import { DrillsContext } from './Context';
 
+// Creating the stack and tab navigator
 const Stack = createStackNavigator();
 const Tab = createMaterialTopTabNavigator();
 
+// Returning the tabScreens in a tab navigator
 export const TabsComponent = ({ navigation }: { navigation: any }) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -93,6 +94,7 @@ export default function App({ navigation }: { navigation: any }) {
     setDrills(drillsList);
   };
 
+  // Drill class interface
   interface Drill {
     title: string;
     id: string;
@@ -106,7 +108,7 @@ export default function App({ navigation }: { navigation: any }) {
     numberOfRatings: number;
   }
 
-  // Returning the navigation screens
+  // Returning the navigation screens (including the tab navigator) in a stack navigator
   return (
     <NavigationContainer>
       <DrillsContext.Provider

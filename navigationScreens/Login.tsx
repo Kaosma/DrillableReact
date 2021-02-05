@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { Text, View, TouchableOpacity, Image, FlatList } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { styles } from '../styles';
 import * as firebase from 'firebase';
@@ -10,12 +10,13 @@ export const Login = ({ navigation }: { navigation: any }) => {
   const [userEmail, setEmail] = useState('');
   const [userPassword, setPassword] = useState('');
 
+  // Sign in the user if the email and password match and user exists in firebase
   function signInUser() {
     firebase
       .auth()
       .signInWithEmailAndPassword(userEmail, userPassword)
       .then(() => {
-        navigation.navigate('Tabs' /*, user*/);
+        navigation.navigate('Tabs');
       })
       .catch((error) => {
         if (error.code === 'auth/email-already-in-use') {

@@ -1,8 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useEffect, useState, useContext } from 'react';
-import { Text, View, TouchableOpacity, Image, FlatList } from 'react-native';
+import React from 'react';
+import { Text, View, Image } from 'react-native';
 import { styles } from '../styles';
-import { db } from '../DatabaseRequest';
 
 // Returning a screen to view info of a single drill
 export const ViewDrill = ({ route }: { route: any }) => {
@@ -82,6 +81,7 @@ export const ViewDrill = ({ route }: { route: any }) => {
           </View>
         </View>
       </View>
+      <StatusBar style="auto" />
     </View>
   );
 };

@@ -1,13 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useEffect, useState } from 'react';
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  FlatList,
-  Dimensions,
-} from 'react-native';
+import React, { useState } from 'react';
+import { Text, View, TouchableOpacity } from 'react-native';
 import { TabsComponent } from '../App';
 import { styles } from '../styles';
 import * as firebase from 'firebase';
@@ -18,6 +11,7 @@ export const PracticeSettings = (
   { route }: { route: any },
   { navigation }: { navigation: any }
 ) => {
+  // Saves the practices to the current logged in user's practice in firebase
   function savePracticeToFirebase(
     length: number,
     drillsNumber: number,
@@ -29,7 +23,7 @@ export const PracticeSettings = (
       .doc(currentUser?.uid)
       .collection('practices')
       .add({
-        length: practiceLength,
+        length: length,
         numberOfDrills: drillsNumber,
         players: playersNumber,
       })
@@ -39,13 +33,17 @@ export const PracticeSettings = (
   }
 
   const [players, setPlayers] = useState(0);
+
   let practiceLength: number = 0;
   let numberOfDrills: number = 0;
   let drills = route.params.practiceDrills;
-  drills.forEach((item, index) => {
+
+  // Calculating the practice length and the amount of drills in the practice
+  drills.forEach((item) => {
     practiceLength += item.duration;
     numberOfDrills++;
   });
+
   return (
     <View style={styles.rootContainer}>
       <View style={{ marginTop: 10, alignItems: 'center' }}>

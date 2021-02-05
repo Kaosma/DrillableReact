@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState, useEffect, useContext } from 'react';
-import { Text, View, TouchableOpacity, Image, FlatList } from 'react-native';
+import React, { useContext } from 'react';
+import { Text, View, TouchableOpacity, FlatList } from 'react-native';
 import { Icon, InlineIcon } from '@iconify/react';
 import { styles } from '../styles';
 import { DrillsContext } from '../Context';

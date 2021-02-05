@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { Text, View, TouchableOpacity, Image, FlatList } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { styles } from '../styles';
 import * as firebase from 'firebase';
@@ -11,6 +11,7 @@ export const SignUp = ({ navigation }: { navigation: any }) => {
   const [newEmail, setNewEmail] = useState('');
   const [newPassword, setNewPassword] = useState('');
 
+  // Creates a new user and registers it in firebase
   function createUser() {
     firebase
       .auth()

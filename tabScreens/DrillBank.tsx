@@ -78,6 +78,7 @@ const RateModal = ({ setIsVisible }, { ratedDrill }) => {
 };
 
 export const DrillBank = ({ navigation }: { navigation: any }) => {
+  // Drill class interface
   interface Drill {
     title: string;
     id: string;
@@ -91,6 +92,7 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
   }
 
   const { practiceDrills, setDrills, addDrill } = useContext(DrillsContext);
+
   const [drillsList, setDrillsList] = useState<Drill[]>([]);
   const [modalIsVisible, setIsVisible] = useState(false);
   const [ratedDrill, setRatedDrill] = useState('');
@@ -129,6 +131,7 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
       });
   }
 
+  // Making sure it only retrieves the drills once
   useEffect(() => {
     getDrillsFromDatabase();
   }, []);
