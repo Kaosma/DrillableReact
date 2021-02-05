@@ -55,34 +55,41 @@ export const SignUp = ({ navigation }: { navigation: any }) => {
         }}
       >
         <View style={{ alignItems: 'center', margin: 20 }}>
-          <TextInput
-            placeholder="Email"
-            value={newEmail}
-            onChangeText={setNewEmail}
-            style={{
-              color: '#f4f4f4',
-              backgroundColor: '#3a3535',
-              borderRadius: 3,
-              fontSize: 20,
-              margin: 10,
-            }}
-          />
-          <TextInput
-            placeholder="Password"
-            value={newPassword}
-            onChangeText={setNewPassword}
-            style={{
-              color: '#f4f4f4',
-              backgroundColor: '#3a3535',
-              borderRadius: 3,
-              fontSize: 20,
-              margin: 10,
-            }}
-          />
+          <View style={{ margin: 10 }}>
+            <Text style={{ color: '#f4f4f4' }}>Email</Text>
+            <TextInput
+              value={newEmail}
+              onChangeText={setNewEmail}
+              style={{
+                color: '#f4f4f4',
+                backgroundColor: '#3a3535',
+                borderRadius: 3,
+                fontSize: 20,
+                width: 200,
+                marginTop: 2,
+              }}
+            />
+          </View>
+          <View style={{ margin: 10 }}>
+            <Text style={{ color: '#f4f4f4' }}>Password</Text>
+            <TextInput
+              value={newPassword}
+              onChangeText={setNewPassword}
+              style={{
+                color: '#f4f4f4',
+                backgroundColor: '#3a3535',
+                borderRadius: 3,
+                fontSize: 20,
+                width: 200,
+                marginTop: 2,
+              }}
+            />
+          </View>
           {/*<TextInput 
                   placeholder='Username'
                   value={newUsername}
                 onChangeText={setNewUsername}/>*/}
+
           <TouchableOpacity
             style={{
               backgroundColor: '#ff7315',

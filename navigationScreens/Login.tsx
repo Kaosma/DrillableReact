@@ -47,6 +47,7 @@ export const Login = ({ navigation }: { navigation: any }) => {
             borderRadius: 3,
             borderColor: '#ff7315',
             fontSize: 20,
+            width: 200,
           }}
         />
         <TextInput
@@ -60,6 +61,7 @@ export const Login = ({ navigation }: { navigation: any }) => {
             borderColor: '#ff7315',
             fontSize: 20,
             marginTop: 10,
+            width: 200,
           }}
         />
 
@@ -67,8 +69,9 @@ export const Login = ({ navigation }: { navigation: any }) => {
           style={{
             marginTop: 10,
             flexDirection: 'row',
-            width: '100%',
+            width: 180,
             justifyContent: 'space-between',
+            alignItems: 'center',
           }}
         >
           <TouchableOpacity
@@ -77,7 +80,7 @@ export const Login = ({ navigation }: { navigation: any }) => {
               navigation.navigate('SignUp' /*, user*/);
             }}
           >
-            <Text style={{ color: '#f4f4f4' }}>Sign up</Text>
+            <Text style={{ fontSize: 20, color: '#f4f4f4' }}>Sign up</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={{ marginRight: 7 }}
@@ -85,7 +88,7 @@ export const Login = ({ navigation }: { navigation: any }) => {
               signInUser();
             }}
           >
-            <Text style={{ color: '#f4f4f4' }}>Sign in</Text>
+            <Text style={{ fontSize: 20, color: '#f4f4f4' }}>Sign in</Text>
           </TouchableOpacity>
         </View>
       </View>
