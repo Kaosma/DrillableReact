@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { TabsComponent } from '../App';
 import { styles } from '../styles';
+import * as firebase from 'firebase';
 import { db } from '../DatabaseRequest';
 import Slider from '@react-native-community/slider';
 
@@ -17,7 +18,26 @@ export const PracticeSettings = (
   { route }: { route: any },
   { navigation }: { navigation: any }
 ) => {
-  function savePracticeToFirebase() {}
+  function savePracticeToFirebase(
+    length: number,
+    drillsNumber: number,
+    playersNumber: number
+  ) {
+    const currentUser = firebase.auth().currentUser;
+
+    db.collection('users')
+      .doc(currentUser?.uid)
+      .collection('practices')
+      .add({
+        length: practiceLength,
+        numberOfDrills: drillsNumber,
+        players: playersNumber,
+      })
+      .then((ref) => {
+        console.log(ref);
+      });
+  }
+
   const [players, setPlayers] = useState(0);
   let practiceLength: number = 0;
   let numberOfDrills: number = 0;
@@ -65,7 +85,8 @@ export const PracticeSettings = (
           width: '80%',
         }}
         onPress={() => {
-          navigation.navigate('Tabs');
+          savePracticeToFirebase(practiceLength, numberOfDrills, players);
+          //navigation.navigate('Tabs');
         }}
       >
         <Text style={{ color: '#f4f4f4', fontFamily: 'Roboto', fontSize: 20 }}>

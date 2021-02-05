@@ -4,6 +4,7 @@ import { Text, View, TouchableOpacity, Image, FlatList } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { styles } from '../styles';
 import * as firebase from 'firebase';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export const Login = ({ navigation }: { navigation: any }) => {
   const [userEmail, setEmail] = useState('');
@@ -30,11 +31,11 @@ export const Login = ({ navigation }: { navigation: any }) => {
   }
 
   return (
-    <View style={styles.rootContainer}>
+    <SafeAreaView style={styles.rootContainer}>
       <View>
-        <Text>Login</Text>
+        <Text style={{ color: '#f4f4f4', fontSize: 40 }}>Login</Text>
       </View>
-      <View style={{ alignItems: 'center' }}>
+      <View style={{ alignItems: 'center', marginTop: 30 }}>
         <TextInput
           placeholder="Enter email"
           value={userEmail}
@@ -89,6 +90,6 @@ export const Login = ({ navigation }: { navigation: any }) => {
       </View>
       <View></View>
       <StatusBar style="auto" />
-    </View>
+    </SafeAreaView>
   );
 };

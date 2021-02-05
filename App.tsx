@@ -124,11 +124,6 @@ export default function App({ navigation }: { navigation: any }) {
           }}
         >
           <Stack.Screen
-            name="Tabs"
-            component={TabsComponent}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
             name="Login"
             component={Login}
             options={{ headerShown: false }}
@@ -138,6 +133,12 @@ export default function App({ navigation }: { navigation: any }) {
             component={SignUp}
             options={{ headerShown: false }}
           />
+          <Stack.Screen
+            name="Tabs"
+            component={TabsComponent}
+            options={{ headerShown: false }}
+          />
+
           <Stack.Screen
             name="PracticeCreator"
             component={CreatePractice}
