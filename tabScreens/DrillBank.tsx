@@ -15,7 +15,7 @@ import { DrillsContext } from '../Context';
 import { RatingModal } from '../customComponents/RatingModal';
 
 // Using the rating modal component when a rating a drill
-const RateModal = ({ setIsVisible }) => {
+const RateModal = ({ setIsVisible }, { ratedDrill }) => {
   return (
     <View
       style={{
@@ -49,6 +49,7 @@ const RateModal = ({ setIsVisible }) => {
         <TouchableOpacity
           style={{ margin: 15 }}
           onPress={() => {
+            console.log(ratedDrill);
             setIsVisible(false);
           }}
         >
@@ -92,6 +93,7 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
   const { practiceDrills, setDrills, addDrill } = useContext(DrillsContext);
   const [drillsList, setDrillsList] = useState<Drill[]>([]);
   const [modalIsVisible, setIsVisible] = useState(false);
+  const [ratedDrill, setRatedDrill] = useState('');
 
   // Retrieving all drills from the database
   function getDrillsFromDatabase() {
@@ -147,7 +149,7 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
             return (
               <View style={styles.drillContainer}>
                 <View style={{ flex: 4, flexDirection: 'row', marginTop: 10 }}>
-                  <View style={{ flex: 3, marginLeft: 20 }}>
+                  <View style={{ flex: 3, marginLeft: 10 }}>
                     <View
                       style={{
                         flex: 2,
@@ -158,7 +160,6 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
                       <Text style={{ flex: 1, color: '#f4f4f4', fontSize: 22 }}>
                         {item.title}
                       </Text>
-                      {/*<Text style={{flex: 1, color: '#f4f4f4', fontSize: 20}}>{rating}★</Text>*/}
                     </View>
 
                     <View
@@ -168,7 +169,7 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
                         No. Players: {item.numberOfPlayers}
                       </Text>
                       <Text style={{ flex: 1, color: '#f4f4f4', fontSize: 17 }}>
-                        Duration: {item.duration}
+                        Duration: {item.duration}min
                       </Text>
                     </View>
                   </View>
@@ -189,63 +190,72 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
                 <View
                   style={{
                     flex: 1,
-                    flexDirection: 'row',
-                    marginLeft: 20,
+                    marginLeft: 10,
                     marginTop: 10,
                     marginBottom: 10,
+                    justifyContent: 'space-between',
+                    flexDirection: 'row',
                   }}
                 >
-                  <TouchableOpacity
-                    style={styles.drillContainerButton}
-                    onPress={() => {
-                      setIsVisible(true);
-                    }}
-                  >
-                    <Text
-                      style={{
-                        fontFamily: 'Roboto',
-                        color: '#f4f4f4',
-                        fontSize: 20,
+                  <View style={{ flexDirection: 'row' }}>
+                    <TouchableOpacity
+                      style={styles.drillContainerButton}
+                      onPress={() => {
+                        setRatedDrill(item.title);
+                        setIsVisible(true);
                       }}
                     >
-                      RATE
-                    </Text>
-                  </TouchableOpacity>
+                      <Text
+                        style={{
+                          fontFamily: 'Roboto',
+                          color: '#f4f4f4',
+                          fontSize: 20,
+                        }}
+                      >
+                        RATE
+                      </Text>
+                    </TouchableOpacity>
 
-                  <TouchableOpacity
-                    style={styles.drillContainerButton}
-                    onPress={() => {
-                      navigation.navigate('ViewDrill', item);
-                    }}
-                  >
-                    <Text
-                      style={{
-                        fontFamily: 'Roboto',
-                        color: '#f4f4f4',
-                        fontSize: 20,
+                    <TouchableOpacity
+                      style={styles.drillContainerButton}
+                      onPress={() => {
+                        navigation.navigate('ViewDrill', item);
                       }}
                     >
-                      VIEW
-                    </Text>
-                  </TouchableOpacity>
+                      <Text
+                        style={{
+                          fontFamily: 'Roboto',
+                          color: '#f4f4f4',
+                          fontSize: 20,
+                        }}
+                      >
+                        VIEW
+                      </Text>
+                    </TouchableOpacity>
 
-                  <TouchableOpacity
-                    style={styles.drillContainerButton}
-                    onPress={() => {
-                      navigation.navigate('PracticeCreator');
-                      addDrill(item);
-                    }}
-                  >
-                    <Text
-                      style={{
-                        fontFamily: 'Roboto',
-                        color: '#f4f4f4',
-                        fontSize: 20,
+                    <TouchableOpacity
+                      style={styles.drillContainerButton}
+                      onPress={() => {
+                        navigation.navigate('PracticeCreator');
+                        addDrill(item);
                       }}
                     >
-                      ADD
+                      <Text
+                        style={{
+                          fontFamily: 'Roboto',
+                          color: '#f4f4f4',
+                          fontSize: 20,
+                        }}
+                      >
+                        ADD
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={{ marginRight: 15 }}>
+                    <Text style={{ flex: 1, color: '#f4f4f4', fontSize: 20 }}>
+                      0{item.rating}★
                     </Text>
-                  </TouchableOpacity>
+                  </View>
                 </View>
               </View>
             );

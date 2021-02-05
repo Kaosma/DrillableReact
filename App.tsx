@@ -156,7 +156,7 @@ export default function App({ navigation }: { navigation: any }) {
           <Stack.Screen
             name="PracticeSettings"
             component={PracticeSettings}
-            options={({ route }) => ({ title: 'Settings for practice' })}
+            options={({ route }) => ({ title: 'Practice Settings' })}
           />
         </Stack.Navigator>
         <StatusBar style="auto" />

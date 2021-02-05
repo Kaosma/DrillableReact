@@ -19,7 +19,7 @@ export const ViewDrill = ({ route }: { route: any }) => {
         <View style={{ justifyContent: 'space-between', alignItems: 'center' }}>
           <View
             style={{
-              width: '100%',
+              width: '90%',
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between',

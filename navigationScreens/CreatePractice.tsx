@@ -23,7 +23,7 @@ export const CreatePractice = ({ navigation }: { navigation: any }) => {
           flexDirection: 'row',
           backgroundColor: '#3a3535',
           borderWidth: 2,
-          borderRadius: 2,
+          borderRadius: 20,
           shadowColor: 'black',
           shadowRadius: 3,
           height: 70,
@@ -184,6 +184,30 @@ export const CreatePractice = ({ navigation }: { navigation: any }) => {
           }}
         />
         <EmptySlot></EmptySlot>
+        <TouchableOpacity
+          style={{
+            alignItems: 'center',
+            marginTop: 10,
+            justifyContent: 'center',
+            flexDirection: 'row',
+            backgroundColor: 'green',
+            borderWidth: 2,
+            borderRadius: 20,
+            shadowColor: 'black',
+            shadowRadius: 3,
+            height: 70,
+            width: '100%',
+          }}
+          onPress={() => {
+            navigation.navigate('PracticeSettings', { practiceDrills });
+          }}
+        >
+          <Text
+            style={{ color: '#f4f4f4', fontFamily: 'Roboto', fontSize: 20 }}
+          >
+            DONE
+          </Text>
+        </TouchableOpacity>
       </View>
       <StatusBar style="auto" />
     </View>
