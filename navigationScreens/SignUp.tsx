@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { styles } from '../styles';
 import * as firebase from 'firebase';
@@ -23,7 +23,8 @@ export const SignUp = ({ navigation }: { navigation: any }) => {
             email: userProvider.user?.email,
           })
           .then((ref) => {
-            navigation.navigate('Login' /*, user*/);
+            console.log(ref);
+            navigation.navigate('Login', { newEmail, newPassword });
           });
       })
       .catch((error) => {
@@ -41,86 +42,106 @@ export const SignUp = ({ navigation }: { navigation: any }) => {
 
   return (
     <SafeAreaView style={styles.rootContainer}>
-      <View style={{ alignItems: 'center' }}>
-        <Text style={{ color: '#f4f4f4', fontSize: 40 }}>Sign Up</Text>
+      <View style={style.headerContainer}>
+        <Text style={style.headerText}>Sign Up</Text>
       </View>
-      <View
-        style={{
-          backgroundColor: '#000000',
-          borderWidth: 2,
-          borderColor: '#f4f4f4',
-          borderRadius: 6,
-          margin: 5,
-          marginTop: 30,
-        }}
-      >
-        <View style={{ alignItems: 'center', margin: 20 }}>
-          <View style={{ margin: 10 }}>
-            <Text style={{ color: '#f4f4f4' }}>Email</Text>
+      <View style={style.inputContainer}>
+        <View style={style.inputView}>
+          <View style={style.inputFields}>
+            <Text style={style.inputText}>{'Email'}</Text>
             <TextInput
               value={newEmail}
               onChangeText={setNewEmail}
-              style={{
-                color: '#f4f4f4',
-                backgroundColor: '#3a3535',
-                borderRadius: 3,
-                fontSize: 20,
-                width: 200,
-                marginTop: 2,
-              }}
+              style={style.inputTextField}
             />
           </View>
-          <View style={{ margin: 10 }}>
-            <Text style={{ color: '#f4f4f4' }}>Password</Text>
+          <View style={style.inputFields}>
+            <Text style={style.inputText}>{'Password'}</Text>
             <TextInput
               value={newPassword}
               onChangeText={setNewPassword}
-              style={{
-                color: '#f4f4f4',
-                backgroundColor: '#3a3535',
-                borderRadius: 3,
-                fontSize: 20,
-                width: 200,
-                marginTop: 2,
-              }}
+              style={style.inputTextField}
             />
           </View>
-          {/*<TextInput 
+          {/*<TextInput
                   placeholder='Username'
                   value={newUsername}
                 onChangeText={setNewUsername}/>*/}
 
           <TouchableOpacity
-            style={{
-              backgroundColor: '#ff7315',
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderRadius: 10,
-              marginTop: 10,
-            }}
+            style={style.advanceButton}
             onPress={() => {
               createUser();
             }}
           >
-            <Text style={{ margin: 7, color: '#f4f4f4', fontSize: 20 }}>
-              Register User
-            </Text>
+            <Text style={style.advanceButtonText}>Register User</Text>
           </TouchableOpacity>
         </View>
       </View>
       <View>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate('Login' /*, user*/);
+            navigation.navigate('Login');
           }}
         >
-          <Text style={{ color: '#f4f4f4' }}>
-            Already have an account? Sign in
-          </Text>
+          <Text style={style.buttonText}>Already have an account? Sign in</Text>
         </TouchableOpacity>
       </View>
-      <View></View>
       <StatusBar style="auto" />
     </SafeAreaView>
   );
 };
+
+const style = StyleSheet.create({
+  inputContainer: {
+    backgroundColor: '#000000',
+    borderWidth: 2,
+    borderColor: '#f4f4f4',
+    borderRadius: 6,
+    margin: 5,
+    marginTop: 30,
+  },
+  headerContainer: {
+    alignItems: 'center',
+    padding: 20,
+  },
+  headerText: {
+    color: '#f4f4f4',
+    fontSize: 40,
+  },
+  inputView: {
+    alignItems: 'center',
+    margin: 20,
+  },
+  inputFields: {
+    padding: 10,
+  },
+  inputTextField: {
+    color: '#f4f4f4',
+    backgroundColor: '#3a3535',
+    borderRadius: 3,
+    fontSize: 17,
+    width: 200,
+    marginTop: 2,
+    padding: 5,
+  },
+  inputText: {
+    color: '#f4f4f4',
+  },
+  advanceButton: {
+    backgroundColor: '#ff7315',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+    marginTop: 10,
+  },
+  advanceButtonText: {
+    margin: 7,
+    color: '#f4f4f4',
+    fontSize: 20,
+  },
+  buttonText: {
+    color: '#f4f4f4',
+    marginTop: 8,
+  },
+});

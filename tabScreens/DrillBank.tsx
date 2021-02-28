@@ -8,6 +8,7 @@ import {
   FlatList,
   Modal,
   SafeAreaView,
+  StyleSheet,
 } from 'react-native';
 import { styles } from '../styles';
 import { db } from '../DatabaseRequest';
@@ -151,113 +152,64 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
           renderItem={({ item }) => {
             return (
               <View style={styles.drillContainer}>
-                <View style={{ flex: 4, flexDirection: 'row', marginTop: 10 }}>
-                  <View style={{ flex: 3, marginLeft: 10 }}>
-                    <View
-                      style={{
-                        flex: 2,
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <Text style={{ flex: 1, color: '#f4f4f4', fontSize: 22 }}>
-                        {item.title}
-                      </Text>
+                <View style={style.drillView}>
+                  <View style={style.infoContainer}>
+                    <View style={style.titleContainer}>
+                      <Text style={style.titleText}>{item.title}</Text>
                     </View>
 
-                    <View
-                      style={{ flex: 3, flexDirection: 'row', marginTop: 10 }}
-                    >
-                      <Text style={{ flex: 1, color: '#f4f4f4', fontSize: 17 }}>
+                    <View style={style.detailedInfoContainer}>
+                      <Text style={style.infoText}>
                         No. Players: {item.numberOfPlayers}
                       </Text>
-                      <Text style={{ flex: 1, color: '#f4f4f4', fontSize: 17 }}>
+                      <Text style={style.infoText}>
                         Duration: {item.duration}min
                       </Text>
                     </View>
                   </View>
-                  <View
-                    style={{
-                      flex: 1,
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}
-                  >
+
+                  <View style={style.imageContainer}>
                     <Image
-                      style={{ width: 50, height: 50 }}
+                      style={style.drillImage}
                       source={{ uri: item.imageUrl }}
                     />
                   </View>
                 </View>
 
-                <View
-                  style={{
-                    flex: 1,
-                    marginLeft: 10,
-                    marginTop: 10,
-                    marginBottom: 10,
-                    justifyContent: 'space-between',
-                    flexDirection: 'row',
-                  }}
-                >
+                <View style={style.drillButtonContainer}>
                   <View style={{ flexDirection: 'row' }}>
                     <TouchableOpacity
-                      style={styles.drillContainerButton}
+                      style={style.drillStandardButton}
                       onPress={() => {
                         setRatedDrill(item.title);
                         setIsVisible(true);
                       }}
                     >
-                      <Text
-                        style={{
-                          fontFamily: 'Roboto',
-                          color: '#f4f4f4',
-                          fontSize: 20,
-                        }}
-                      >
-                        RATE
-                      </Text>
+                      <Text style={style.drillStandardButtonText}>RATE</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
-                      style={styles.drillContainerButton}
+                      style={style.drillStandardButton}
                       onPress={() => {
                         navigation.navigate('ViewDrill', item);
                       }}
                     >
-                      <Text
-                        style={{
-                          fontFamily: 'Roboto',
-                          color: '#f4f4f4',
-                          fontSize: 20,
-                        }}
-                      >
-                        VIEW
-                      </Text>
+                      <Text style={style.drillStandardButtonText}>VIEW</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
-                      style={styles.drillContainerButton}
+                      style={style.drillStandardButton}
                       onPress={() => {
                         navigation.navigate('PracticeCreator');
                         addDrill(item);
                       }}
                     >
-                      <Text
-                        style={{
-                          fontFamily: 'Roboto',
-                          color: '#f4f4f4',
-                          fontSize: 20,
-                        }}
-                      >
-                        ADD
-                      </Text>
+                      <Text style={style.drillStandardButtonText}>ADD</Text>
                     </TouchableOpacity>
                   </View>
-                  <View style={{ marginRight: 15 }}>
-                    <Text style={{ flex: 1, color: '#f4f4f4', fontSize: 20 }}>
-                      0{item.rating}★
-                    </Text>
+
+                  <View style={style.ratingContainer}>
+                    <Text style={style.ratingText}>0{item.rating}★</Text>
                   </View>
                 </View>
               </View>
@@ -269,3 +221,70 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
     </SafeAreaView>
   );
 };
+
+const style = StyleSheet.create({
+  drillView: {
+    flex: 4,
+    flexDirection: 'row',
+    marginTop: 10,
+  },
+  infoContainer: {
+    flex: 3,
+    marginLeft: 10,
+  },
+  titleContainer: {
+    flex: 2,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  titleText: {
+    flex: 1,
+    color: '#f4f4f4',
+    fontSize: 22,
+  },
+  detailedInfoContainer: {
+    flex: 3,
+    flexDirection: 'row',
+    marginTop: 10,
+  },
+  infoText: {
+    flex: 1,
+    color: '#f4f4f4',
+    fontSize: 17,
+  },
+  imageContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  drillImage: {
+    width: 70,
+    height: 70,
+  },
+  drillButtonContainer: {
+    flex: 1,
+    marginLeft: 10,
+    marginTop: 10,
+    marginBottom: 10,
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+  },
+  drillStandardButton: {
+    color: '#ffffff',
+    fontFamily: 'Roboto',
+    marginRight: 20,
+  },
+  drillStandardButtonText: {
+    fontFamily: 'Roboto',
+    color: '#f4f4f4',
+    fontSize: 20,
+  },
+  ratingContainer: {
+    marginRight: 15,
+  },
+  ratingText: {
+    flex: 1,
+    color: '#f4f4f4',
+    fontSize: 20,
+  },
+});

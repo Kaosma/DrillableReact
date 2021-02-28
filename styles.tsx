@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
     width: '95%',
     marginTop: 10,
   },
-  drillContainerButton: {
+  drillStandardButton: {
     color: '#ffffff',
     fontFamily: 'Roboto',
     marginRight: 20,
