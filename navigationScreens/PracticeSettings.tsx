@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import { TabsComponent } from '../App';
 import { styles } from '../styles';
 import * as firebase from 'firebase';
@@ -39,25 +39,23 @@ export const PracticeSettings = (
   let drills = route.params.practiceDrills;
 
   // Calculating the practice length and the amount of drills in the practice
-  drills.forEach((item) => {
+  drills.forEach((item: { duration: number }) => {
     practiceLength += item.duration;
     numberOfDrills++;
   });
 
   return (
     <View style={styles.rootContainer}>
-      <View style={{ marginTop: 10, alignItems: 'center' }}>
-        <Text style={{ color: '#f4f4f4', fontSize: 25, marginTop: 20 }}>
+      <View style={style.practiceInfoContainer}>
+        <Text style={style.practiceInfo}>
           Practice length: {practiceLength}min
         </Text>
-        <Text style={{ color: '#f4f4f4', fontSize: 25, marginTop: 25 }}>
+        <Text style={style.practiceInfo}>
           Number of drills: {numberOfDrills}
         </Text>
-        <Text style={{ color: '#f4f4f4', fontSize: 25, marginTop: 25 }}>
-          Number of players: {players}
-        </Text>
+        <Text style={style.practiceInfo}>Number of players: {players}</Text>
         <Slider
-          style={{ width: 250, height: 40 }}
+          style={style.playerSlider}
           minimumValue={0}
           maximumValue={30}
           step={1}
@@ -69,29 +67,49 @@ export const PracticeSettings = (
         />
       </View>
       <TouchableOpacity
-        style={{
-          alignItems: 'center',
-          marginTop: 40,
-          justifyContent: 'center',
-          flexDirection: 'row',
-          backgroundColor: 'green',
-          borderWidth: 2,
-          borderRadius: 20,
-          shadowColor: 'black',
-          shadowRadius: 3,
-          height: 70,
-          width: '80%',
-        }}
+        style={style.doneButton}
         onPress={() => {
           savePracticeToFirebase(practiceLength, numberOfDrills, players);
           //navigation.navigate('Tabs');
         }}
       >
-        <Text style={{ color: '#f4f4f4', fontFamily: 'Roboto', fontSize: 20 }}>
-          Start Practice
-        </Text>
+        <Text style={style.doneButtonText}>Start Practice</Text>
       </TouchableOpacity>
       <StatusBar style="auto" />
     </View>
   );
 };
+
+const style = StyleSheet.create({
+  practiceInfoContainer: {
+    marginTop: 10,
+    alignItems: 'center',
+  },
+  practiceInfo: {
+    color: '#f4f4f4',
+    fontSize: 25,
+    marginTop: 25,
+  },
+  playerSlider: {
+    width: 250,
+    height: 40,
+  },
+  doneButton: {
+    alignItems: 'center',
+    marginTop: 40,
+    justifyContent: 'center',
+    flexDirection: 'row',
+    backgroundColor: 'green',
+    borderWidth: 2,
+    borderRadius: 20,
+    shadowColor: 'black',
+    shadowRadius: 3,
+    height: 70,
+    width: '80%',
+  },
+  doneButtonText: {
+    color: '#f4f4f4',
+    fontFamily: 'Roboto',
+    fontSize: 20,
+  },
+});

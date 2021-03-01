@@ -10,7 +10,7 @@ export const ViewDrill = ({ route }: { route: any }) => {
       <View style={styles.viewDrillContainer}>
         <View style={style.drillInfoContainer}>
           <View style={style.titleContainer}>
-            <Text style={{ fontSize: 20, opacity: 0 }}>
+            <Text style={style.opacityText}>
               {route.params.numberOfRatings}★
             </Text>
             <Text style={style.titleText}>{route.params.title}</Text>
@@ -75,6 +75,10 @@ const style = StyleSheet.create({
     color: '#f4f4f4',
     fontSize: 20,
     marginRight: 10,
+  },
+  opacityText: {
+    fontSize: 20,
+    opacity: 0,
   },
   detailedInfoContainer: {
     marginTop: 20,

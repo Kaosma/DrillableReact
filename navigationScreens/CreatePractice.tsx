@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useContext } from 'react';
-import { Text, View, TouchableOpacity, FlatList } from 'react-native';
+import { Text, View, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import { Icon, InlineIcon } from '@iconify/react';
 import { styles } from '../styles';
 import { DrillsContext } from '../Context';
@@ -16,19 +16,7 @@ export const CreatePractice = ({ navigation }: { navigation: any }) => {
   const EmptySlot = () => {
     return (
       <TouchableOpacity
-        style={{
-          alignItems: 'center',
-          marginTop: 10,
-          justifyContent: 'center',
-          flexDirection: 'row',
-          backgroundColor: '#3a3535',
-          borderWidth: 2,
-          borderRadius: 20,
-          shadowColor: 'black',
-          shadowRadius: 3,
-          height: 70,
-          width: '100%',
-        }}
+        style={style.addDrillButton}
         onPress={() => {
           navigation.navigate('DrillBank');
         }}
@@ -47,105 +35,27 @@ export const CreatePractice = ({ navigation }: { navigation: any }) => {
   // Returning the practice screen
   return (
     <View style={styles.rootContainer}>
-      <View style={{ width: '90%' }}>
+      <View style={style.listContainer}>
         <FlatList
           data={practiceDrills}
           renderItem={({ item, index }) => {
             return (
-              <View
-                style={{
-                  marginTop: 10,
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  backgroundColor: '#3a3535',
-                  borderRadius: 2,
-                  shadowColor: 'black',
-                  shadowRadius: 3,
-                  width: '100%',
-                }}
-              >
-                <View style={{ flexDirection: 'row' }}>
-                  <View
-                    style={{
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      borderRadius: 2,
-                      backgroundColor: '#f4f4f4',
-                      height: 50,
-                      margin: 10,
-                    }}
-                  >
-                    <Text
-                      style={{
-                        color: '#3a3535',
-                        margin: 10,
-                        fontSize: 20,
-                        fontFamily: 'Roboto',
-                        fontWeight: '500',
-                      }}
-                    >
-                      {index + 1}
-                    </Text>
+              <View style={style.drillItemContainer}>
+                <View style={style.leftContainer}>
+                  <View style={style.indexContainer}>
+                    <Text style={style.indexText}>{index + 1}</Text>
                   </View>
-                  <View
-                    style={{
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      borderRadius: 2,
-                      backgroundColor: '#f4f4f4',
-                      height: 50,
-                      marginTop: 10,
-                      marginBottom: 10,
-                    }}
-                  >
-                    <Text
-                      style={{
-                        color: '#3a3535',
-                        margin: 10,
-                        fontSize: 20,
-                        fontFamily: 'Roboto',
-                        fontWeight: '500',
-                      }}
-                    >
-                      {item.title}
-                    </Text>
+                  <View style={style.titleContainer}>
+                    <Text style={style.titleText}>{item.title}</Text>
                   </View>
                 </View>
 
-                <View style={{ flexDirection: 'row' }}>
-                  <View
-                    style={{
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      borderRadius: 2,
-                      backgroundColor: '#3a3535',
-                      height: 50,
-                      marginLeft: 10,
-                      marginTop: 10,
-                      marginBottom: 10,
-                    }}
-                  >
-                    <Text
-                      style={{
-                        color: '#f4f4f4',
-                        margin: 10,
-                        fontSize: 20,
-                        fontFamily: 'roboto',
-                        fontWeight: '500',
-                      }}
-                    >
-                      {item.duration}min
-                    </Text>
+                <View style={style.rightContainer}>
+                  <View style={style.durationContainer}>
+                    <Text style={style.durationText}>{item.duration}min</Text>
                   </View>
                   <TouchableOpacity
-                    style={{
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      borderRadius: 25,
-                      width: 50,
-                      height: 50,
-                      margin: 10,
-                    }}
+                    style={style.removeDrillButton}
                     onPress={() => {
                       removeDrill(index);
                     }}
@@ -158,15 +68,7 @@ export const CreatePractice = ({ navigation }: { navigation: any }) => {
                     />*/}
                   </TouchableOpacity>
                   <TouchableOpacity
-                    style={{
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      borderRadius: 25,
-                      width: 50,
-                      height: 50,
-                      marginTop: 10,
-                      marginBottom: 10,
-                    }}
+                    style={style.viewDrillButton}
                     onPress={() => {
                       navigation.navigate('ViewDrill', item);
                     }}
@@ -183,33 +85,135 @@ export const CreatePractice = ({ navigation }: { navigation: any }) => {
             );
           }}
         />
-        <EmptySlot></EmptySlot>
+        <EmptySlot />
         <TouchableOpacity
-          style={{
-            alignItems: 'center',
-            marginTop: 10,
-            justifyContent: 'center',
-            flexDirection: 'row',
-            backgroundColor: 'green',
-            borderWidth: 2,
-            borderRadius: 20,
-            shadowColor: 'black',
-            shadowRadius: 3,
-            height: 70,
-            width: '100%',
-          }}
+          style={style.doneButton}
           onPress={() => {
             navigation.navigate('PracticeSettings', { practiceDrills });
           }}
         >
-          <Text
-            style={{ color: '#f4f4f4', fontFamily: 'Roboto', fontSize: 20 }}
-          >
-            DONE
-          </Text>
+          <Text style={style.doneButtonText}>DONE</Text>
         </TouchableOpacity>
       </View>
       <StatusBar style="auto" />
     </View>
   );
 };
+
+const style = StyleSheet.create({
+  listContainer: {
+    width: '90%',
+  },
+  drillItemContainer: {
+    marginTop: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    backgroundColor: '#3a3535',
+    borderRadius: 2,
+    shadowColor: 'black',
+    shadowRadius: 3,
+    width: '100%',
+  },
+  leftContainer: {
+    flexDirection: 'row',
+  },
+  rightContainer: {
+    flexDirection: 'row',
+  },
+  indexContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 2,
+    backgroundColor: '#f4f4f4',
+    height: 50,
+    margin: 10,
+  },
+  indexText: {
+    color: '#3a3535',
+    margin: 10,
+    fontSize: 20,
+    fontFamily: 'Roboto',
+    fontWeight: '500',
+  },
+  titleContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 2,
+    backgroundColor: '#f4f4f4',
+    height: 50,
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  titleText: {
+    color: '#3a3535',
+    margin: 10,
+    fontSize: 20,
+    fontFamily: 'Roboto',
+    fontWeight: '500',
+  },
+  durationContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 2,
+    backgroundColor: '#3a3535',
+    height: 50,
+    marginLeft: 10,
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  durationText: {
+    color: '#f4f4f4',
+    margin: 10,
+    fontSize: 20,
+    fontFamily: 'roboto',
+    fontWeight: '500',
+  },
+  viewDrillButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 25,
+    width: 50,
+    height: 50,
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  removeDrillButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 25,
+    width: 50,
+    height: 50,
+    margin: 10,
+  },
+  addDrillButton: {
+    alignItems: 'center',
+    marginTop: 10,
+    justifyContent: 'center',
+    flexDirection: 'row',
+    backgroundColor: '#3a3535',
+    borderWidth: 2,
+    borderRadius: 20,
+    shadowColor: 'black',
+    shadowRadius: 3,
+    height: 70,
+    width: '100%',
+  },
+  doneButton: {
+    alignItems: 'center',
+    marginTop: 10,
+    justifyContent: 'center',
+    flexDirection: 'row',
+    backgroundColor: 'green',
+    borderWidth: 2,
+    borderRadius: 20,
+    shadowColor: 'black',
+    shadowRadius: 3,
+    height: 70,
+    width: '100%',
+  },
+  doneButtonText: {
+    color: '#f4f4f4',
+    fontFamily: 'Roboto',
+    fontSize: 20,
+  },
+});
