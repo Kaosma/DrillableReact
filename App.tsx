@@ -30,7 +30,7 @@ export const TabsComponent = ({ navigation }: { navigation: any }) => {
     <SafeAreaView style={{ flex: 1 }}>
       <Tab.Navigator
         tabBarOptions={{
-          showIcon: 'true',
+          showIcon: true,
           style: { backgroundColor: '#ff7315' },
           activeTintColor: '#f4f4f4',
           indicatorStyle: { backgroundColor: '#f4f4f4' },
@@ -144,7 +144,10 @@ export default function App({ navigation }: { navigation: any }) {
           <Stack.Screen
             name="PracticeCreator"
             component={CreatePractice}
-            options={({ route }) => ({ title: 'New Practice' })}
+            options={({ route }) => ({
+              title: 'New Practice',
+              headerBackTitle: 'Drill bank',
+            })}
           />
           <Stack.Screen
             name="DrillBank"
@@ -154,12 +157,18 @@ export default function App({ navigation }: { navigation: any }) {
           <Stack.Screen
             name="ViewDrill"
             component={ViewDrill}
-            options={({ route }) => ({ title: '' })}
+            options={({ route }) => ({
+              title: '',
+              headerBackTitle: 'Drill bank',
+            })}
           />
           <Stack.Screen
             name="PracticeSettings"
             component={PracticeSettings}
-            options={({ route }) => ({ title: 'Practice Settings' })}
+            options={({ route }) => ({
+              title: 'Practice Settings',
+              headerBackTitle: 'Drills',
+            })}
           />
         </Stack.Navigator>
         <StatusBar style="auto" />

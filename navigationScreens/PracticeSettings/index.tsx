@@ -1,11 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
-import { TabsComponent } from '../App';
-import { styles } from '../styles';
+import { TabsComponent } from '../../App';
 import * as firebase from 'firebase';
-import { db } from '../DatabaseRequest';
+import { db } from '../../DatabaseRequest';
 import Slider from '@react-native-community/slider';
+import { styles } from './styles';
 
 export const PracticeSettings = (
   { route }: { route: any },
@@ -46,16 +46,16 @@ export const PracticeSettings = (
 
   return (
     <View style={styles.rootContainer}>
-      <View style={style.practiceInfoContainer}>
-        <Text style={style.practiceInfo}>
+      <View style={styles.practiceInfoContainer}>
+        <Text style={styles.practiceInfo}>
           Practice length: {practiceLength}min
         </Text>
-        <Text style={style.practiceInfo}>
+        <Text style={styles.practiceInfo}>
           Number of drills: {numberOfDrills}
         </Text>
-        <Text style={style.practiceInfo}>Number of players: {players}</Text>
+        <Text style={styles.practiceInfo}>Number of players: {players}</Text>
         <Slider
-          style={style.playerSlider}
+          style={styles.playerSlider}
           minimumValue={0}
           maximumValue={30}
           step={1}
@@ -67,49 +67,15 @@ export const PracticeSettings = (
         />
       </View>
       <TouchableOpacity
-        style={style.doneButton}
+        style={styles.doneButton}
         onPress={() => {
           savePracticeToFirebase(practiceLength, numberOfDrills, players);
           //navigation.navigate('Tabs');
         }}
       >
-        <Text style={style.doneButtonText}>Start Practice</Text>
+        <Text style={styles.doneButtonText}>Start Practice</Text>
       </TouchableOpacity>
       <StatusBar style="auto" />
     </View>
   );
 };
-
-const style = StyleSheet.create({
-  practiceInfoContainer: {
-    marginTop: 10,
-    alignItems: 'center',
-  },
-  practiceInfo: {
-    color: '#f4f4f4',
-    fontSize: 25,
-    marginTop: 25,
-  },
-  playerSlider: {
-    width: 250,
-    height: 40,
-  },
-  doneButton: {
-    alignItems: 'center',
-    marginTop: 40,
-    justifyContent: 'center',
-    flexDirection: 'row',
-    backgroundColor: 'green',
-    borderWidth: 2,
-    borderRadius: 20,
-    shadowColor: 'black',
-    shadowRadius: 3,
-    height: 70,
-    width: '80%',
-  },
-  doneButtonText: {
-    color: '#f4f4f4',
-    fontFamily: 'Roboto',
-    fontSize: 20,
-  },
-});

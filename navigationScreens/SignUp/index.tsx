@@ -1,11 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
-import { styles } from '../styles';
 import * as firebase from 'firebase';
-import { db } from '../DatabaseRequest';
+import { db } from '../../DatabaseRequest';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { styles } from './styles';
 
 export const SignUp = ({ navigation }: { navigation: any }) => {
   const [newEmail, setNewEmail] = useState('');
@@ -42,25 +42,25 @@ export const SignUp = ({ navigation }: { navigation: any }) => {
 
   return (
     <SafeAreaView style={styles.rootContainer}>
-      <View style={style.headerContainer}>
-        <Text style={style.headerText}>Sign Up</Text>
+      <View style={styles.headerContainer}>
+        <Text style={styles.headerText}>Sign Up</Text>
       </View>
-      <View style={style.inputContainer}>
-        <View style={style.inputView}>
-          <View style={style.inputFields}>
-            <Text style={style.inputText}>{'Email'}</Text>
+      <View style={styles.inputContainer}>
+        <View style={styles.inputView}>
+          <View style={styles.inputFields}>
+            <Text style={styles.inputText}>{'Email'}</Text>
             <TextInput
               value={newEmail}
               onChangeText={setNewEmail}
-              style={style.inputTextField}
+              style={styles.inputTextField}
             />
           </View>
-          <View style={style.inputFields}>
-            <Text style={style.inputText}>{'Password'}</Text>
+          <View style={styles.inputFields}>
+            <Text style={styles.inputText}>{'Password'}</Text>
             <TextInput
               value={newPassword}
               onChangeText={setNewPassword}
-              style={style.inputTextField}
+              style={styles.inputTextField}
             />
           </View>
           {/*<TextInput
@@ -69,12 +69,12 @@ export const SignUp = ({ navigation }: { navigation: any }) => {
                 onChangeText={setNewUsername}/>*/}
 
           <TouchableOpacity
-            style={style.advanceButton}
+            style={styles.advanceButton}
             onPress={() => {
               createUser();
             }}
           >
-            <Text style={style.advanceButtonText}>Register User</Text>
+            <Text style={styles.advanceButtonText}>Register User</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -84,64 +84,12 @@ export const SignUp = ({ navigation }: { navigation: any }) => {
             navigation.navigate('Login');
           }}
         >
-          <Text style={style.buttonText}>Already have an account? Sign in</Text>
+          <Text style={styles.buttonText}>
+            Already have an account? Sign in
+          </Text>
         </TouchableOpacity>
       </View>
       <StatusBar style="auto" />
     </SafeAreaView>
   );
 };
-
-const style = StyleSheet.create({
-  inputContainer: {
-    backgroundColor: '#000000',
-    borderWidth: 2,
-    borderColor: '#f4f4f4',
-    borderRadius: 6,
-    margin: 5,
-    marginTop: 30,
-  },
-  headerContainer: {
-    alignItems: 'center',
-    padding: 20,
-  },
-  headerText: {
-    color: '#f4f4f4',
-    fontSize: 40,
-  },
-  inputView: {
-    alignItems: 'center',
-    margin: 20,
-  },
-  inputFields: {
-    padding: 10,
-  },
-  inputTextField: {
-    color: '#f4f4f4',
-    backgroundColor: '#3a3535',
-    borderRadius: 3,
-    fontSize: 17,
-    width: 200,
-    marginTop: 2,
-    padding: 5,
-  },
-  inputText: {
-    color: '#f4f4f4',
-  },
-  advanceButton: {
-    backgroundColor: '#ff7315',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 10,
-    marginTop: 10,
-  },
-  advanceButtonText: {
-    margin: 7,
-    color: '#f4f4f4',
-    fontSize: 20,
-  },
-  buttonText: {
-    color: '#f4f4f4',
-    marginTop: 8,
-  },
-});

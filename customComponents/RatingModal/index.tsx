@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View, TouchableWithoutFeedback, Animated } from 'react-native';
-import Star from './StarComponent';
+import Star from '../StarComponent';
 
 // Custom ratingmodal
 export class RatingModal extends React.Component {
@@ -9,7 +9,7 @@ export class RatingModal extends React.Component {
     animation: new Animated.Value(1),
   };
 
-  rate = (star) => {
+  rate = (star: any) => {
     this.setState({ rating: star });
   };
 
@@ -59,7 +59,7 @@ export class RatingModal extends React.Component {
           }}
         >
           <Animated.View style={x <= this.state.rating ? animationStyle : ''}>
-            <Star filled={x <= this.state.rating ? true : false}></Star>
+            <Star filled={x <= this.state.rating ? true : false} />
           </Animated.View>
         </TouchableWithoutFeedback>
       );

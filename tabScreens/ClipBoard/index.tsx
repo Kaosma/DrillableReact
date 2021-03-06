@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { styles } from '../styles';
 import { View } from 'react-native';
+import { styles } from './styles';
 
 // Returning the clipboard screen
 export const ClipBoard = ({ navigation }: { navigation: any }) => {

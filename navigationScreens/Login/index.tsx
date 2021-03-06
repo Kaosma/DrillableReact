@@ -3,9 +3,9 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
-import { styles } from '../styles';
 import * as firebase from 'firebase';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { styles } from './styles';
 
 export const Login = (
   { navigation, route }: { navigation: any },
@@ -37,42 +37,42 @@ export const Login = (
 
   return (
     <SafeAreaView style={styles.rootContainer}>
-      <View style={style.headerContainer}>
-        <Text style={style.headerText}>Login</Text>
+      <View style={styles.headerContainer}>
+        <Text style={styles.headerText}>Login</Text>
       </View>
 
       <View
-        style={style.inputContainer}
+        style={styles.inputContainer}
       >
-        <View style={style.inputView}>
-          <View style={style.inputFields}>
-            <Text style={style.inputText}>{'Email'}</Text>
+        <View style={styles.inputView}>
+          <View style={styles.inputFields}>
+            <Text style={styles.inputText}>{'Email'}</Text>
 
             <TextInput
               value={userEmail}
               onChangeText={setEmail}
-              style={style.inputTextField}
+              style={styles.inputTextField}
             />
           </View>
 
-          <View style={style.inputFields}>
-            <Text style={style.inputText}>{'Password'}</Text>
+          <View style={styles.inputFields}>
+            <Text style={styles.inputText}>{'Password'}</Text>
 
             <TextInput
               value={userPassword}
               onChangeText={setPassword}
               secureTextEntry={true}
-              style={style.inputTextField}
+              style={styles.inputTextField}
             />
           </View>
 
           <TouchableOpacity
-            style={style.advanceButton}
+            style={styles.advanceButton}
             onPress={() => {
               signInUser();
             }}
           >
-            <Text style={style.advanceButtonText}>
+            <Text style={styles.advanceButtonText}>
               Sign in
             </Text>
           </TouchableOpacity>
@@ -84,7 +84,7 @@ export const Login = (
             navigation.navigate('SignUp');
           }}
         >
-          <Text style={style.buttonText}>
+          <Text style={styles.buttonText}>
             Don't have an account yet? Sign up
           </Text>
         </TouchableOpacity>
@@ -94,57 +94,3 @@ export const Login = (
     </SafeAreaView>
   );
 };
-
-const style = StyleSheet.create({
-  inputContainer: {
-    backgroundColor: '#000000',
-    borderWidth: 2,
-    borderColor: '#f4f4f4',
-    borderRadius: 6,
-    margin: 5,
-    marginTop: 30,
-  },
-  headerContainer: {
-    alignItems: 'center',
-    padding: 20,
-  },
-  headerText: {
-    color: '#f4f4f4',
-    fontSize: 40,
-  },
-  inputView: {
-    alignItems: 'center',
-    margin: 20,
-  },
-  inputFields: {
-    padding: 10,
-  },
-  inputTextField: {
-    color: '#f4f4f4',
-    backgroundColor: '#3a3535',
-    borderRadius: 3,
-    fontSize: 17,
-    width: 200,
-    marginTop: 2,
-    padding: 5,
-  },
-  inputText: {
-    color: '#f4f4f4',
-  },
-  advanceButton: {
-    backgroundColor: '#ff7315',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 10,
-    marginTop: 10,
-  },
-  advanceButtonText: {
-    margin: 7,
-    color: '#f4f4f4',
-    fontSize: 20,
-  },
-  buttonText: {
-    color: '#f4f4f4',
-    marginTop: 8,
-  },
-});
