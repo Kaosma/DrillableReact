@@ -14,69 +14,6 @@ import { DrillsContext } from '../../Context';
 import { RatingModal } from '../../customComponents/RatingModal';
 import { styles } from './styles';
 
-// Using the rating modal component when a rating a drill
-const RateModal = ({ setIsVisible }, { ratedDrill }) => {
-  return (
-    <View
-      style={{
-        backgroundColor: '#f4f4f4',
-        borderRadius: 6,
-        alignItems: 'center',
-        marginTop: 200,
-      }}
-    >
-      <Text
-        style={{
-          marginTop: 10,
-          color: '#3a3535',
-          fontFamily: 'System',
-          fontSize: 30,
-        }}
-      >
-        Rate this drill?
-      </Text>
-
-      <RatingModal></RatingModal>
-
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          width: '100%',
-          justifyContent: 'space-between',
-        }}
-      >
-        <TouchableOpacity
-          style={{ margin: 15 }}
-          onPress={() => {
-            console.log(ratedDrill);
-            setIsVisible(false);
-          }}
-        >
-          <Text
-            style={{ color: '#000000', fontFamily: 'System', fontSize: 25 }}
-          >
-            Done
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={{ margin: 15 }}
-          onPress={() => {
-            setIsVisible(false);
-          }}
-        >
-          <Text
-            style={{ color: '#000000', fontFamily: 'System', fontSize: 25 }}
-          >
-            Cancel
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-};
-
 export const DrillBank = ({ navigation }: { navigation: any }) => {
   // Drill class interface
   interface Drill {
@@ -90,6 +27,76 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
     numberOfRatings: number;
     equipment: [];
   }
+
+  // Using the rating modal component when a rating a drill
+  const RateModal = ({ setIsVisible }, { ratedDrill }) => {
+    const [rating, setRating] = useState(0);
+
+    return (
+      <View
+        style={{ width: '100%', alignItems: 'center', justifyContent: 'center' }}
+      >
+        <View
+          style={{
+            backgroundColor: '#f4f4f4',
+            borderRadius: 6,
+            alignItems: 'center',
+            marginTop: 200,
+            width: '80%',
+          }}
+        >
+          <Text
+            style={{
+              marginTop: 10,
+              color: '#3a3535',
+              fontFamily: 'System',
+              fontSize: 30,
+            }}
+          >
+            Rate this drill?
+          </Text>
+
+          <RatingModal />
+
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              width: '100%',
+              justifyContent: 'space-between',
+            }}
+          >
+            <TouchableOpacity
+              style={{ paddingBottom: 15, paddingLeft: 25 }}
+              onPress={() => {
+                rateDrillThroughFirebase(ratedDrill);
+                setIsVisible(false);
+              }}
+            >
+              <Text
+                style={{ color: '#000000', fontFamily: 'System', fontSize: 25 }}
+              >
+                Done
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={{ paddingBottom: 15, paddingRight: 25 }}
+              onPress={() => {
+                setIsVisible(false);
+              }}
+            >
+              <Text
+                style={{ color: '#000000', fontFamily: 'System', fontSize: 25 }}
+              >
+                Cancel
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    );
+  };
 
   const { practiceDrills, setDrills, addDrill } = useContext(DrillsContext);
 
@@ -137,7 +144,9 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
   }, []);
 
   // Rating a drill through firebase
-  function rateDrillThroughFirebase() {}
+  function rateDrillThroughFirebase(_drill: Drill) {
+    console.log(ratedDrill + 'stars');
+  }
 
   // Returning the drillbank screen
   return (
@@ -199,8 +208,15 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
                     <TouchableOpacity
                       style={styles.drillStandardButton}
                       onPress={() => {
-                        navigation.navigate('PracticeCreator');
-                        addDrill(item);
+                        if (
+                          !practiceDrills.some(
+                            (instance: { id: string }) =>
+                              item.id === instance.id
+                          )
+                        ) {
+                          navigation.navigate('PracticeCreator');
+                          addDrill(item);
+                        }
                       }}
                     >
                       <Text style={styles.drillStandardButtonText}>ADD</Text>

@@ -7,23 +7,28 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   listContainer: {
-    width: '90%',
+    width: '100%',
+    flex: 1,
+    paddingBottom: 10,
+    alignItems: 'center'
   },
   drillItemContainer: {
-    marginTop: 10,
+    marginTop: 5,
     flexDirection: 'row',
     justifyContent: 'space-between',
     backgroundColor: '#3a3535',
     borderRadius: 2,
     shadowColor: 'black',
-    shadowRadius: 3,
+    shadowRadius: 10,
     width: '100%',
   },
   leftContainer: {
     flexDirection: 'row',
+    marginLeft: 10
   },
   rightContainer: {
     flexDirection: 'row',
+    marginRight: 10
   },
   indexContainer: {
     alignItems: 'center',
@@ -47,7 +52,7 @@ export const styles = StyleSheet.create({
     backgroundColor: '#f4f4f4',
     height: 50,
     marginTop: 10,
-    marginBottom: 10,
+    width: 150,
   },
   titleText: {
     color: '#3a3535',
@@ -62,7 +67,6 @@ export const styles = StyleSheet.create({
     borderRadius: 2,
     backgroundColor: '#3a3535',
     height: 50,
-    marginLeft: 10,
     marginTop: 10,
     marginBottom: 10,
   },
@@ -77,7 +81,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 25,
-    width: 50,
+    width: 40,
     height: 50,
     marginTop: 10,
     marginBottom: 10,
@@ -86,13 +90,13 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 25,
-    width: 50,
+    width: 40,
     height: 50,
     margin: 10,
   },
   addDrillButton: {
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: 5,
     justifyContent: 'center',
     flexDirection: 'row',
     backgroundColor: '#3a3535',
@@ -101,7 +105,7 @@ export const styles = StyleSheet.create({
     shadowColor: 'black',
     shadowRadius: 3,
     height: 70,
-    width: '100%',
+    width: '90%',
   },
   doneButton: {
     alignItems: 'center',
@@ -114,7 +118,7 @@ export const styles = StyleSheet.create({
     shadowColor: 'black',
     shadowRadius: 3,
     height: 70,
-    width: '100%',
+    width: '90%',
   },
   doneButtonText: {
     color: '#f4f4f4',

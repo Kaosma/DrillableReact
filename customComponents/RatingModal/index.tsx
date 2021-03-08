@@ -68,11 +68,11 @@ export class RatingModal extends React.Component {
     // Returning the rating modal
     return (
       <View style={{ margin: 35, alignItems: 'center' }}>
-        <View style={{ backgroundColor: '#3a3535', borderRadius: 20 }}>
+        <View style={{ backgroundColor: '#3a3535', borderRadius: 20, padding: 5 }}>
           <View style={{ flexDirection: 'row', margin: 5 }}>{stars}</View>
         </View>
-        <Text style={{ marginTop: 5, fontSize: 15 }}>
-          Rating: {this.state.rating} stars
+        <Text style={{ marginTop: 10, fontSize: 20 }}>
+          Rating: {this.state.rating}
         </Text>
       </View>
     );
