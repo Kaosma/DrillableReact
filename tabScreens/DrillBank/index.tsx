@@ -10,6 +10,7 @@ import {
   SafeAreaView,
 } from 'react-native';
 import { db } from '../../DatabaseRequest';
+import * as firebase from 'firebase';
 import { DrillsContext } from '../../Context';
 import { RatingModal } from '../../customComponents/RatingModal';
 import { styles } from './styles';
@@ -28,9 +29,10 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
     equipment: [];
   }
 
+  const [rating, setRating] = useState(0);
+
   // Using the rating modal component when a rating a drill
-  const RateModal = ({ setIsVisible }, { ratedDrill }) => {
-    const [rating, setRating] = useState(0);
+  const RateModal = ({ setIsVisible }) => {
 
     return (
       <View
@@ -56,7 +58,10 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
             Rate this drill?
           </Text>
 
-          <RatingModal />
+          <RatingModal
+            starRating={rating}
+            ratingCallback={(stars) => setRating(stars)}
+          />
 
           <View
             style={{
@@ -69,7 +74,7 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
             <TouchableOpacity
               style={{ paddingBottom: 15, paddingLeft: 25 }}
               onPress={() => {
-                rateDrillThroughFirebase(ratedDrill);
+                rateDrillThroughFirebase();
                 setIsVisible(false);
               }}
             >
@@ -81,9 +86,24 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
             </TouchableOpacity>
 
             <TouchableOpacity
+              style={{ paddingBottom: 15, paddingLeft: 25 }}
+              onPress={() => {
+                console.log(ratedDrill);
+              }}
+            >
+              <Text
+                style={{ color: '#000000', fontFamily: 'System', fontSize: 25 }}
+              >
+                HEJ
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
               style={{ paddingBottom: 15, paddingRight: 25 }}
               onPress={() => {
                 setIsVisible(false);
+                setRating(0);
+                setRatedDrill('');
               }}
             >
               <Text
@@ -144,8 +164,19 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
   }, []);
 
   // Rating a drill through firebase
-  function rateDrillThroughFirebase(_drill: Drill) {
-    console.log(ratedDrill + 'stars');
+  function rateDrillThroughFirebase() {
+    const currentUser = firebase.auth().currentUser;
+    db.collection('drills')
+      .doc(ratedDrill)
+      .collection('ratings')
+      .doc(currentUser?.uid)
+      .set({
+        rating: rating,
+      })
+      .then((ref) => {
+        console.log(ref);
+        setRatedDrill('');
+      });
   }
 
   // Returning the drillbank screen
@@ -189,7 +220,7 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
                     <TouchableOpacity
                       style={styles.drillStandardButton}
                       onPress={() => {
-                        setRatedDrill(item.title);
+                        setRatedDrill(item.id);
                         setIsVisible(true);
                       }}
                     >

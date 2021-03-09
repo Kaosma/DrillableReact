@@ -1,11 +1,14 @@
 import React from 'react';
 import { Text, View, TouchableWithoutFeedback, Animated } from 'react-native';
-import Star from '../StarComponent';
+import { Star } from '../StarComponent';
 
 // Custom ratingmodal
-export class RatingModal extends React.Component {
+export class RatingModal extends React.Component<{
+  ratingCallback: (rating: number) => void;
+  starRating: number;
+}> {
   state = {
-    rating: this.props.rating ?? 0,
+    rating: this.props.starRating ?? 0,
     animation: new Animated.Value(1),
   };
 
@@ -13,7 +16,7 @@ export class RatingModal extends React.Component {
     this.setState({ rating: star });
   };
 
-  animate = () => {
+  animate = (num: number) => {
     Animated.timing(this.state.animation, {
       toValue: 2,
       duration: 400,
@@ -21,6 +24,7 @@ export class RatingModal extends React.Component {
       useNativeDriver: true,
     }).start(() => {
       this.state.animation.setValue(1);
+      this.props.ratingCallback(num);
     });
   };
 
@@ -54,7 +58,7 @@ export class RatingModal extends React.Component {
         <TouchableWithoutFeedback
           key={x}
           onPress={() => {
-            this.rate(x), this.animate();
+            this.rate(x), this.animate(x)
             console.log(x);
           }}
         >
@@ -68,11 +72,11 @@ export class RatingModal extends React.Component {
     // Returning the rating modal
     return (
       <View style={{ margin: 35, alignItems: 'center' }}>
-        <View style={{ backgroundColor: '#3a3535', borderRadius: 20, padding: 5 }}>
+        <View style={{ backgroundColor: '#3a3535', borderRadius: 20 }}>
           <View style={{ flexDirection: 'row', margin: 5 }}>{stars}</View>
         </View>
-        <Text style={{ marginTop: 10, fontSize: 20 }}>
-          Rating: {this.state.rating}
+        <Text style={{ marginTop: 5, fontSize: 15 }}>
+          Rating: {this.state.rating} stars
         </Text>
       </View>
     );
