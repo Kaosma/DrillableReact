@@ -25,7 +25,7 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
     imageUrl: string;
     category: string;
     level: number;
-    numberOfRatings: number;
+    ratings: number[];
     equipment: [];
   }
 
@@ -129,6 +129,7 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
     db.collection('drills')
       .get()
       .then(function (querySnapshot: any) {
+        console.log(querySnapshot.getChildren());
         let array: Drill[] = [];
         querySnapshot.forEach(function (doc: any) {
           const data = doc.data();
@@ -139,6 +140,18 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
           const drillImage: string = data.imageUrl;
           const drillCategory: string = data.category;
           const drillLevel: number = data.level;
+          const drillRatings: number[] = [];
+
+          db.collection('drills')
+            .doc(doc.id)
+            .collection('ratings')
+            .get()
+            .then((snapShot) => {
+              snapShot.forEach((ratingDoc) => {
+                console.log(ratingDoc.data().rating);
+                drillRatings.push(ratingDoc.data().rating);
+              });
+            });
           array.push({
             title: drillName,
             id: drillId,
@@ -147,7 +160,7 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
             imageUrl: drillImage,
             category: drillCategory,
             level: drillLevel,
-            numberOfRatings: 0,
+            ratings: drillRatings,
             equipment: [],
           });
         });
@@ -177,6 +190,16 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
         console.log(ref);
         setRatedDrill('');
       });
+  }
+  function calculateDrillRating(ratings: number[]) {
+    if (ratings !== undefined) {
+      let ratingSum = 0;
+      ratings.forEach((ratingItem) => {
+        ratingSum += ratingItem;
+      });
+      return (ratingSum / ratings.length).toFixed(1);
+    }
+    return 0;
   }
 
   // Returning the drillbank screen
@@ -255,7 +278,9 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
                   </View>
 
                   <View style={styles.ratingContainer}>
-                    <Text style={styles.ratingText}>0{item.rating}★</Text>
+                    <Text style={styles.ratingText}>
+                      {calculateDrillRating(item.ratings)}★
+                    </Text>
                   </View>
                 </View>
               </View>

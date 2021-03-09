@@ -20,19 +20,22 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   titleContainer: {
-    width: '90%',
+    width: '91%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    paddingTop: 10,
   },
   titleText: {
     color: '#f4f4f4',
     fontSize: 25,
+    flexWrap: 'wrap',
+    flex: 1,
+    textAlign: 'center',
   },
   ratingText: {
     color: '#f4f4f4',
     fontSize: 20,
-    marginRight: 10,
   },
   opacityText: {
     fontSize: 20,
@@ -40,10 +43,10 @@ export const styles = StyleSheet.create({
   },
   detailedInfoContainer: {
     marginTop: 20,
-    width: '100%',
+    width: '90%',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-between',
   },
   bottomInfoContainer: {
     marginTop: 20,
