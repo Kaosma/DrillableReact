@@ -159,7 +159,7 @@ export default function App({ navigation }: { navigation: any }) {
             component={ViewDrill}
             options={({ route }) => ({
               title: '',
-              headerBackTitle: 'Drill bank',
+              headerBackTitle: 'Back',
             })}
           />
           <Stack.Screen

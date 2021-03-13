@@ -33,7 +33,6 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
 
   // Using the rating modal component when a rating a drill
   const RateModal = ({ setIsVisible }) => {
-
     return (
       <View
         style={{ width: '100%', alignItems: 'center', justifyContent: 'center' }}
@@ -129,7 +128,7 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
     db.collection('drills')
       .get()
       .then(function (querySnapshot: any) {
-        console.log(querySnapshot.getChildren());
+        //console.log(querySnapshot.getChildren());
         let array: Drill[] = [];
         querySnapshot.forEach(function (doc: any) {
           const data = doc.data();

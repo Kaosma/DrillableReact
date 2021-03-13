@@ -10,25 +10,25 @@ export const styles = StyleSheet.create({
     width: '100%',
     flex: 1,
     paddingBottom: 10,
-    alignItems: 'center'
+    alignItems: 'center',
   },
   drillItemContainer: {
-    marginTop: 5,
+    marginTop: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    backgroundColor: '#3a3535',
     borderRadius: 2,
     shadowColor: 'black',
     shadowRadius: 10,
     width: '100%',
+    alignItems: 'center',
   },
   leftContainer: {
     flexDirection: 'row',
-    marginLeft: 10
+    paddingLeft: 10,
   },
   rightContainer: {
     flexDirection: 'row',
-    marginRight: 10
+    paddingRight: 10,
   },
   indexContainer: {
     alignItems: 'center',
@@ -50,16 +50,17 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 2,
     backgroundColor: '#f4f4f4',
-    height: 50,
-    marginTop: 10,
     width: 150,
+    minHeight: 50,
+    maxHeight: 90,
   },
   titleText: {
     color: '#3a3535',
-    margin: 10,
+    padding: 10,
     fontSize: 20,
     fontFamily: 'System',
     fontWeight: '500',
+    textAlign: 'center',
   },
   durationContainer: {
     alignItems: 'center',

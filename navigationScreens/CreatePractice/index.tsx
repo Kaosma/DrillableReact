@@ -62,10 +62,13 @@ export const CreatePractice = ({ navigation }: { navigation: any }) => {
             {/*<View style={styles.indexContainer}>
               <Text style={styles.indexText}>{index + 1}</Text>
       </View>*/}
-            <TouchableOpacity style={styles.titleContainer} onPress={() => {
+            <TouchableOpacity
+              style={styles.titleContainer}
+              onPress={() => {
                 navigation.navigate('ViewDrill', item);
-              }}>
-              <Text style={styles.titleText}>{item.title}</Text>
+              }}
+            >
+              <Text numberOfLines={2} style={styles.titleText}>{item.title}</Text>
             </TouchableOpacity>
           </View>
 
@@ -81,7 +84,7 @@ export const CreatePractice = ({ navigation }: { navigation: any }) => {
             >
               <Image
                 source={require('../../assets/icons8-trash-480.png')}
-                style={{height: 35, width: 35, tintColor: '#fc5c14'}}
+                style={{ height: 35, width: 35, tintColor: '#fc5c14' }}
               />
               {/*<Icon
                 icon={xCircle}
@@ -90,10 +93,7 @@ export const CreatePractice = ({ navigation }: { navigation: any }) => {
                 style={{ color: '#fc5c14' }}
               />*/}
             </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.viewDrillButton}
-              onLongPress={drag}
-            >
+            <TouchableOpacity style={styles.viewDrillButton} onLongPress={drag}>
               <Image
                 source={require('../../assets/icons8-resize-vertical-52.png')}
                 style={{height: 35, width: 35, tintColor: '#f4f4f4'}}
