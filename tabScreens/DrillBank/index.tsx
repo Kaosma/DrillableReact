@@ -8,6 +8,7 @@ import {
   FlatList,
   Modal,
   SafeAreaView,
+  RefreshControl,
 } from 'react-native';
 import { db } from '../../DatabaseRequest';
 import * as firebase from 'firebase';
@@ -130,7 +131,7 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
     db.collection('drills')
       .get()
       .then(function (querySnapshot: any) {
-        //console.log(querySnapshot.getChildren());
+        console.log(querySnapshot.getChildren());
         let retrievedDrills: Drill[] = [];
         querySnapshot.forEach(function (doc: any) {
           const data = doc.data();
@@ -172,7 +173,18 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
         console.log('Error getting documents: ', error);
       });
   }
+  const [refreshing, setRefreshing] = useState(false);
 
+  const wait = (timeout: number) => {
+    return new Promise((resolve) => setTimeout(resolve, timeout));
+  };
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => {
+      getDrillsFromDatabase();
+      setRefreshing(false);
+    });
+  }, []);
   // Making sure it only retrieves the drills once
   useEffect(() => {
     getDrillsFromDatabase();
@@ -243,7 +255,7 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
           placeholder="Search by name or category..."
           value={search}
           inputStyle={{ color: 'black' }}
-          inputContainerStyle={{ backgroundColor: 'white' }}
+          inputContainerStyle={{ backgroundColor: '#f4f4f4' }}
           containerStyle={{
             backgroundColor: '#3a3535',
             borderBottomColor: '#3a3535',
@@ -251,6 +263,9 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
         />
         <FlatList
           data={filteredDrills}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
           renderItem={({ item }) => {
             return (
               <View style={styles.drillContainer}>
