@@ -14,6 +14,7 @@ import * as firebase from 'firebase';
 import { DrillsContext } from '../../Context';
 import { RatingModal } from '../../customComponents/RatingModal';
 import { styles } from './styles';
+import { SearchBar } from 'react-native-elements';
 
 export const DrillBank = ({ navigation }: { navigation: any }) => {
   // Drill class interface
@@ -28,8 +29,6 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
     ratings: number[];
     equipment: [];
   }
-
-  const [rating, setRating] = useState(0);
 
   // Using the rating modal component when a rating a drill
   const RateModal = ({ setIsVisible }) => {
@@ -119,9 +118,12 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
 
   const { practiceDrills, setDrills, addDrill } = useContext(DrillsContext);
 
-  const [drillsList, setDrillsList] = useState<Drill[]>([]);
   const [modalIsVisible, setIsVisible] = useState(false);
   const [ratedDrill, setRatedDrill] = useState('');
+  const [rating, setRating] = useState(0);
+  const [search, setSearch] = useState('');
+  const [drillsList, setDrillsList] = useState<Drill[]>([]);
+  const [filteredDrills, setFilteredDrills] = useState<Drill[]>([]);
 
   // Retrieving all drills from the database
   function getDrillsFromDatabase() {
@@ -129,7 +131,7 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
       .get()
       .then(function (querySnapshot: any) {
         //console.log(querySnapshot.getChildren());
-        let array: Drill[] = [];
+        let retrievedDrills: Drill[] = [];
         querySnapshot.forEach(function (doc: any) {
           const data = doc.data();
           const drillName: string = data.name;
@@ -151,7 +153,7 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
                 drillRatings.push(ratingDoc.data().rating);
               });
             });
-          array.push({
+          retrievedDrills.push({
             title: drillName,
             id: drillId,
             duration: drillLength,
@@ -163,7 +165,8 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
             equipment: [],
           });
         });
-        setDrillsList(array);
+        setDrillsList(retrievedDrills);
+        setFilteredDrills(retrievedDrills);
       })
       .catch(function (error) {
         console.log('Error getting documents: ', error);
@@ -201,15 +204,53 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
     return 0;
   }
 
+  const searchFilterFunction = (text: string) => {
+    // Check if searched text is not blank
+    if (text) {
+      // Inserted text is not blank
+      // Filter the masterDataSource
+      // Update FilteredDataSource
+      const newData = drillsList.filter(function (item) {
+        const itemData =
+          item.title + item.category
+            ? (item.title + item.category).toUpperCase()
+            : ''.toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setFilteredDrills(newData);
+      setSearch(text);
+    } else {
+      // Inserted text is blank
+      // Update FilteredDataSource with masterDataSource
+      setFilteredDrills(drillsList);
+      setSearch(text);
+    }
+  };
+
   // Returning the drillbank screen
   return (
     <SafeAreaView style={styles.rootContainer}>
       <Modal visible={modalIsVisible} transparent>
         <RateModal setIsVisible={setIsVisible} />
       </Modal>
-      <View style={{ width: '100%' }}>
+      <View style={{ width: '100%', paddingBottom: 70 }}>
+        <SearchBar
+          round
+          searchIcon={{ size: 24, color: 'black' }}
+          onChangeText={(text) => searchFilterFunction(text)}
+          onClear={() => searchFilterFunction('')}
+          placeholder="Search by name or category..."
+          value={search}
+          inputStyle={{ color: 'black' }}
+          inputContainerStyle={{ backgroundColor: 'white' }}
+          containerStyle={{
+            backgroundColor: '#3a3535',
+            borderBottomColor: '#3a3535',
+          }}
+        />
         <FlatList
-          data={drillsList}
+          data={filteredDrills}
           renderItem={({ item }) => {
             return (
               <View style={styles.drillContainer}>
