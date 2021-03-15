@@ -65,6 +65,7 @@ export const PracticeSettings = (
             setPlayers(value);
           }}
         />
+        <Text style={styles.practiceInfo}>Equipment: {players}</Text>
       </View>
       <TouchableOpacity
         style={styles.doneButton}

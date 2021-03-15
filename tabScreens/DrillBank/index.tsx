@@ -125,13 +125,13 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
   const [search, setSearch] = useState('');
   const [drillsList, setDrillsList] = useState<Drill[]>([]);
   const [filteredDrills, setFilteredDrills] = useState<Drill[]>([]);
+  const [refreshing, setRefreshing] = useState(false);
 
   // Retrieving all drills from the database
   function getDrillsFromDatabase() {
     db.collection('drills')
       .get()
       .then(function (querySnapshot: any) {
-        console.log(querySnapshot.getChildren());
         let retrievedDrills: Drill[] = [];
         querySnapshot.forEach(function (doc: any) {
           const data = doc.data();
@@ -150,41 +150,35 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
             .get()
             .then((snapShot) => {
               snapShot.forEach((ratingDoc) => {
-                console.log(ratingDoc.data().rating);
                 drillRatings.push(ratingDoc.data().rating);
               });
+              retrievedDrills.push({
+                title: drillName,
+                id: drillId,
+                duration: drillLength,
+                numberOfPlayers: drillNumberOfPlayers,
+                imageUrl: drillImage,
+                category: drillCategory,
+                level: drillLevel,
+                ratings: drillRatings,
+                equipment: [],
+              });
+              setRefreshing(false);
+              setDrillsList(retrievedDrills);
+              setFilteredDrills(retrievedDrills);
             });
-          retrievedDrills.push({
-            title: drillName,
-            id: drillId,
-            duration: drillLength,
-            numberOfPlayers: drillNumberOfPlayers,
-            imageUrl: drillImage,
-            category: drillCategory,
-            level: drillLevel,
-            ratings: drillRatings,
-            equipment: [],
-          });
         });
-        setDrillsList(retrievedDrills);
-        setFilteredDrills(retrievedDrills);
       })
       .catch(function (error) {
         console.log('Error getting documents: ', error);
       });
   }
-  const [refreshing, setRefreshing] = useState(false);
 
-  const wait = (timeout: number) => {
-    return new Promise((resolve) => setTimeout(resolve, timeout));
-  };
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    wait(2000).then(() => {
-      getDrillsFromDatabase();
-      setRefreshing(false);
-    });
+    getDrillsFromDatabase();
   }, []);
+
   // Making sure it only retrieves the drills once
   useEffect(() => {
     getDrillsFromDatabase();
@@ -200,8 +194,7 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
       .set({
         rating: rating,
       })
-      .then((ref) => {
-        console.log(ref);
+      .then(() => {
         setRatedDrill('');
       });
   }

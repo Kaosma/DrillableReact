@@ -20,7 +20,6 @@ export class RatingModal extends React.Component<{
     Animated.timing(this.state.animation, {
       toValue: 2,
       duration: 400,
-      //easing: Easing.ease,
       useNativeDriver: true,
     }).start(() => {
       this.state.animation.setValue(1);
@@ -42,11 +41,6 @@ export class RatingModal extends React.Component<{
       outputRange: [1, 0.5, 1],
     });
 
-    const animateWobble = this.state.animation.interpolate({
-      inputRange: [1, 1.25, 1.75, 2],
-      outputRange: ['0deg', '-3deg', '3deg', '0deg'],
-    });
-
     const animationStyle = {
       transform: [{ scale: animateScale }],
       opacity: animateOpacity,
@@ -58,8 +52,7 @@ export class RatingModal extends React.Component<{
         <TouchableWithoutFeedback
           key={x}
           onPress={() => {
-            this.rate(x), this.animate(x)
-            console.log(x);
+            this.rate(x), this.animate(x);
           }}
         >
           <Animated.View style={x <= this.state.rating ? animationStyle : ''}>
