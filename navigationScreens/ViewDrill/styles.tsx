@@ -50,6 +50,12 @@ export const styles = StyleSheet.create({
   },
   bottomInfoContainer: {
     marginTop: 20,
+    justifyContent: 'center',
+  },
+  equipmentContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
   infoText: {
     color: '#f4f4f4',

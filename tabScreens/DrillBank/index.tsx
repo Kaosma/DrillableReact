@@ -28,7 +28,7 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
     category: string;
     level: number;
     ratings: number[];
-    equipment: [];
+    equipment: number[];
   }
 
   // Using the rating modal component when a rating a drill
@@ -143,6 +143,7 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
           const drillCategory: string = data.category;
           const drillLevel: number = data.level;
           const drillRatings: number[] = [];
+          const drillEquipment: number[] = data.equipment;
 
           db.collection('drills')
             .doc(doc.id)
@@ -161,7 +162,7 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
                 category: drillCategory,
                 level: drillLevel,
                 ratings: drillRatings,
-                equipment: [],
+                equipment: drillEquipment,
               });
               setRefreshing(false);
               setDrillsList(retrievedDrills);

@@ -63,7 +63,7 @@ export const TabsComponent = ({ navigation }: { navigation: any }) => {
       </Tab.Navigator>
 
       <FAB
-        icon={require('./assets/basketball_iOS.png')}
+        icon={require('./assets/basketball-fab.png')}
         color="#f4f4f4"
         style={{
           position: 'absolute',
