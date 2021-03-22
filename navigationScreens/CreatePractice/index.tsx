@@ -68,7 +68,9 @@ export const CreatePractice = ({ navigation }: { navigation: any }) => {
                 navigation.navigate('ViewDrill', item);
               }}
             >
-              <Text numberOfLines={2} style={styles.titleText}>{item.title}</Text>
+              <Text numberOfLines={2} style={styles.titleText}>
+                {item.title}
+              </Text>
             </TouchableOpacity>
           </View>
 
@@ -96,7 +98,7 @@ export const CreatePractice = ({ navigation }: { navigation: any }) => {
             <TouchableOpacity style={styles.viewDrillButton} onLongPress={drag}>
               <Image
                 source={require('../../assets/icons8-resize-vertical-52.png')}
-                style={{height: 35, width: 35, tintColor: '#f4f4f4'}}
+                style={{ height: 35, width: 35, tintColor: '#f4f4f4' }}
               />
               {/*<Icon
                 icon={eyeFilled}
@@ -111,7 +113,6 @@ export const CreatePractice = ({ navigation }: { navigation: any }) => {
     },
     []
   );
-
 
   // Returning the practice screen
   return (

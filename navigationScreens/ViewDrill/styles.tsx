@@ -60,6 +60,7 @@ export const styles = StyleSheet.create({
   infoText: {
     color: '#f4f4f4',
     fontSize: 20,
+    textAlign: 'center',
   },
   imageContainer: {
     marginTop: 20,

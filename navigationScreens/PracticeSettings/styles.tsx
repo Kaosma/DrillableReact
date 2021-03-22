@@ -19,6 +19,11 @@ export const styles = StyleSheet.create({
     width: 250,
     height: 40,
   },
+  equipmentContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
   doneButton: {
     alignItems: 'center',
     marginTop: 40,

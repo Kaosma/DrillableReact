@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { Text, View, Image } from 'react-native';
+import { EquipmentText } from '../../customComponents/EquipmentText';
 import { styles } from './styles';
 
 // Returning a screen to view info of a single drill
@@ -15,118 +16,6 @@ export const ViewDrill = ({ route }: { route: any }) => {
     }
     return 0;
   }
-  function numberOfEquipment(value: number) {
-    switch (value) {
-      case 0:
-        return '';
-      case 1:
-        return '';
-      default:
-        return 'x' + value;
-    }
-  }
-  const Equipment = ({ index }: { index: number }) => {
-    const equipmentValue = route.params.equipment[index];
-    switch (index) {
-      case 0:
-        return (
-          <View style={{ display: 'flex', flexDirection: 'row'}}>
-            <Image
-              source={require('../../assets/basketball-icon.png')}
-              style={{
-                height: 35,
-                width: 35,
-                tintColor: '#f4f4f4',
-                display: equipmentValue === 0 ? 'none' : 'flex',
-              }}
-            />
-            <Text style={{ color: '#f4f4f4' }}>
-              {numberOfEquipment(equipmentValue)}
-            </Text>
-          </View>
-        );
-      case 1:
-        return (
-          <View style={{ display: 'flex', flexDirection: 'row'}}>
-            <Image
-              source={require('../../assets/basketball-hoop.png')}
-              style={{
-                height: 35,
-                width: 35,
-                tintColor: '#f4f4f4',
-                display: equipmentValue === 0 ? 'none' : 'flex',
-              }}
-            />
-            <Text style={{ color: '#f4f4f4' }}>
-              {numberOfEquipment(equipmentValue)}
-            </Text>
-          </View>
-        );
-      case 2:
-        return (
-          <View style={{ display: 'flex', flexDirection: 'row' }}>
-            <Image
-              source={require('../../assets/icon-cone.png')}
-              style={{
-                height: 35,
-                width: 35,
-                tintColor: '#f4f4f4',
-                display: equipmentValue === 0 ? 'none' : 'flex',
-              }}
-            />
-            <Text style={{ color: '#f4f4f4' }}>
-              {numberOfEquipment(equipmentValue)}
-            </Text>
-          </View>
-        );
-      case 3:
-        return (
-          <View style={{ display: 'flex', flexDirection: 'row' }}>
-            <Image
-              source={require('../../assets/icons8-tennis-ball-90.png')}
-              style={{
-                height: 35,
-                width: 35,
-                tintColor: '#f4f4f4',
-                display: equipmentValue === 0 ? 'none' : 'flex',
-              }}
-            />
-            <Text style={{ color: '#f4f4f4' }}>
-              {numberOfEquipment(equipmentValue)}
-            </Text>
-          </View>
-        );
-      case 4:
-        return (
-          <View style={{ display: 'flex', flexDirection: 'row' }}>
-            <Image
-              source={require('../../assets/icons8-brick-wall-100.png')}
-              style={{
-                height: 35,
-                width: 35,
-                tintColor: '#f4f4f4',
-                display: equipmentValue === 0 ? 'none' : 'flex',
-              }}
-            />
-            <Text style={{ color: '#f4f4f4' }}>
-              {numberOfEquipment(equipmentValue)}
-            </Text>
-          </View>
-        );
-      default:
-        return (
-          <Image
-            source={require('../../assets/favicon.png')}
-            style={{
-              height: 35,
-              width: 35,
-              tintColor: '#f4f4f4',
-              display: equipmentValue === 0 ? 'none' : 'flex',
-            }}
-          />
-        );
-    }
-  };
 
   return (
     <View style={styles.backgroundView}>
@@ -159,11 +48,26 @@ export const ViewDrill = ({ route }: { route: any }) => {
           <View style={styles.bottomInfoContainer}>
             <Text style={styles.infoText}>Equipment</Text>
             <View style={styles.equipmentContainer}>
-              <Equipment index={0} />
-              <Equipment index={1} />
-              <Equipment index={2} />
-              <Equipment index={3} />
-              <Equipment index={4} />
+              <EquipmentText
+                index={0}
+                equipmentValue={route.params.equipment[0]}
+              />
+              <EquipmentText
+                index={1}
+                equipmentValue={route.params.equipment[1]}
+              />
+              <EquipmentText
+                index={2}
+                equipmentValue={route.params.equipment[2]}
+              />
+              <EquipmentText
+                index={3}
+                equipmentValue={route.params.equipment[3]}
+              />
+              <EquipmentText
+                index={4}
+                equipmentValue={route.params.equipment[4]}
+              />
             </View>
           </View>
 
