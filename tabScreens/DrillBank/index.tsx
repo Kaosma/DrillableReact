@@ -85,19 +85,6 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={{ paddingBottom: 15, paddingLeft: 25 }}
-              onPress={() => {
-                console.log(ratedDrill);
-              }}
-            >
-              <Text
-                style={{ color: '#000000', fontFamily: 'System', fontSize: 25 }}
-              >
-                HEJ
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
               style={{ paddingBottom: 15, paddingRight: 25 }}
               onPress={() => {
                 setIsVisible(false);

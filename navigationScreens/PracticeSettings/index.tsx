@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import { TabsComponent } from '../../App';
 import { EquipmentText } from '../../customComponents/EquipmentText';
 import * as firebase from 'firebase';
@@ -88,7 +88,7 @@ export const PracticeSettings = ({
         style={styles.doneButton}
         onPress={() => {
           savePracticeToFirebase(practiceLength, numberOfDrills, players);
-          //navigation.navigate('Tabs');
+          navigation.navigate('Tabs');
         }}
       >
         <Text style={styles.doneButtonText}>Start Practice</Text>

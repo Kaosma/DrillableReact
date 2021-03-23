@@ -118,6 +118,14 @@ export const CreatePractice = ({ navigation }: { navigation: any }) => {
   return (
     <View style={styles.rootContainer}>
       <View style={styles.listContainer}>
+        <TouchableOpacity
+          style={styles.generatorButton}
+          onPress={() => {
+            navigation.navigate('AutoGenerator');
+          }}
+        >
+          <Text style={styles.generatorButtonText}>Practice generator</Text>
+        </TouchableOpacity>
         <DraggableFlatList
           data={practiceDrills}
           renderItem={renderItem}

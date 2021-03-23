@@ -8,6 +8,7 @@ import { ClipBoard } from './tabScreens/ClipBoard';
 import { DrillBank } from './tabScreens/DrillBank';
 import { CreatePractice } from './navigationScreens/CreatePractice';
 import { ViewDrill } from './navigationScreens/ViewDrill';
+import { AutoGenerator } from './navigationScreens/AutoGenerator';
 import { PracticeSettings } from './navigationScreens/PracticeSettings';
 import { DrillsContext } from './Context';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -140,7 +141,6 @@ export default function App({ navigation }: { navigation: any }) {
             component={TabsComponent}
             options={{ headerShown: false }}
           />
-
           <Stack.Screen
             name="PracticeCreator"
             component={CreatePractice}
@@ -157,6 +157,14 @@ export default function App({ navigation }: { navigation: any }) {
           <Stack.Screen
             name="ViewDrill"
             component={ViewDrill}
+            options={({ route }) => ({
+              title: '',
+              headerBackTitle: 'Back',
+            })}
+          />
+          <Stack.Screen
+            name="AutoGenerator"
+            component={AutoGenerator}
             options={({ route }) => ({
               title: '',
               headerBackTitle: 'Back',
