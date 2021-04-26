@@ -16,6 +16,7 @@ import { DrillsContext } from '../../Context';
 import { RatingModal } from '../../customComponents/RatingModal';
 import { styles } from './styles';
 import { SearchBar } from 'react-native-elements';
+import { FAB } from 'react-native-paper';
 
 export const DrillBank = ({ navigation }: { navigation: any }) => {
   // Drill class interface
@@ -324,6 +325,17 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
           }}
         />
       </View>
+      <FAB
+        icon={require('../../assets/basketball-fab.png')}
+        color="#f4f4f4"
+        style={{
+          position: 'absolute',
+          bottom: 40,
+          right: 20,
+          backgroundColor: '#fc5c14',
+        }}
+        onPress={() => navigation.navigate('PracticeCreator')}
+      />
       <StatusBar style="auto" />
     </SafeAreaView>
   );

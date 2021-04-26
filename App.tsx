@@ -14,7 +14,6 @@ import { DrillsContext } from './Context';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { FAB } from 'react-native-paper';
 import { Icon, InlineIcon } from '@iconify/react';
 //import basketballIcon from '@iconify-icons/carbon/basketball';
 //import clipboardEditOutline from '@iconify-icons/mdi/clipboard-edit-outline';
@@ -62,18 +61,6 @@ export const TabsComponent = ({ navigation }: { navigation: any }) => {
                 }}}*/
         />
       </Tab.Navigator>
-
-      <FAB
-        icon={require('./assets/basketball-fab.png')}
-        color="#f4f4f4"
-        style={{
-          position: 'absolute',
-          bottom: 40,
-          right: 20,
-          backgroundColor: '#fc5c14',
-        }}
-        onPress={() => navigation.navigate('PracticeCreator')}
-      />
     </SafeAreaView>
   );
 };
@@ -86,6 +73,7 @@ export default function App({ navigation }: { navigation: any }) {
     const drillsList = [...practiceDrills];
     drillsList.push(drill);
     setDrills(drillsList);
+    console.log('Added ' + drill.title);
   };
 
   // Removing a drill from the practice
@@ -93,8 +81,11 @@ export default function App({ navigation }: { navigation: any }) {
     const drillsList = [...practiceDrills];
     drillsList.splice(index, 1);
     setDrills(drillsList);
+    console.log('Removed!');
   };
-
+  const resetDrills = () => {
+    setDrills([]);
+  };
   // Drill class interface
   interface Drill {
     title: string;
@@ -113,7 +104,13 @@ export default function App({ navigation }: { navigation: any }) {
   return (
     <NavigationContainer>
       <DrillsContext.Provider
-        value={{ practiceDrills, setDrills, addDrill, removeDrill }}
+        value={{
+          practiceDrills,
+          setDrills,
+          addDrill,
+          removeDrill,
+          resetDrills,
+        }}
       >
         <Stack.Navigator
           screenOptions={{

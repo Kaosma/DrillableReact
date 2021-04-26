@@ -1,11 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Text, View, TouchableOpacity, FlatList, Image } from 'react-native';
 import { TabsComponent } from '../../App';
 import { EquipmentText } from '../../customComponents/EquipmentText';
 import * as firebase from 'firebase';
 import { db } from '../../DatabaseRequest';
 import Slider from '@react-native-community/slider';
+import { DrillsContext } from '../../Context';
 import { styles } from './styles';
 
 export const AutoGenerator = ({
@@ -15,39 +16,132 @@ export const AutoGenerator = ({
   route: any;
   navigation: any;
 }) => {
+
+  // Drill class interface
+  interface Drill {
+    title: string;
+    id: string;
+    duration: number;
+    numberOfPlayers: number;
+    imageUrl: string;
+    category: string;
+    level: number;
+    ratings: number[];
+    equipment: number[];
+  }
+
   const [players, setPlayers] = useState(0);
-  const [duration, setDuration] = useState(0);
+  const [practiceDuration, setPracticeDuration] = useState(0);
   const [categories, setCategories] = useState([
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
+    'false',
+    'false',
+    'false',
+    'false',
+    'false',
+    'false',
   ]);
-  function calculateIndex(index: number) {
-    switch (index) {
-      case 0:
-        return 'Ballhandling';
-      case 1:
-        return 'Passing';
-      case 2:
-        return 'Shooting';
-      case 3:
-        return 'Rebounding';
-      case 4:
-        return 'Defense';
-      case 5:
-        return 'IQ';
-      default:
-        return 'None';
+
+  const {
+    practiceDrills,
+    setDrills,
+    addDrill,
+    removeDrill,
+    resetDrills,
+  } = useContext(DrillsContext);
+
+  let textCategories = [
+    'Ballhandling',
+    'Passing',
+    'Shooting',
+    'Rebounding',
+    'Defense',
+    'IQ',
+  ];
+
+  function addDrillsToPractice(
+    drills: Drill[] | undefined,
+    createdPractieDuration: number
+  ) {
+    if (createdPractieDuration < practiceDuration) {
+      if (drills !== undefined) {
+        addSingleDrillToPractice(drills, drills[0].duration);
+      }
+    } else if (createdPractieDuration > practiceDuration) {
+      if (drills !== undefined) {
+        switchDrill(drills, createdPractieDuration);
+      }
+    } else if (createdPractieDuration === practiceDuration) {
+      setDrills(drills);
+      navigation.navigate('PracticeCreator');
     }
   }
+
+  function addSingleDrillToPractice(drills: Drill[], totalDuration: number) {
+    addDrill(drills[0]);
+    const foundDrills = drills.slice(1);
+    addDrillsToPractice(foundDrills, totalDuration + drills[0].duration);
+  }
+
+  function switchDrill(drills: Drill[], totalDuration: number) {
+    const foundDrills = drills.splice(-1, 1);
+    const foundDrill = drills[drills.length - 1];
+    addSingleDrillToPractice(foundDrills, totalDuration - foundDrill.duration);
+  }
+
+  function createPractice() {
+    // Retrieving all drills from the database
+    db.collection('drills')
+      .where('numberOfPlayers', '<=', players)
+      .get()
+      .then(function (querySnapshot: any) {
+        let retrievedDrills: Drill[] = [];
+        querySnapshot.forEach(function (doc: any) {
+          const data = doc.data();
+          const drillName: string = data.name;
+          const drillLength: number = data.length;
+          const drillNumberOfPlayers: number = data.numberOfPlayers;
+          const drillId: string = doc.id;
+          const drillImage: string = data.imageUrl;
+          const drillCategory: string = data.category;
+          const drillLevel: number = data.level;
+          const drillRatings: number[] = [];
+          const drillEquipment: number[] = data.equipment;
+
+          db.collection('drills')
+            .doc(doc.id)
+            .collection('ratings')
+            .get()
+            .then((snapShot) => {
+              snapShot.forEach((ratingDoc) => {
+                drillRatings.push(ratingDoc.data().rating);
+              });
+              if (categories.includes(drillCategory)) {
+                retrievedDrills.push({
+                  title: drillName,
+                  id: drillId,
+                  duration: drillLength,
+                  numberOfPlayers: drillNumberOfPlayers,
+                  imageUrl: drillImage,
+                  category: drillCategory,
+                  level: drillLevel,
+                  ratings: drillRatings,
+                  equipment: drillEquipment,
+                });
+                addDrillsToPractice(retrievedDrills, 0);
+              }
+            });
+        });
+      })
+      .catch(function (error) {
+        console.log('Error getting documents: ', error);
+      });
+  }
+
   return (
     <View style={styles.rootContainer}>
       <View style={{ alignItems: 'center' }}>
         <Text style={styles.practiceInfoText}>
-          Practice duration: {duration}min
+          Practice duration: {practiceDuration}min
         </Text>
         <Slider
           style={styles.durationSlider}
@@ -57,7 +151,7 @@ export const AutoGenerator = ({
           minimumTrackTintColor="#FFFFFF"
           maximumTrackTintColor="#fc5c14"
           onValueChange={(value) => {
-            setDuration(value);
+            setPracticeDuration(value);
           }}
         />
         <Text style={styles.practiceInfoText}>
@@ -80,6 +174,7 @@ export const AutoGenerator = ({
         <View style={styles.categoryList}>
           <FlatList
             data={categories}
+            keyExtractor={(item, index) => index.toString()}
             renderItem={({ item, index }) => {
               return (
                 <TouchableOpacity
@@ -87,15 +182,19 @@ export const AutoGenerator = ({
                   style={styles.categoryButton}
                   onPress={() => {
                     let changeCategories = [...categories];
-                    changeCategories[index] = !item;
+                    if (item === 'false') {
+                      changeCategories[index] = textCategories[index];
+                    } else {
+                      changeCategories[index] = 'false';
+                    }
                     setCategories(changeCategories);
                   }}
                 >
                   <Image
                     source={
-                      item === true
-                        ? require('../../assets/checked-checkbox.png')
-                        : require('../../assets/unchecked-checkbox.png')
+                      item === 'false'
+                        ? require('../../assets/unchecked-checkbox.png')
+                        : require('../../assets/checked-checkbox.png')
                     }
                     style={{
                       height: 35,
@@ -104,7 +203,7 @@ export const AutoGenerator = ({
                     }}
                   />
                   <Text style={styles.categoryButtonText}>
-                    {calculateIndex(index)}
+                    {textCategories[index]}
                   </Text>
                 </TouchableOpacity>
               );
@@ -116,7 +215,7 @@ export const AutoGenerator = ({
       <TouchableOpacity
         style={styles.generatePracticeButton}
         onPress={() => {
-          navigation.navigate('PracticeCreator');
+          createPractice();
         }}
       >
         <Text style={styles.generatePracticeButtonText}>Generate practice</Text>
