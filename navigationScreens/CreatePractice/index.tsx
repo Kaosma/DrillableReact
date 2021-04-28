@@ -3,7 +3,7 @@ import React, { useCallback, useContext } from 'react';
 import { Text, View, TouchableOpacity, FlatList, Image } from 'react-native';
 import { Icon, InlineIcon } from '@iconify/react';
 import { styles } from './styles';
-import { DrillsContext } from '../../Context';
+import { AppContext } from '../../Context';
 import DraggableFlatList, {
   RenderItemParams,
 } from 'react-native-draggable-flatlist';
@@ -14,7 +14,7 @@ import xCircle from '@iconify-icons/bi/x-circle';
 import eyeFilled from '@iconify-icons/ant-design/eye-filled';*/
 
 export const CreatePractice = ({ navigation }: { navigation: any }) => {
-  const { practiceDrills, setDrills, removeDrill } = useContext(DrillsContext);
+  const { practiceDrills, setDrills, removeDrill } = useContext(AppContext);
 
   // Returning an "add drill" button at the end of the list
   const EmptySlot = () => {

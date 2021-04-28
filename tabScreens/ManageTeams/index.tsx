@@ -1,12 +1,112 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import {
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  TextInput,
+  Modal,
+} from 'react-native';
 import { styles } from './styles';
 import { db } from '../../DatabaseRequest';
 import * as firebase from 'firebase';
 import { FAB } from 'react-native-paper';
+import { AppContext } from '../../Context';
 
 // Returning the manage teams screen
 export const ManageTeams = ({ navigation }: { navigation: any }) => {
+  // Using the rating modal component when a rating a drill
+  const AddTeamModal = ({ setIsVisible }) => {
+    const [clubNameValue, setClubNameValue] = useState('Club Name');
+    const [groupNameValue, setGroupNameValue] = useState('Group Name');
+    return (
+      <View
+        style={{ width: '100%', alignItems: 'center', justifyContent: 'center' }}
+      >
+        <View
+          style={{
+            backgroundColor: '#f4f4f4',
+            borderRadius: 6,
+            alignItems: 'center',
+            marginTop: 200,
+            width: '80%',
+          }}
+        >
+          <Text
+            style={{
+              marginTop: 10,
+              color: '#3a3535',
+              fontFamily: 'System',
+              fontSize: 30,
+            }}
+          >
+            Add Team
+          </Text>
+
+          <TextInput
+            value={clubNameValue}
+            onChangeText={setClubNameValue}
+            style={{ color: '#f4f4f4',
+            backgroundColor: '#3a3535',
+            borderRadius: 3,
+            fontSize: 17,
+            width: 200,
+            marginTop: 20,
+            padding: 5,}}
+          ></TextInput>
+
+          <TextInput
+            value={groupNameValue}
+            onChangeText={setGroupNameValue}
+            style={{ color: '#f4f4f4',
+            backgroundColor: '#3a3535',
+            borderRadius: 3,
+            fontSize: 17,
+            width: 200,
+            marginTop: 20,
+            marginBottom: 20,
+            padding: 5,}}
+          ></TextInput>
+
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              width: '100%',
+              justifyContent: 'space-between',
+            }}
+          >
+            <TouchableOpacity
+              style={{ paddingBottom: 15, paddingLeft: 25 }}
+              onPress={() => {
+                addTeamToFirebase(clubNameValue, groupNameValue);
+                setIsVisible(false);
+              }}
+            >
+              <Text
+                style={{ color: '#000000', fontFamily: 'System', fontSize: 25 }}
+              >
+                Done
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={{ paddingBottom: 15, paddingRight: 25 }}
+              onPress={() => {
+                setIsVisible(false);
+              }}
+            >
+              <Text
+                style={{ color: '#000000', fontFamily: 'System', fontSize: 25 }}
+              >
+                Cancel
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    );
+  };
   // Drill class interface
   interface Drill {
     title: string;
@@ -33,7 +133,8 @@ export const ManageTeams = ({ navigation }: { navigation: any }) => {
     groupName: string;
   }
 
-  const [teamsList, setTeamsList] = useState<Team[]>([]);
+  const { teamsList, setTeamsList } = useContext(AppContext);
+  const [modalIsVisible, setIsVisible] = useState(false);
 
   // Retrieving all drills from the database
   function getTeamsFromDatabase() {
@@ -61,6 +162,21 @@ export const ManageTeams = ({ navigation }: { navigation: any }) => {
       });
   }
 
+  function addTeamToFirebase(clubName: string, groupName: string) {
+    const currentUser = firebase.auth().currentUser;
+
+    db.collection('users')
+      .doc(currentUser?.uid)
+      .collection('teams')
+      .add({
+        club: clubName,
+        group: groupName,
+      })
+      .then(() => {
+        getTeamsFromDatabase();
+      });
+  }
+
   // Making sure it only retrieves the drills once
   useEffect(() => {
     getTeamsFromDatabase();
@@ -68,9 +184,12 @@ export const ManageTeams = ({ navigation }: { navigation: any }) => {
 
   return (
     <View style={styles.rootContainer}>
+      <Modal visible={modalIsVisible} transparent>
+        <AddTeamModal setIsVisible={setIsVisible} />
+      </Modal>
       <FlatList
         data={teamsList}
-        style={{marginVertical: 10}}
+        style={{ marginVertical: 10 }}
         keyExtractor={(item, index) => index.toString()}
         numColumns={2}
         renderItem={({ item, index }) => {
@@ -132,7 +251,7 @@ export const ManageTeams = ({ navigation }: { navigation: any }) => {
           right: 20,
           backgroundColor: '#f4f4f4',
         }}
-        onPress={() => navigation.navigate('PracticeCreator')}
+        onPress={() => setIsVisible(true)}
       />
     </View>
   );

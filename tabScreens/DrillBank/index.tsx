@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { db } from '../../DatabaseRequest';
 import * as firebase from 'firebase';
-import { DrillsContext } from '../../Context';
+import { AppContext } from '../../Context';
 import { RatingModal } from '../../customComponents/RatingModal';
 import { styles } from './styles';
 import { SearchBar } from 'react-native-elements';
@@ -105,7 +105,7 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
     );
   };
 
-  const { practiceDrills, setDrills, addDrill } = useContext(DrillsContext);
+  const { practiceDrills, setDrills, addDrill } = useContext(AppContext);
 
   const [modalIsVisible, setIsVisible] = useState(false);
   const [ratedDrill, setRatedDrill] = useState('');

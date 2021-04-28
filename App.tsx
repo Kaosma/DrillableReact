@@ -10,7 +10,7 @@ import { CreatePractice } from './navigationScreens/CreatePractice';
 import { ViewDrill } from './navigationScreens/ViewDrill';
 import { AutoGenerator } from './navigationScreens/AutoGenerator';
 import { PracticeSettings } from './navigationScreens/PracticeSettings';
-import { DrillsContext } from './Context';
+import { AppContext } from './Context';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -67,7 +67,7 @@ export const TabsComponent = ({ navigation }: { navigation: any }) => {
 
 export default function App({ navigation }: { navigation: any }) {
   const [practiceDrills, setDrills] = useState<Drill[]>([]);
-
+  const [teamsList, setTeamsList] = useState<Team[]>([]);
   // Adding a drill to the practice
   const addDrill = (drill: Drill) => {
     const drillsList = [...practiceDrills];
@@ -86,6 +86,7 @@ export default function App({ navigation }: { navigation: any }) {
   const resetDrills = () => {
     setDrills([]);
   };
+
   // Drill class interface
   interface Drill {
     title: string;
@@ -100,16 +101,24 @@ export default function App({ navigation }: { navigation: any }) {
     numberOfRatings: number;
   }
 
+  // Team class interface
+  interface Team {
+    clubName: string;
+    groupName: string;
+  }
+
   // Returning the navigation screens (including the tab navigator) in a stack navigator
   return (
     <NavigationContainer>
-      <DrillsContext.Provider
+      <AppContext.Provider
         value={{
           practiceDrills,
           setDrills,
           addDrill,
           removeDrill,
           resetDrills,
+          teamsList,
+          setTeamsList,
         }}
       >
         <Stack.Navigator
@@ -177,7 +186,7 @@ export default function App({ navigation }: { navigation: any }) {
           />
         </Stack.Navigator>
         <StatusBar style="auto" />
-      </DrillsContext.Provider>
+      </AppContext.Provider>
     </NavigationContainer>
   );
 }

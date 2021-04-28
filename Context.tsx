@@ -1,2 +1,2 @@
-import React, { createContext, useState } from 'react';
-export const DrillsContext = createContext();
+import { createContext } from 'react';
+export const AppContext = createContext();

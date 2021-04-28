@@ -1,12 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
-import { TabsComponent } from '../../App';
+// import DropDownPicker from 'react-native-dropdown-picker';
+import { Picker } from '@react-native-picker/picker';
+import RNPicker from 'rn-modal-picker';
 import { EquipmentText } from '../../customComponents/EquipmentText';
 import * as firebase from 'firebase';
 import { db } from '../../DatabaseRequest';
 import Slider from '@react-native-community/slider';
 import { styles } from './styles';
+import { AppContext } from '../../Context';
 
 export const PracticeSettings = ({
   route,
@@ -36,8 +39,17 @@ export const PracticeSettings = ({
       });
   }
 
-  const [players, setPlayers] = useState(0);
+  // Team class interface
+  interface Team {
+    clubName: string;
+    groupName: string;
+  }
 
+  const { teamsList } = useContext(AppContext);
+  const [players, setPlayers] = useState(0);
+  const [chosenTeam, setChosenTeam] = useState(
+    teamsList[0].clubName + ' ' + teamsList[0].groupName
+  );
   let practiceLength: number = 0;
   let numberOfDrills: number = 0;
   let drills = route.params.practiceDrills;
@@ -83,6 +95,28 @@ export const PracticeSettings = ({
           <EquipmentText index={3} equipmentValue={combinedEquipment[3]} />
           <EquipmentText index={4} equipmentValue={combinedEquipment[4]} />
         </View>
+        {/* <DropDownPicker
+          items={[
+            teamsList.map((team: Team) => {
+              value: 'team.clubName';
+              label: 'team.groupName';
+            }),
+          ]}
+          defaultValue={teamsList[0]}
+          dropDownStyle={{ backgroundColor: '#fafafa' }}
+        /> */}
+        <Picker
+          style={{backgroundColor:'#f4f4f4', width:200}}
+          selectedValue={chosenTeam}
+          onValueChange={(teamInstance) => setChosenTeam(teamInstance)}
+        >
+          {teamsList.map((team: Team) => {
+            <Picker.Item
+              label={team.clubName + ' ' + team.groupName}
+              value="då"
+            />;
+          })}
+        </Picker>
       </View>
       <TouchableOpacity
         style={styles.doneButton}

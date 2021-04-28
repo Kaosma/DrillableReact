@@ -6,7 +6,7 @@ import { EquipmentText } from '../../customComponents/EquipmentText';
 import * as firebase from 'firebase';
 import { db } from '../../DatabaseRequest';
 import Slider from '@react-native-community/slider';
-import { DrillsContext } from '../../Context';
+import { AppContext } from '../../Context';
 import { styles } from './styles';
 
 export const AutoGenerator = ({
@@ -47,7 +47,7 @@ export const AutoGenerator = ({
     addDrill,
     removeDrill,
     resetDrills,
-  } = useContext(DrillsContext);
+  } = useContext(AppContext);
 
   let textCategories = [
     'Ballhandling',
