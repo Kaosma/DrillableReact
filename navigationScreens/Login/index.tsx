@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import * as firebase from 'firebase';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -20,7 +20,7 @@ export const Login = (
       .auth()
       .signInWithEmailAndPassword(userEmail, userPassword)
       .then(() => {
-        navigation.navigate('Tabs');
+        navigation.navigate('DrillBank');
       })
       .catch((error) => {
         if (error.code === 'auth/email-already-in-use') {

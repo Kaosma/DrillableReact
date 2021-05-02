@@ -1,25 +1,108 @@
+// import { SafeAreaView } from 'react-native';
+// import { ManageTeams } from './tabScreens/ManageTeams';
+// import { ClipBoard } from './tabScreens/ClipBoard';
+// import { CreatePractice } from './navigationScreens/CreatePractice';
+// import { AutoGenerator } from './navigationScreens/AutoGenerator';
+// import { PracticeSettings } from './navigationScreens/PracticeSettings';
+// import { AppContext } from './Context';
+// import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { SafeAreaView } from 'react-native';
 import { Login } from './navigationScreens/Login';
 import { SignUp } from './navigationScreens/SignUp';
-import { ManageTeams } from './tabScreens/ManageTeams';
-import { ClipBoard } from './tabScreens/ClipBoard';
-import { DrillBank } from './tabScreens/DrillBank';
-import { CreatePractice } from './navigationScreens/CreatePractice';
+import { DrillBank } from './navigationScreens/DrillBank';
 import { ViewDrill } from './navigationScreens/ViewDrill';
-import { AutoGenerator } from './navigationScreens/AutoGenerator';
-import { PracticeSettings } from './navigationScreens/PracticeSettings';
-import { AppContext } from './Context';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { ViewVideo } from './navigationScreens/ViewVideo';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Icon, InlineIcon } from '@iconify/react';
-//import basketballIcon from '@iconify-icons/carbon/basketball';
-//import clipboardEditOutline from '@iconify-icons/mdi/clipboard-edit-outline';
-//import peopleTeam16Filled from '@iconify-icons/fluent/people-team-16-filled';
-//import coneIcon from '@iconify-icons/bi/cone';
+import { Image } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
+const Stack = createStackNavigator();
+
+export default function App({ navigation }: { navigation: any }) {
+  const [practiceDrills, setDrills] = useState<Drill[]>([]);
+
+  // Drill class interface
+  interface Drill {
+    title: string;
+    id: string;
+    duration: number;
+    numberOfPlayers: number;
+    recommendedNumber: number;
+    imageUrl: string;
+    description: string;
+    category: string;
+    level: number;
+    numberOfRatings: number;
+  }
+
+  // Returning the navigation screens (including the tab navigator) in a stack navigator
+  return (
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          headerTintColor: '#f4f4f4',
+          headerStyle: {
+            backgroundColor: '#ff7315',
+          },
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}
+      >
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="SignUp"
+          component={SignUp}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="DrillBank"
+          component={DrillBank}
+          options={({ route }) => ({
+            title: '',
+            headerLeft: () => null,
+            headerRight: () => (
+              <TouchableOpacity
+                onPress={() => console.log('FILTER')}
+                style={{padding: 15}}
+              >
+                <Image
+                  source={require('./assets/settings.png')}
+                  style={{ height: 25, width: 25, tintColor: '#f4f4f4' }}
+                />
+              </TouchableOpacity>
+            ),
+          })}
+        />
+        <Stack.Screen
+          name="ViewDrill"
+          component={ViewDrill}
+          options={({ route }) => ({
+            title: '',
+            headerBackTitle: 'Back',
+          })}
+        />
+        <Stack.Screen
+          name="ViewVideo"
+          component={ViewVideo}
+          options={({ route }) => ({
+            title: '',
+            headerBackTitle: 'Back',
+          })}
+        />
+      </Stack.Navigator>
+      <StatusBar style="auto" />
+    </NavigationContainer>
+  );
+}
+
+/*
 // Creating the stack and tab navigator
 const Stack = createStackNavigator();
 const Tab = createMaterialTopTabNavigator();
@@ -38,28 +121,13 @@ export const TabsComponent = ({ navigation }: { navigation: any }) => {
       >
         <Tab.Screen
           name="Drill bank"
-          component={
-            DrillBank
-          } /*options={{ tabBarIcon: ({ focused, color}) => {
-                  return <Icon icon={coneIcon} height="25" width="25"style={{color: '#f4f4f4'}} />;  // <---- android
-                }}}*/
+          component={DrillBank}
+          //options={{ tabBarIcon: ({ focused, color}) => {
+          //         return <Icon icon={coneIcon} height="25" width="25"style={{color: '#f4f4f4'}} />;  // <---- android
+          //       }}}
         />
-        <Tab.Screen
-          name="Manage Teams"
-          component={
-            ManageTeams
-          } /*options={{ tabBarIcon: ({ focused, color}) => {
-                  return <Icon icon={peopleTeam16Filled} height="25" width="25"style={{color: '#f4f4f4'}} />;  // <---- android
-                }}}*/
-        />
-        <Tab.Screen
-          name="Clip Board"
-          component={
-            ClipBoard
-          } /*options={{ tabBarIcon: ({ focused, color}) => {
-                  return <Icon icon={clipboardEditOutline} height="25" width="25"style={{color: '#f4f4f4'}} />;  // <---- android
-                }}}*/
-        />
+        <Tab.Screen name="Manage Teams" component={ManageTeams} />
+        <Tab.Screen name="Clip Board" component={ClipBoard} />
       </Tab.Navigator>
     </SafeAreaView>
   );
@@ -189,4 +257,4 @@ export default function App({ navigation }: { navigation: any }) {
       </AppContext.Provider>
     </NavigationContainer>
   );
-}
+}*/

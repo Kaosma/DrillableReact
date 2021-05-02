@@ -1,11 +1,18 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { Text, View, Image } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { EquipmentText } from '../../customComponents/EquipmentText';
 import { styles } from './styles';
 
 // Returning a screen to view info of a single drill
-export const ViewDrill = ({ route }: { route: any }) => {
+export const ViewDrill = ({
+  navigation,
+  route,
+}: {
+  navigation: any;
+  route: any;
+}) => {
   function calculateDrillRating(ratings: number[]) {
     if (ratings !== undefined) {
       let ratingSum = 0;
@@ -71,12 +78,17 @@ export const ViewDrill = ({ route }: { route: any }) => {
             </View>
           </View>
 
-          <View style={styles.imageContainer}>
+          <TouchableOpacity
+            style={styles.imageContainer}
+            onPress={() => {
+              navigation.navigate('ViewVideo');
+            }}
+          >
             <Image
               style={styles.drillImage}
               source={{ uri: route.params.imageUrl }}
             />
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
       <StatusBar style="auto" />

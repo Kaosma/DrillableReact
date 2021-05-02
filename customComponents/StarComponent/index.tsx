@@ -12,8 +12,8 @@ export const Star = ({ filled }: { filled: boolean }) => {
       <Image
         source={
           filled === true
-            ? require('../../assets/icons8-star-filled-96.png')
-            : require('../../assets/icons8-star-96.png')
+            ? require('../../assets/star_filled.png')
+            : require('../../assets/star_unfilled.png')
         }
         style={{ height: 35, width: 35, tintColor: '#ff7315' }}
       />

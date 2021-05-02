@@ -25,7 +25,7 @@ export const EquipmentText = ({
       return (
         <View style={styles.equipmentItem}>
           <Image
-            source={require('../../assets/basketball-icon.png')}
+            source={require('../../assets/basketball_icon.png')}
             style={{
               height: 35,
               width: 35,
@@ -42,7 +42,7 @@ export const EquipmentText = ({
       return (
         <View style={styles.equipmentItem}>
           <Image
-            source={require('../../assets/basketball-hoop.png')}
+            source={require('../../assets/basketball_hoop.png')}
             style={{
               height: 35,
               width: 35,
@@ -59,7 +59,7 @@ export const EquipmentText = ({
       return (
         <View style={styles.equipmentItem}>
           <Image
-            source={require('../../assets/icon-cone.png')}
+            source={require('../../assets/cone.png')}
             style={{
               height: 30,
               width: 30,
@@ -76,7 +76,7 @@ export const EquipmentText = ({
       return (
         <View style={styles.equipmentItem}>
           <Image
-            source={require('../../assets/icons8-tennis-ball-90.png')}
+            source={require('../../assets/tennisball.png')}
             style={{
               height: 25,
               width: 25,
@@ -93,7 +93,7 @@ export const EquipmentText = ({
       return (
         <View style={styles.equipmentItem}>
           <Image
-            source={require('../../assets/icons8-brick-wall-100.png')}
+            source={require('../../assets/brick_wall.png')}
             style={{
               height: 35,
               width: 35,
@@ -109,7 +109,7 @@ export const EquipmentText = ({
     default:
       return (
         <Image
-          source={require('../../assets/favicon.png')}
+          source={require('../../assets/eye.png')}
           style={{
             height: 35,
             width: 35,
