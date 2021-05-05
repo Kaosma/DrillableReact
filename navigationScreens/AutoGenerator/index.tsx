@@ -24,6 +24,7 @@
 //     duration: number;
 //     numberOfPlayers: number;
 //     imageUrl: string;
+//     videoUrl: string;
 //     category: string;
 //     level: number;
 //     ratings: number[];

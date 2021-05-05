@@ -9,7 +9,8 @@ export const styles = StyleSheet.create({
   },
   equipmentText: {
     color: '#f4f4f4',
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: '500',
+    padding: 2,
   },
 });

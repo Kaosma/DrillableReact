@@ -29,7 +29,7 @@ export const EquipmentText = ({
             style={{
               height: 35,
               width: 35,
-              tintColor: '#f4f4f4',
+              tintColor: '#fc5c14',
               display: equipmentValue === 0 ? 'none' : 'flex',
             }}
           />
@@ -46,7 +46,7 @@ export const EquipmentText = ({
             style={{
               height: 35,
               width: 35,
-              tintColor: '#f4f4f4',
+              tintColor: '#fc5c14',
               display: equipmentValue === 0 ? 'none' : 'flex',
             }}
           />
@@ -63,7 +63,7 @@ export const EquipmentText = ({
             style={{
               height: 30,
               width: 30,
-              tintColor: '#f4f4f4',
+              tintColor: '#fc5c14',
               display: equipmentValue === 0 ? 'none' : 'flex',
             }}
           />
@@ -80,7 +80,7 @@ export const EquipmentText = ({
             style={{
               height: 25,
               width: 25,
-              tintColor: '#f4f4f4',
+              tintColor: '#fc5c14',
               display: equipmentValue === 0 ? 'none' : 'flex',
             }}
           />
@@ -97,7 +97,7 @@ export const EquipmentText = ({
             style={{
               height: 35,
               width: 35,
-              tintColor: '#f4f4f4',
+              tintColor: '#fc5c14',
               display: equipmentValue === 0 ? 'none' : 'flex',
             }}
           />
@@ -113,7 +113,7 @@ export const EquipmentText = ({
           style={{
             height: 35,
             width: 35,
-            tintColor: '#f4f4f4',
+            tintColor: '#fc5c14',
             display: equipmentValue === 0 ? 'none' : 'flex',
           }}
         />

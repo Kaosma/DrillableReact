@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View } from 'react-native';
 //import Video from 'react-native-video';
 import { styles } from './styles';
 import { Video, AVPlaybackStatus } from 'expo-av';
@@ -14,7 +14,7 @@ export const ViewVideo = ({ route }: { route: any }) => {
   const video = React.useRef(null);
 
   return (
-    <View style={{backgroundColor: 'black', width: '100%', height: '100%'}}>
+    <View style={styles.rootContainer}>
       <Video
         ref={video}
         source={{
@@ -25,6 +25,7 @@ export const ViewVideo = ({ route }: { route: any }) => {
         useNativeControls
         resizeMode="contain"
         isLooping
+        //onPlaybackStatusUpdate={(stat) => setStatus(() => stat)}
       />
       <StatusBar style="auto" />
     </View>

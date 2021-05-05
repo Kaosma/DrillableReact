@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { windowWidth } from '../../Dimensions';
 
 export const styles = StyleSheet.create({
   backgroundView: {
@@ -20,7 +21,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   titleContainer: {
-    width: '91%',
+    width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -31,43 +32,94 @@ export const styles = StyleSheet.create({
     fontSize: 25,
     flexWrap: 'wrap',
     flex: 1,
-    textAlign: 'center',
+    paddingLeft: 15,
+    paddingRight: 15,
   },
   ratingText: {
     color: '#f4f4f4',
     fontSize: 20,
+  },
+  ratingStar: {
+    color: '#fc5c14',
+    fontSize: 20,
+    paddingRight: 15,
   },
   opacityText: {
     fontSize: 20,
     opacity: 0,
   },
   detailedInfoContainer: {
-    marginTop: 20,
-    width: '90%',
+    marginTop: 15,
+    width: '100%',
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'space-between',
   },
-  bottomInfoContainer: {
-    marginTop: 20,
-    justifyContent: 'center',
+  categories: {
+    alignItems: 'flex-start',
   },
-  equipmentContainer: {
-    display: 'flex',
+  containerInfo: {
+    alignItems: 'flex-start',
+  },
+  separatorContainer: {
+    paddingRight: 10,
+  },
+  categoriesInfo: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    alignItems: 'center',
   },
-  infoText: {
+  bottomInfoContainer: {
+    width: '100%',
+  },
+  categoriesText: {
     color: '#f4f4f4',
     fontSize: 20,
     textAlign: 'center',
+    paddingLeft: 15,
+    paddingTop: 5,
+    paddingBottom: 5,
+  },
+  separatorText: {
+    color: '#f4f4f4',
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    paddingTop: 5,
+    paddingBottom: 5,
+  },
+  categoriesInfoText: {
+    color: '#fc5c14',
+    fontSize: 20,
+    textAlign: 'center',
+    paddingRight: 15,
+    paddingTop: 5,
+    paddingBottom: 5,
+  },
+  equipmentContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  equipmentInfoText: {
+    color: '#f4f4f4',
+    fontSize: 23,
+    paddingLeft: 15,
+    paddingTop: 20,
   },
   imageContainer: {
     marginTop: 20,
-    marginBottom: 10,
+    marginBottom: 15,
   },
   drillImage: {
-    width: 200,
+    width: windowWidth * 0.95 - 30,
     height: 200,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  iconOverlay: {
+    width: 100,
+    height: 100,
+    tintColor: '#f4f4f4',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

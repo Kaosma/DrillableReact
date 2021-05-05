@@ -21,21 +21,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 const Stack = createStackNavigator();
 
 export default function App({ navigation }: { navigation: any }) {
-  const [practiceDrills, setDrills] = useState<Drill[]>([]);
-
-  // Drill class interface
-  interface Drill {
-    title: string;
-    id: string;
-    duration: number;
-    numberOfPlayers: number;
-    recommendedNumber: number;
-    imageUrl: string;
-    description: string;
-    category: string;
-    level: number;
-    numberOfRatings: number;
-  }
+  //const [practiceDrills, setDrills] = useState<Drill[]>([]);
 
   // Returning the navigation screens (including the tab navigator) in a stack navigator
   return (

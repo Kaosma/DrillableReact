@@ -16,20 +16,9 @@ import { RatingModal } from '../../customComponents/RatingModal';
 import { styles } from './styles';
 import { SearchBar } from 'react-native-elements';
 import { FAB } from 'react-native-paper';
+import { Drill } from './Classes';
 
 export const DrillBank = ({ navigation }: { navigation: any }) => {
-  // Drill class interface
-  interface Drill {
-    title: string;
-    id: string;
-    duration: number;
-    numberOfPlayers: number;
-    imageUrl: string;
-    category: string;
-    level: number;
-    ratings: number[];
-    equipment: number[];
-  }
 
   // Using the rating modal component when a rating a drill
   const RateModal = ({ setIsVisible }) => {
@@ -125,6 +114,7 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
           const drillNumberOfPlayers: number = data.numberOfPlayers;
           const drillId: string = doc.id;
           const drillImage: string = data.imageUrl;
+          const drillVideo: string = data.videoUrl;
           const drillCategory: string = data.category;
           const drillLevel: number = data.level;
           const drillRatings: number[] = [];
@@ -144,6 +134,7 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
                 duration: drillLength,
                 numberOfPlayers: drillNumberOfPlayers,
                 imageUrl: drillImage,
+                videoUrl: drillVideo,
                 category: drillCategory,
                 level: drillLevel,
                 ratings: drillRatings,
