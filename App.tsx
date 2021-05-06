@@ -4,7 +4,7 @@ import { Image, SafeAreaView } from 'react-native';
 // import { CreatePractice } from './navigationScreens/CreatePractice';
 // import { AutoGenerator } from './navigationScreens/AutoGenerator';
 // import { PracticeSettings } from './navigationScreens/PracticeSettings';
-// import { AppContext } from './Context';
+import { AppContext } from './Context';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
@@ -17,7 +17,9 @@ import { ViewDrill } from './navigationScreens/ViewDrill';
 import { ViewVideo } from './navigationScreens/ViewVideo';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Icon } from 'react-native-elements';
+import { Drill } from './Classes';
+import { db } from './DatabaseRequest';
+import * as firebase from 'firebase';
 
 const Stack = createStackNavigator();
 const Tab = createMaterialTopTabNavigator();
@@ -54,7 +56,7 @@ export const TabsComponent = ({ navigation }: { navigation: any }) => {
           }}
         />
         <Tab.Screen
-          name="Saved Drills"
+          name="Manage Drills"
           component={ManageDrills}
           options={{
             tabBarIcon: ({ focused, color }) => {
@@ -97,55 +99,116 @@ export const TabsComponent = ({ navigation }: { navigation: any }) => {
 };
 
 export default function App({ navigation }: { navigation: any }) {
-  //const [practiceDrills, setDrills] = useState<Drill[]>([]);
+  const [savedDrills, setSavedDrills] = useState<Drill[]>([]);
 
+  // Retrieving all drills from the database
+  function getAddedDrillsFromDatabase() {
+    let retrievedDrills: Drill[] = [];
+    const currentUser = firebase.auth().currentUser;
+    db.collection('users')
+      .doc(currentUser?.uid)
+      .get()
+      .then((querySnapshot: any) => {
+        querySnapshot.forEach((doc: any) => {
+          db.collection('drills')
+            .get(doc.id)
+            .then((drillSnapshot: any) => {
+              const data = drillSnapshot.data();
+              const drillName: string = data.name;
+              const drillLength: number = data.length;
+              const drillNumberOfPlayers: number = data.numberOfPlayers;
+              const drillId: string = doc.id;
+              const drillImage: string = data.imageUrl;
+              const drillVideo: string = data.videoUrl;
+              const drillCategory: string = data.category;
+              const drillLevel: number = data.level;
+              const drillRatings: number[] = [];
+              const drillEquipment: number[] = data.equipment;
+
+              db.collection('drills')
+                .doc(doc.id)
+                .collection('ratings')
+                .get()
+                .then((snapShot) => {
+                  snapShot.forEach((ratingDoc) => {
+                    drillRatings.push(ratingDoc.data().rating);
+                  });
+                  savedDrills.push({
+                    title: drillName,
+                    id: drillId,
+                    duration: drillLength,
+                    numberOfPlayers: drillNumberOfPlayers,
+                    imageUrl: drillImage,
+                    videoUrl: drillVideo,
+                    category: drillCategory,
+                    level: drillLevel,
+                    ratings: drillRatings,
+                    equipment: drillEquipment,
+                  });
+                  setSavedDrills(retrievedDrills);
+                });
+            });
+        });
+      })
+      .catch(function (error) {
+        console.log('Error getting documents: ', error);
+      });
+  }
   // Returning the navigation screens (including the tab navigator) in a stack navigator
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerTintColor: '#f4f4f4',
-          headerStyle: {
-            backgroundColor: '#ff7315',
-          },
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
+      <AppContext.Provider
+        value={{
+          savedDrills,
+          setSavedDrills,
+          getAddedDrillsFromDatabase,
         }}
       >
-        <Stack.Screen
-          name="Login"
-          component={Login}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="SignUp"
-          component={SignUp}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Tabs"
-          component={TabsComponent}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="ViewDrill"
-          component={ViewDrill}
-          options={({ route }) => ({
-            title: '',
-            headerBackTitle: 'Back',
-          })}
-        />
-        <Stack.Screen
-          name="ViewVideo"
-          component={ViewVideo}
-          options={({ route }) => ({
-            title: '',
-            headerBackTitle: 'Back',
-          })}
-        />
-      </Stack.Navigator>
-      <StatusBar style="auto" />
+        <Stack.Navigator
+          screenOptions={{
+            headerTintColor: '#f4f4f4',
+            headerStyle: {
+              backgroundColor: '#ff7315',
+            },
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        >
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="SignUp"
+            component={SignUp}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Tabs"
+            component={TabsComponent}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="ViewDrill"
+            component={ViewDrill}
+            options={({ route }) => ({
+              title: '',
+              headerBackTitle: 'Back',
+            })}
+          />
+          <Stack.Screen
+            name="ViewVideo"
+            component={ViewVideo}
+            options={({ route }) => ({
+              title: '',
+              headerBackTitle: 'Back',
+            })}
+          />
+        </Stack.Navigator>
+        <StatusBar style="auto" />
+      </AppContext.Provider>
     </NavigationContainer>
   );
 }

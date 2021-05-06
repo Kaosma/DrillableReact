@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Text,
   View,
@@ -17,6 +17,8 @@ import { styles } from './styles';
 import { SearchBar } from 'react-native-elements';
 import { FAB } from 'react-native-paper';
 import { Drill } from '../../Classes';
+import { AppContext } from '../../Context';
+import { ManageDrills } from '../ManageDrills';
 
 export const DrillBank = ({ navigation }: { navigation: any }) => {
   // Using the rating modal component when a rating a drill
@@ -92,6 +94,7 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
     );
   };
 
+  const { getAddedDrillsFromDatabase, savedDrills } = useContext(AppContext);
   const [modalIsVisible, setIsVisible] = useState(false);
   const [ratedDrill, setRatedDrill] = useState('');
   const [rating, setRating] = useState(0);
@@ -185,6 +188,20 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
     return 0;
   }
 
+  function addDrillToSavedDrills(drill: Drill) {
+    const currentUser = firebase.auth().currentUser;
+    db.collection('users')
+      .doc(currentUser?.uid)
+      .collection('savedDrills')
+      .doc(drill.id)
+      .set({
+        name: drill.title,
+      })
+      .then(() => {
+        getAddedDrillsFromDatabase();
+        navigation.navigate('Tabs', { screen: 'Manage Drills' });
+      });
+  }
   const searchFilterFunction = (text: string) => {
     // Check if searched text is not blank
     if (text) {
@@ -286,15 +303,14 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
                     <TouchableOpacity
                       style={styles.drillStandardButton}
                       onPress={() => {
-                        // if (
-                        //   !practiceDrills.some(
-                        //     (instance: { id: string }) =>
-                        //       item.id === instance.id
-                        //   )
-                        // ) {
-                        //   navigation.navigate('PracticeCreator');
-                        //   addDrill(item);
-                        // }
+                        if (
+                          !savedDrills.some(
+                            (instance: { id: string }) =>
+                              item.id === instance.id
+                          )
+                        ) {
+                          addDrillToSavedDrills(item);
+                        }
                       }}
                     >
                       <Text style={styles.drillStandardButtonText}>ADD</Text>
