@@ -4,11 +4,10 @@ export interface Drill {
   id: string;
   duration: number;
   numberOfPlayers: number;
-  recommendedNumber: number;
   imageUrl: string;
   videoUrl: string;
-  description: string;
   category: string;
   level: number;
-  numberOfRatings: number;
+  ratings: number[];
+  equipment: number[];
 }

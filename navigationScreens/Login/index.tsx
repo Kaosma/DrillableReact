@@ -20,7 +20,7 @@ export const Login = (
       .auth()
       .signInWithEmailAndPassword(userEmail, userPassword)
       .then(() => {
-        navigation.navigate('DrillBank');
+        navigation.navigate('Tabs');
       })
       .catch((error) => {
         if (error.code === 'auth/email-already-in-use') {

@@ -1,24 +1,100 @@
-// import { SafeAreaView } from 'react-native';
+import { Image, SafeAreaView } from 'react-native';
 // import { ManageTeams } from './tabScreens/ManageTeams';
 // import { ClipBoard } from './tabScreens/ClipBoard';
 // import { CreatePractice } from './navigationScreens/CreatePractice';
 // import { AutoGenerator } from './navigationScreens/AutoGenerator';
 // import { PracticeSettings } from './navigationScreens/PracticeSettings';
 // import { AppContext } from './Context';
-// import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { Login } from './navigationScreens/Login';
 import { SignUp } from './navigationScreens/SignUp';
-import { DrillBank } from './navigationScreens/DrillBank';
+import { DrillBank } from './tabScreens/DrillBank';
+import { ManageDrills } from './tabScreens/ManageDrills';
+import { Settings } from './tabScreens/Settings';
 import { ViewDrill } from './navigationScreens/ViewDrill';
 import { ViewVideo } from './navigationScreens/ViewVideo';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Image } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Icon } from 'react-native-elements';
 
 const Stack = createStackNavigator();
+const Tab = createMaterialTopTabNavigator();
+
+// Returning the tabScreens in a tab navigator
+export const TabsComponent = ({ navigation }: { navigation: any }) => {
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <Tab.Navigator
+        tabBarOptions={{
+          showIcon: true,
+          style: { backgroundColor: '#ff7315' },
+          activeTintColor: '#f4f4f4',
+          indicatorStyle: { backgroundColor: '#f4f4f4' },
+        }}
+      >
+        <Tab.Screen
+          name="Drill bank"
+          component={DrillBank}
+          options={{
+            tabBarIcon: ({ focused, color }) => {
+              return (
+                <Image
+                  source={require('./assets/basketball_icon.png')}
+                  style={{
+                    tintColor: '#f4f4f4',
+                    height: 25,
+                    width: 25,
+                    opacity: focused === true ? 1 : 0.5,
+                  }}
+                />
+              ); // <---- android
+            },
+          }}
+        />
+        <Tab.Screen
+          name="Saved Drills"
+          component={ManageDrills}
+          options={{
+            tabBarIcon: ({ focused, color }) => {
+              return (
+                <Image
+                  source={require('./assets/star_filled.png')}
+                  style={{
+                    tintColor: '#f4f4f4',
+                    height: 25,
+                    width: 25,
+                    opacity: focused === true ? 1 : 0.5,
+                  }}
+                />
+              ); // <---- android
+            },
+          }}
+        />
+        <Tab.Screen
+          name="Settings"
+          component={Settings}
+          options={{
+            tabBarIcon: ({ focused, color }) => {
+              return (
+                <Image
+                  source={require('./assets/settings.png')}
+                  style={{
+                    tintColor: '#f4f4f4',
+                    height: 25,
+                    width: 25,
+                    opacity: focused === true ? 1 : 0.5,
+                  }}
+                />
+              ); // <---- android
+            },
+          }}
+        />
+      </Tab.Navigator>
+    </SafeAreaView>
+  );
+};
 
 export default function App({ navigation }: { navigation: any }) {
   //const [practiceDrills, setDrills] = useState<Drill[]>([]);
@@ -48,23 +124,9 @@ export default function App({ navigation }: { navigation: any }) {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="DrillBank"
-          component={DrillBank}
-          options={({ route }) => ({
-            title: '',
-            headerLeft: () => null,
-            headerRight: () => (
-              <TouchableOpacity
-                onPress={() => console.log('FILTER')}
-                style={{padding: 15}}
-              >
-                <Image
-                  source={require('./assets/settings.png')}
-                  style={{ height: 25, width: 25, tintColor: '#f4f4f4' }}
-                />
-              </TouchableOpacity>
-            ),
-          })}
+          name="Tabs"
+          component={TabsComponent}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="ViewDrill"

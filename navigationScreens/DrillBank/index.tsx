@@ -16,7 +16,7 @@ import { RatingModal } from '../../customComponents/RatingModal';
 import { styles } from './styles';
 import { SearchBar } from 'react-native-elements';
 import { FAB } from 'react-native-paper';
-import { Drill } from './Classes';
+import { Drill } from '../../Classes';
 
 export const DrillBank = ({ navigation }: { navigation: any }) => {
 

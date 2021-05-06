@@ -22,6 +22,9 @@ export const EquipmentText = ({
 
   switch (index) {
     case 0:
+      if (equipmentValue === 0) {
+        return null;
+      }
       return (
         <View style={styles.equipmentItem}>
           <Image
@@ -30,7 +33,6 @@ export const EquipmentText = ({
               height: 35,
               width: 35,
               tintColor: '#fc5c14',
-              display: equipmentValue === 0 ? 'none' : 'flex',
             }}
           />
           <Text style={styles.equipmentText}>
@@ -39,6 +41,9 @@ export const EquipmentText = ({
         </View>
       );
     case 1:
+      if (equipmentValue === 0) {
+        return null;
+      }
       return (
         <View style={styles.equipmentItem}>
           <Image
@@ -47,7 +52,6 @@ export const EquipmentText = ({
               height: 35,
               width: 35,
               tintColor: '#fc5c14',
-              display: equipmentValue === 0 ? 'none' : 'flex',
             }}
           />
           <Text style={styles.equipmentText}>
@@ -56,6 +60,9 @@ export const EquipmentText = ({
         </View>
       );
     case 2:
+      if (equipmentValue === 0) {
+        return null;
+      }
       return (
         <View style={styles.equipmentItem}>
           <Image
@@ -64,7 +71,6 @@ export const EquipmentText = ({
               height: 30,
               width: 30,
               tintColor: '#fc5c14',
-              display: equipmentValue === 0 ? 'none' : 'flex',
             }}
           />
           <Text style={styles.equipmentText}>
@@ -73,6 +79,9 @@ export const EquipmentText = ({
         </View>
       );
     case 3:
+      if (equipmentValue === 0) {
+        return null;
+      }
       return (
         <View style={styles.equipmentItem}>
           <Image
@@ -81,7 +90,6 @@ export const EquipmentText = ({
               height: 25,
               width: 25,
               tintColor: '#fc5c14',
-              display: equipmentValue === 0 ? 'none' : 'flex',
             }}
           />
           <Text style={styles.equipmentText}>
@@ -90,6 +98,9 @@ export const EquipmentText = ({
         </View>
       );
     case 4:
+      if (equipmentValue === 0) {
+        return null;
+      }
       return (
         <View style={styles.equipmentItem}>
           <Image
@@ -98,7 +109,6 @@ export const EquipmentText = ({
               height: 35,
               width: 35,
               tintColor: '#fc5c14',
-              display: equipmentValue === 0 ? 'none' : 'flex',
             }}
           />
           <Text style={styles.equipmentText}>
@@ -107,16 +117,6 @@ export const EquipmentText = ({
         </View>
       );
     default:
-      return (
-        <Image
-          source={require('../../assets/eye.png')}
-          style={{
-            height: 35,
-            width: 35,
-            tintColor: '#fc5c14',
-            display: equipmentValue === 0 ? 'none' : 'flex',
-          }}
-        />
-      );
+      return null;
   }
 };
