@@ -11,7 +11,7 @@ import React, { useState } from 'react';
 import { Login } from './navigationScreens/Login';
 import { SignUp } from './navigationScreens/SignUp';
 import { DrillBank } from './tabScreens/DrillBank';
-import { ManageDrills } from './tabScreens/ManageDrills';
+import { SavedDrills } from './tabScreens/SavedDrills';
 import { Settings } from './tabScreens/Settings';
 import { ViewDrill } from './navigationScreens/ViewDrill';
 import { ViewVideo } from './navigationScreens/ViewVideo';
@@ -40,7 +40,7 @@ export const TabsComponent = ({ navigation }: { navigation: any }) => {
           name="Drill bank"
           component={DrillBank}
           options={{
-            tabBarIcon: ({ focused, color }) => {
+            tabBarIcon: ({ focused }) => {
               return (
                 <Image
                   source={require('./assets/basketball_icon.png')}
@@ -56,10 +56,10 @@ export const TabsComponent = ({ navigation }: { navigation: any }) => {
           }}
         />
         <Tab.Screen
-          name="Manage Drills"
-          component={ManageDrills}
+          name="Saved Drills"
+          component={SavedDrills}
           options={{
-            tabBarIcon: ({ focused, color }) => {
+            tabBarIcon: ({ focused }) => {
               return (
                 <Image
                   source={require('./assets/star_filled.png')}
@@ -78,7 +78,7 @@ export const TabsComponent = ({ navigation }: { navigation: any }) => {
           name="Settings"
           component={Settings}
           options={{
-            tabBarIcon: ({ focused, color }) => {
+            tabBarIcon: ({ focused }) => {
               return (
                 <Image
                   source={require('./assets/settings.png')}

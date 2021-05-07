@@ -18,7 +18,6 @@ import { SearchBar } from 'react-native-elements';
 import { FAB } from 'react-native-paper';
 import { Drill } from '../../Classes';
 import { AppContext } from '../../Context';
-import { ManageDrills } from '../ManageDrills';
 
 export const DrillBank = ({ navigation }: { navigation: any }) => {
   // Using the rating modal component when a rating a drill
