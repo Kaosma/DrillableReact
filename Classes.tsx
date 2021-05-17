@@ -11,3 +11,8 @@ export interface Drill {
   ratings: number[];
   equipment: number[];
 }
+
+export interface DrillsSection {
+  title: string;
+  data: Drill[];
+}

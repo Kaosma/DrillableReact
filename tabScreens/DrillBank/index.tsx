@@ -198,7 +198,7 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
       })
       .then(() => {
         getAddedDrillsFromDatabase();
-        navigation.navigate('Tabs', { screen: 'Manage Drills' });
+        navigation.navigate('Tabs', { screen: 'Saved Drills' });
       });
   }
   const searchFilterFunction = (text: string) => {
@@ -318,8 +318,9 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
 
                   <View style={styles.ratingContainer}>
                     <Text style={styles.ratingText}>
-                      {calculateDrillRating(item.ratings)}★
+                      {calculateDrillRating(item.ratings)}
                     </Text>
+                    <Text style={styles.ratingStar}>★</Text>
                   </View>
                 </View>
               </View>

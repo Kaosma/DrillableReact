@@ -71,10 +71,14 @@ export const styles = StyleSheet.create({
   },
   ratingContainer: {
     marginRight: 15,
+    flexDirection: 'row',
   },
   ratingText: {
-    flex: 1,
     color: '#f4f4f4',
+    fontSize: 20,
+  },
+  ratingStar: {
+    color: '#fc5c14',
     fontSize: 20,
   },
 });

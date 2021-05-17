@@ -88,7 +88,7 @@ export const styles = StyleSheet.create({
     paddingBottom: 5,
   },
   categoriesInfoText: {
-    color: '#fc5c14',
+    color: '#ff7315',
     fontSize: 20,
     textAlign: 'center',
     paddingRight: 15,

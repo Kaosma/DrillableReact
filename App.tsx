@@ -12,7 +12,7 @@ import { ViewDrill } from './navigationScreens/ViewDrill';
 import { ViewVideo } from './navigationScreens/ViewVideo';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Drill } from './Classes';
+import { Drill, DrillsSection } from './Classes';
 import { db } from './DatabaseRequest';
 import * as firebase from 'firebase';
 
@@ -57,7 +57,7 @@ export const TabsComponent = ({ navigation }: { navigation: any }) => {
             tabBarIcon: ({ focused }) => {
               return (
                 <Image
-                  source={require('./assets/star_filled.png')}
+                  source={require('./assets/list.png')}
                   style={{
                     tintColor: '#f4f4f4',
                     height: 25,
@@ -94,21 +94,30 @@ export const TabsComponent = ({ navigation }: { navigation: any }) => {
 };
 
 export default function App({ navigation }: { navigation: any }) {
-  const [savedDrills, setSavedDrills] = useState<Drill[]>([]);
+  const [savedDrills, setSavedDrills] = useState<DrillsSection[]>([
+    {
+      "title": 'No saved drills',
+      "data": [],
+    },
+  ]);
 
   // Retrieving all drills from the database
   function getAddedDrillsFromDatabase() {
-    let retrievedDrills: Drill[] = [];
+    let retrieveSavedDrills: DrillsSection[] = [];
     const currentUser = firebase.auth().currentUser;
     db.collection('users')
       .doc(currentUser?.uid)
+      .collection('savedDrills')
       .get()
       .then((querySnapshot: any) => {
-        querySnapshot.forEach((doc: any) => {
-          db.collection('drills')
-            .get(doc.id)
-            .then((drillSnapshot: any) => {
-              const data = drillSnapshot.data();
+        querySnapshot.forEach(async (doc: any) => {
+          const drillRef = db.collection('drills').doc(doc.id);
+          const drillSnapshot = await drillRef.get();
+          if (!drillSnapshot.exists) {
+            console.log('No such document!');
+          } else {
+            const data = drillSnapshot.data();
+            if (data !== undefined) {
               const drillName: string = data.name;
               const drillLength: number = data.length;
               const drillNumberOfPlayers: number = data.numberOfPlayers;
@@ -128,21 +137,53 @@ export default function App({ navigation }: { navigation: any }) {
                   snapShot.forEach((ratingDoc) => {
                     drillRatings.push(ratingDoc.data().rating);
                   });
-                  savedDrills.push({
-                    title: drillName,
-                    id: drillId,
-                    duration: drillLength,
-                    numberOfPlayers: drillNumberOfPlayers,
-                    imageUrl: drillImage,
-                    videoUrl: drillVideo,
-                    category: drillCategory,
-                    level: drillLevel,
-                    ratings: drillRatings,
-                    equipment: drillEquipment,
-                  });
-                  setSavedDrills(retrievedDrills);
+                  const savedCategories = retrieveSavedDrills.map(
+                    (d) => d.title
+                  );
+
+                  if (savedCategories.includes(drillCategory)) {
+                    retrieveSavedDrills.map((d) => {
+                      if (d.title === drillCategory) {
+                        console.log('Exists');
+                        d.data.push({
+                          title: drillName,
+                          id: drillId,
+                          duration: drillLength,
+                          numberOfPlayers: drillNumberOfPlayers,
+                          imageUrl: drillImage,
+                          videoUrl: drillVideo,
+                          category: drillCategory,
+                          level: drillLevel,
+                          ratings: drillRatings,
+                          equipment: drillEquipment,
+                        });
+                        setSavedDrills(retrieveSavedDrills);
+                      }
+                    });
+                  } else {
+                    console.log('New');
+                    retrieveSavedDrills.push({
+                      title: drillCategory,
+                      data: [
+                        {
+                          title: drillName,
+                          id: drillId,
+                          duration: drillLength,
+                          numberOfPlayers: drillNumberOfPlayers,
+                          imageUrl: drillImage,
+                          videoUrl: drillVideo,
+                          category: drillCategory,
+                          level: drillLevel,
+                          ratings: drillRatings,
+                          equipment: drillEquipment,
+                        },
+                      ],
+                    });
+                    setSavedDrills(retrieveSavedDrills);
+                  }
                 });
-            });
+            }
+          }
         });
       })
       .catch(function (error) {
