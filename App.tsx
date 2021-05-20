@@ -2,7 +2,7 @@ import { Image, SafeAreaView } from 'react-native';
 import { AppContext } from './Context';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Login } from './navigationScreens/Login';
 import { SignUp } from './navigationScreens/SignUp';
 import { DrillBank } from './tabScreens/DrillBank';
@@ -96,8 +96,8 @@ export const TabsComponent = ({ navigation }: { navigation: any }) => {
 export default function App({ navigation }: { navigation: any }) {
   const [savedDrills, setSavedDrills] = useState<DrillsSection[]>([
     {
-      "title": 'No saved drills',
-      "data": [],
+      title: 'No saved drills',
+      data: [],
     },
   ]);
 

@@ -8,21 +8,7 @@ import { AppContext } from '../../Context';
 // Returning the saved drills screen
 export const SavedDrills = ({ navigation }: { navigation: any }) => {
   const { getAddedDrillsFromDatabase, savedDrills } = useContext(AppContext);
-  // interface ISettingsData {
-  //   title: string;
-  //   data: SettingsType[];
-  // }
-  // type SettingsType = 'aboutMe' | 'spaceAPI' | 'help' | 'theme';
-  // const settingsData: ISettingsData[] = [
-  //   {
-  //     title: 'About',
-  //     data: ['aboutMe', 'spaceAPI', 'theme'],
-  //   },
-  //   {
-  //     title: 'Feedback and Help',
-  //     data: ['help'],
-  //   },
-  // ];
+
   const renderSectionHeader = ({ section: { title } }) => {
     return <Text>{title}</Text>;
   };

@@ -14,9 +14,6 @@ export const Settings = ({ navigation }: { navigation: any }) => {
   const [confirmInputPassword, setConfirmInputPassword] = useState('');
   const [passwordErrorText, setPasswordErrorText] = useState('');
 
-  function changeLanguage() {
-    console.log('hej');
-  }
   function changePassword() {
     if (inputPassword === confirmInputPassword) {
       currentUser
@@ -25,19 +22,17 @@ export const Settings = ({ navigation }: { navigation: any }) => {
           setInputPassword('');
           setConfirmInputPassword('');
           setShowPasswordInput(false);
-          setPasswordErrorText('Password Successfully Changed!');
+          setPasswordErrorText('');
         })
         .catch((error) => {
-          // if (error.code === 'auth/email-already-in-use') {
-          //   console.log('That email address is already in use!');
-          // }
-
-          // if (error.code === 'auth/invalid-email') {
-          //   console.log('That email address is invalid!');
-          // }
-
-          console.error(error);
+          if (error.code === 'auth/weak-password') {
+            setPasswordErrorText(
+              'Password must be at least 6 characters long!'
+            );
+          }
         });
+    } else {
+      setPasswordErrorText('Both passwords must match!');
     }
   }
   function logoutUser() {
@@ -59,62 +54,74 @@ export const Settings = ({ navigation }: { navigation: any }) => {
   }
   return (
     <View style={styles.rootContainer}>
-      <TouchableOpacity
-        onPress={() => {
-          console.log('Change language');
-        }}
-      >
-        <Text style={styles.settingsButtonText}>Change language</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        onPress={() => {
-          setShowPasswordInput(!showPasswordInput);
-        }}
-      >
-        <Text style={styles.settingsButtonText}>Change password</Text>
-      </TouchableOpacity>
-
-      <View
-        style={{
-          display: showPasswordInput ? 'flex' : 'none',
-          alignItems: 'center',
-        }}
-      >
-        <TextInput
-          value={inputPassword}
-          onChangeText={setInputPassword}
-          style={styles.changePasswordInput}
-        />
-        <TextInput
-          value={confirmInputPassword}
-          onChangeText={setConfirmInputPassword}
-          style={styles.changePasswordInput}
-        />
+      <View style={styles.settingsButtonsContainer}>
         <TouchableOpacity
+          style={styles.primaryButtonContainer}
           onPress={() => {
-            changePassword();
+            setShowPasswordInput(!showPasswordInput);
           }}
         >
-          <Text style={styles.changePasswordButton}>Done</Text>
+          <Text style={styles.primaryButtonText}>Change password</Text>
+        </TouchableOpacity>
+
+        <View
+          style={{
+            display: showPasswordInput ? 'flex' : 'none',
+            alignItems: 'center',
+            paddingBottom: 20,
+          }}
+        >
+          <View style={{justifyContent: 'flex-start',}}>
+            <Text style={styles.inputTitle}>New password</Text>
+            <TextInput
+              secureTextEntry={true}
+              value={inputPassword}
+              onChangeText={(text: string) => {
+                setInputPassword(text);
+                setPasswordErrorText('');
+              }}
+              style={styles.changePasswordInput}
+            />
+            <Text style={styles.inputTitle}>Confirm password</Text>
+            <TextInput
+              secureTextEntry={true}
+              value={confirmInputPassword}
+              onChangeText={(text: string) => {
+                setConfirmInputPassword(text);
+                setPasswordErrorText('');
+              }}
+              style={styles.changePasswordInput}
+            />
+            <Text style={styles.errorText}>{passwordErrorText}</Text>
+          </View>
+          <TouchableOpacity
+            style={styles.changePasswordButton}
+            onPress={() => {
+              changePassword();
+            }}
+          >
+            <Text style={styles.changePasswordButtonText}>DONE</Text>
+          </TouchableOpacity>
+        </View>
+
+        <TouchableOpacity
+          style={styles.primaryButtonContainer}
+          onPress={() => {
+            logoutUser();
+          }}
+        >
+          <Text style={styles.primaryButtonText}>Sign Out</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.secondaryButtonContainer}
+          onPress={() => {
+            deleteUser();
+          }}
+        >
+          <Text style={styles.secondaryButtonText}>Delete account</Text>
         </TouchableOpacity>
       </View>
-
-      <TouchableOpacity
-        onPress={() => {
-          logoutUser();
-        }}
-      >
-        <Text style={styles.settingsButtonText}>Log Out</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        onPress={() => {
-          deleteUser();
-        }}
-      >
-        <Text style={styles.settingsButtonText}>Delete account</Text>
-      </TouchableOpacity>
       <StatusBar style="auto" />
     </View>
   );
