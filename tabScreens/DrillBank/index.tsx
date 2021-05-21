@@ -103,53 +103,51 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
   const [refreshing, setRefreshing] = useState(false);
 
   // Retrieving all drills from the database
-  function getDrillsFromDatabase() {
-    db.collection('drills')
-      .get()
-      .then(function (querySnapshot: any) {
-        let retrievedDrills: Drill[] = [];
-        querySnapshot.forEach(function (doc: any) {
-          const data = doc.data();
-          const drillName: string = data.name;
-          const drillLength: number = data.length;
-          const drillNumberOfPlayers: number = data.numberOfPlayers;
-          const drillId: string = doc.id;
-          const drillImage: string = data.imageUrl;
-          const drillVideo: string = data.videoUrl;
-          const drillCategory: string = data.category;
-          const drillLevel: number = data.level;
-          const drillRatings: number[] = [];
-          const drillEquipment: number[] = data.equipment;
+  async function getDrillsFromDatabase() {
+    try {
+      const querySnapshot = await db.collection('drills').get();
+      let retrievedDrills: Drill[] = [];
+      querySnapshot.forEach(function (doc: any) {
+        const data = doc.data();
+        const drillName: string = data.name;
+        const drillLength: number = data.length;
+        const drillNumberOfPlayers: number = data.numberOfPlayers;
+        const drillId: string = doc.id;
+        const drillImage: string = data.imageUrl;
+        const drillVideo: string = data.videoUrl;
+        const drillCategory: string = data.category;
+        const drillLevel: number = data.level;
+        const drillRatings: number[] = [];
+        const drillEquipment: number[] = data.equipment;
 
-          db.collection('drills')
-            .doc(doc.id)
-            .collection('ratings')
-            .get()
-            .then((snapShot) => {
-              snapShot.forEach((ratingDoc) => {
-                drillRatings.push(ratingDoc.data().rating);
-              });
-              retrievedDrills.push({
-                title: drillName,
-                id: drillId,
-                duration: drillLength,
-                numberOfPlayers: drillNumberOfPlayers,
-                imageUrl: drillImage,
-                videoUrl: drillVideo,
-                category: drillCategory,
-                level: drillLevel,
-                ratings: drillRatings,
-                equipment: drillEquipment,
-              });
-              setRefreshing(false);
-              setDrillsList(retrievedDrills);
-              setFilteredDrills(retrievedDrills);
+        db.collection('drills')
+          .doc(doc.id)
+          .collection('ratings')
+          .get()
+          .then((snapShot) => {
+            snapShot.forEach((ratingDoc) => {
+              drillRatings.push(ratingDoc.data().rating);
             });
-        });
-      })
-      .catch(function (error) {
-        console.log('Error getting documents: ', error);
+            retrievedDrills.push({
+              title: drillName,
+              id: drillId,
+              duration: drillLength,
+              numberOfPlayers: drillNumberOfPlayers,
+              imageUrl: drillImage,
+              videoUrl: drillVideo,
+              category: drillCategory,
+              level: drillLevel,
+              ratings: drillRatings,
+              equipment: drillEquipment,
+            });
+            setRefreshing(false);
+            setDrillsList(retrievedDrills);
+            setFilteredDrills(retrievedDrills);
+          });
       });
+    } catch (error) {
+      console.log('Error getting documents: ', error);
+    }
   }
 
   const onRefresh = React.useCallback(() => {
@@ -163,19 +161,25 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
   }, []);
 
   // Rating a drill through firebase
-  function rateDrillThroughFirebase() {
-    const currentUser = firebase.auth().currentUser;
-    db.collection('drills')
-      .doc(ratedDrill)
-      .collection('ratings')
-      .doc(currentUser?.uid)
-      .set({
-        rating: rating,
-      })
-      .then(() => {
-        setRatedDrill('');
-      });
+  async function rateDrillThroughFirebase() {
+    try {
+      const currentUser = firebase.auth().currentUser;
+      db.collection('drills')
+        .doc(ratedDrill)
+        .collection('ratings')
+        .doc(currentUser?.uid)
+        .set({
+          rating: rating,
+        })
+        .then(() => {
+          setRatedDrill('');
+          getDrillsFromDatabase();
+        });
+    } catch (error) {
+      console.log('Error rate drill: ', error);
+    }
   }
+
   function calculateDrillRating(ratings: number[]) {
     if (ratings !== undefined) {
       let ratingSum = 0;
@@ -187,20 +191,25 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
     return 0;
   }
 
-  function addDrillToSavedDrills(drill: Drill) {
-    const currentUser = firebase.auth().currentUser;
-    db.collection('users')
-      .doc(currentUser?.uid)
-      .collection('savedDrills')
-      .doc(drill.id)
-      .set({
-        name: drill.title,
-      })
-      .then(() => {
-        getAddedDrillsFromDatabase();
-        navigation.navigate('Tabs', { screen: 'Saved Drills' });
-      });
+  async function addDrillToSavedDrills(drill: Drill) {
+    try {
+      const currentUser = firebase.auth().currentUser;
+      db.collection('users')
+        .doc(currentUser?.uid)
+        .collection('savedDrills')
+        .doc(drill.id)
+        .set({
+          name: drill.title,
+        })
+        .then(() => {
+          getAddedDrillsFromDatabase();
+          navigation.navigate('Tabs', { screen: 'Saved Drills' });
+        });
+    } catch (error) {
+      console.log('Error add drill: ', error);
+    }
   }
+
   const searchFilterFunction = (text: string) => {
     // Check if searched text is not blank
     if (text) {

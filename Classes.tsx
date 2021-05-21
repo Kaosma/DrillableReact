@@ -13,6 +13,6 @@ export interface Drill {
 }
 
 export interface DrillsSection {
-  title: string;
+  sectionTitle: string;
   data: Drill[];
 }

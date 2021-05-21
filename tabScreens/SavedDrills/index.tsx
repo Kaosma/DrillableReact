@@ -9,8 +9,8 @@ import { AppContext } from '../../Context';
 export const SavedDrills = ({ navigation }: { navigation: any }) => {
   const { getAddedDrillsFromDatabase, savedDrills } = useContext(AppContext);
 
-  const renderSectionHeader = ({ section: { title } }) => {
-    return <Text>{title}</Text>;
+  const renderSectionHeader = ({ section: { sectionTitle } }) => {
+    return <Text style={{fontSize: 25, fontWeight:'600', color: 'grey', padding: 10}}>{sectionTitle}</Text>;
   };
 
   // Making sure it only retrieves the drills once
@@ -22,16 +22,17 @@ export const SavedDrills = ({ navigation }: { navigation: any }) => {
     <View style={styles.rootContainer}>
       <SectionList
         sections={savedDrills}
-        style={{ flex: 1, width: '100%', marginTop: 24 }}
-        showsVerticalScrollIndicator={false}
-        bounces={false}
+        style={{ flex: 1, width: '100%', borderWidth: 1, borderStyle: 'solid', borderColor: 'red' }}
+        showsVerticalScrollIndicator={true}
+        bounces={true}
+        maxToRenderPerBatch={2}
         onEndReachedThreshold={0.5}
-        keyExtractor={(it) => it}
+        keyExtractor={(item, index) => item + index}
         renderItem={(item) => {
           return (
-            <View>
+            <View style={{padding: 10}}>
               <Text style={{ color: '#f4f4f4' }}>
-                {item.section.data[item.index].duration}
+                {item.section.data[item.index].title}
               </Text>
             </View>
           );

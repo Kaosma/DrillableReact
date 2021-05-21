@@ -96,7 +96,7 @@ export const TabsComponent = ({ navigation }: { navigation: any }) => {
 export default function App({ navigation }: { navigation: any }) {
   const [savedDrills, setSavedDrills] = useState<DrillsSection[]>([
     {
-      title: 'No saved drills',
+      sectionTitle: 'No saved drills',
       data: [],
     },
   ]);
@@ -138,11 +138,13 @@ export default function App({ navigation }: { navigation: any }) {
             snapShot.docs.forEach((ratingDoc) => {
               drillRatings.push(ratingDoc.data().rating);
             });
-            const savedCategories = retrieveSavedDrills.map((d) => d.title);
+            const savedCategories = retrieveSavedDrills.map(
+              (d) => d.sectionTitle
+            );
 
             if (savedCategories.includes(drillCategory)) {
               retrieveSavedDrills.map((d) => {
-                if (d.title === drillCategory) {
+                if (d.sectionTitle === drillCategory) {
                   console.log('Exists');
                   d.data.push({
                     title: drillName,
@@ -162,7 +164,7 @@ export default function App({ navigation }: { navigation: any }) {
             } else {
               console.log('New');
               retrieveSavedDrills.push({
-                title: drillCategory,
+                sectionTitle: drillCategory,
                 data: [
                   {
                     title: drillName,
