@@ -102,93 +102,90 @@ export default function App({ navigation }: { navigation: any }) {
   ]);
 
   // Retrieving all drills from the database
-  function getAddedDrillsFromDatabase() {
+  async function getAddedDrillsFromDatabase() {
     let retrieveSavedDrills: DrillsSection[] = [];
-    const currentUser = firebase.auth().currentUser;
-    db.collection('users')
-      .doc(currentUser?.uid)
-      .collection('savedDrills')
-      .get()
-      .then((querySnapshot: any) => {
-        querySnapshot.forEach(async (doc: any) => {
-          const drillRef = db.collection('drills').doc(doc.id);
-          const drillSnapshot = await drillRef.get();
-          if (!drillSnapshot.exists) {
-            console.log('No such document!');
-          } else {
-            const data = drillSnapshot.data();
-            if (data !== undefined) {
-              const drillName: string = data.name;
-              const drillLength: number = data.length;
-              const drillNumberOfPlayers: number = data.numberOfPlayers;
-              const drillId: string = doc.id;
-              const drillImage: string = data.imageUrl;
-              const drillVideo: string = data.videoUrl;
-              const drillCategory: string = data.category;
-              const drillLevel: number = data.level;
-              const drillRatings: number[] = [];
-              const drillEquipment: number[] = data.equipment;
+    try {
+      const currentUser = firebase.auth().currentUser;
+      const querySnapshot = await db
+        .collection('users')
+        .doc(currentUser?.uid)
+        .collection('savedDrills')
+        .get();
+      for (const doc of querySnapshot.docs) {
+        const drillRef = db.collection('drills').doc(doc.id);
+        const drillSnapshot = await drillRef.get();
+        if (!drillSnapshot.exists) {
+          console.log('No such document!');
+        } else {
+          const data = drillSnapshot.data();
+          if (data !== undefined) {
+            const drillName: string = data.name;
+            const drillLength: number = data.length;
+            const drillNumberOfPlayers: number = data.numberOfPlayers;
+            const drillId: string = doc.id;
+            const drillImage: string = data.imageUrl;
+            const drillVideo: string = data.videoUrl;
+            const drillCategory: string = data.category;
+            const drillLevel: number = data.level;
+            const drillRatings: number[] = [];
+            const drillEquipment: number[] = data.equipment;
 
-              db.collection('drills')
-                .doc(doc.id)
-                .collection('ratings')
-                .get()
-                .then((snapShot) => {
-                  snapShot.forEach((ratingDoc) => {
-                    drillRatings.push(ratingDoc.data().rating);
+            const snapShot = await db
+              .collection('drills')
+              .doc(doc.id)
+              .collection('ratings')
+              .get();
+            snapShot.docs.forEach((ratingDoc) => {
+              drillRatings.push(ratingDoc.data().rating);
+            });
+            const savedCategories = retrieveSavedDrills.map((d) => d.title);
+
+            if (savedCategories.includes(drillCategory)) {
+              retrieveSavedDrills.map((d) => {
+                if (d.title === drillCategory) {
+                  console.log('Exists');
+                  d.data.push({
+                    title: drillName,
+                    id: drillId,
+                    duration: drillLength,
+                    numberOfPlayers: drillNumberOfPlayers,
+                    imageUrl: drillImage,
+                    videoUrl: drillVideo,
+                    category: drillCategory,
+                    level: drillLevel,
+                    ratings: drillRatings,
+                    equipment: drillEquipment,
                   });
-                  const savedCategories = retrieveSavedDrills.map(
-                    (d) => d.title
-                  );
-
-                  if (savedCategories.includes(drillCategory)) {
-                    retrieveSavedDrills.map((d) => {
-                      if (d.title === drillCategory) {
-                        console.log('Exists');
-                        d.data.push({
-                          title: drillName,
-                          id: drillId,
-                          duration: drillLength,
-                          numberOfPlayers: drillNumberOfPlayers,
-                          imageUrl: drillImage,
-                          videoUrl: drillVideo,
-                          category: drillCategory,
-                          level: drillLevel,
-                          ratings: drillRatings,
-                          equipment: drillEquipment,
-                        });
-                        setSavedDrills(retrieveSavedDrills);
-                      }
-                    });
-                  } else {
-                    console.log('New');
-                    retrieveSavedDrills.push({
-                      title: drillCategory,
-                      data: [
-                        {
-                          title: drillName,
-                          id: drillId,
-                          duration: drillLength,
-                          numberOfPlayers: drillNumberOfPlayers,
-                          imageUrl: drillImage,
-                          videoUrl: drillVideo,
-                          category: drillCategory,
-                          level: drillLevel,
-                          ratings: drillRatings,
-                          equipment: drillEquipment,
-                        },
-                      ],
-                    });
-                    setSavedDrills(retrieveSavedDrills);
-                  }
-                });
+                  setSavedDrills(retrieveSavedDrills);
+                }
+              });
+            } else {
+              console.log('New');
+              retrieveSavedDrills.push({
+                title: drillCategory,
+                data: [
+                  {
+                    title: drillName,
+                    id: drillId,
+                    duration: drillLength,
+                    numberOfPlayers: drillNumberOfPlayers,
+                    imageUrl: drillImage,
+                    videoUrl: drillVideo,
+                    category: drillCategory,
+                    level: drillLevel,
+                    ratings: drillRatings,
+                    equipment: drillEquipment,
+                  },
+                ],
+              });
             }
           }
-        });
-      })
-      .catch(function (error) {
-        console.log('Error getting documents: ', error);
-      });
+        }
+      }
+      setSavedDrills(retrieveSavedDrills);
+    } catch (e) {
+      console.log('error', e);
+    }
   }
   // Returning the navigation screens (including the tab navigator) in a stack navigator
   return (
@@ -229,7 +226,7 @@ export default function App({ navigation }: { navigation: any }) {
           <Stack.Screen
             name="ViewDrill"
             component={ViewDrill}
-            options={({ route }) => ({
+            options={({}) => ({
               title: '',
               headerBackTitle: 'Back',
             })}
@@ -237,7 +234,7 @@ export default function App({ navigation }: { navigation: any }) {
           <Stack.Screen
             name="ViewVideo"
             component={ViewVideo}
-            options={({ route }) => ({
+            options={({}) => ({
               title: '',
               headerBackTitle: 'Back',
             })}
