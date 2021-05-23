@@ -13,3 +13,4 @@
 # Get all drills from the database function in tabScreens/DrillBank.tsx
 # Get all the user's saved drills from database function in App.tsx
 # External libraries in package.json
+# FAB currently not used!
