@@ -12,6 +12,11 @@ export const styles = StyleSheet.create({
     borderColor: '#f4f4f4',
     borderRadius: 6,
     margin: 5,
+    shadowColor: 'black',
+    shadowOpacity: 0.8,
+    elevation: 6,
+    shadowRadius: 15,
+    shadowOffset: { width: 1, height: 10 },
   },
   drillView: {
     flex: 4,
@@ -28,7 +33,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   titleText: {
-    flex: 1,
+    flex: 6,
     color: '#f4f4f4',
     fontSize: 22,
   },
@@ -50,6 +55,7 @@ export const styles = StyleSheet.create({
   drillImage: {
     width: 70,
     height: 70,
+    //borderRadius: 6,
   },
   drillButtonContainer: {
     flex: 1,
@@ -61,7 +67,6 @@ export const styles = StyleSheet.create({
   },
   drillStandardButton: {
     color: '#ffffff',
-    fontFamily: 'System',
     marginRight: 20,
   },
   drillStandardButtonText: {

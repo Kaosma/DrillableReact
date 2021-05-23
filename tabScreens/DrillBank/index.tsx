@@ -267,6 +267,7 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
                   <View style={styles.infoContainer}>
                     <View style={styles.titleContainer}>
                       <Text style={styles.titleText}>{item.title}</Text>
+                      <Text style={styles.infoText}>Lv: {item.level}</Text>
                     </View>
 
                     <View style={styles.detailedInfoContainer}>
@@ -337,7 +338,7 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
           }}
         />
       </View>
-      <FAB
+      {/* <FAB
         icon={require('../../assets/filter.png')}
         color="#f4f4f4"
         style={{
@@ -347,7 +348,7 @@ export const DrillBank = ({ navigation }: { navigation: any }) => {
           backgroundColor: '#fc5c14',
         }}
         onPress={() => console.log('FILTER')}
-      />
+      /> */}
       <StatusBar style="auto" />
     </SafeAreaView>
   );
