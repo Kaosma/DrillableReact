@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
@@ -72,9 +71,7 @@ export const Login = (
               signInUser();
             }}
           >
-            <Text style={styles.advanceButtonText}>
-              Sign in
-            </Text>
+            <Text style={styles.advanceButtonText}>Sign in</Text>
           </TouchableOpacity>
         </View>
       </View>

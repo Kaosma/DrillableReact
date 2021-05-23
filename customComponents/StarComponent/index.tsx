@@ -1,9 +1,5 @@
 import React from 'react';
-import { Icon } from '@iconify/react';
 import { View, Image } from 'react-native';
-import starFilled from '@iconify-icons/ant-design/star-filled';
-import starOutlined from '@iconify-icons/ant-design/star-outlined';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 // Custom star component
 export const Star = ({ filled }: { filled: boolean }) => {
@@ -17,12 +13,6 @@ export const Star = ({ filled }: { filled: boolean }) => {
         }
         style={{ height: 35, width: 35, tintColor: '#ff7315' }}
       />
-      {/* <Icon
-        icon={this.props.filled === true ? starFilled : starOutlined}
-        height="30"
-        width="30"
-        style={{ color: '#ff7315' }}
-      /> */}
     </View>
   );
 };

@@ -63,10 +63,6 @@ export const SignUp = ({ navigation }: { navigation: any }) => {
               style={styles.inputTextField}
             />
           </View>
-          {/*<TextInput
-                  placeholder='Username'
-                  value={newUsername}
-                onChangeText={setNewUsername}/>*/}
 
           <TouchableOpacity
             style={styles.advanceButton}

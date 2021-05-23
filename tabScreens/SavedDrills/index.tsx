@@ -1,8 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { View, SectionList, Text, TouchableOpacity, Image } from 'react-native';
 import { styles } from './styles';
-import { Drill, DrillsSection } from '../../Classes';
 import { AppContext } from '../../Context';
 
 // Returning the saved drills screen

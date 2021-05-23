@@ -4,7 +4,6 @@ import { Text, View, Image, ImageBackground } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { EquipmentText } from '../../customComponents/EquipmentText';
 import { styles } from './styles';
-import { windowWidth } from '../../Dimensions';
 
 // Returning a screen to view info of a single drill
 export const ViewDrill = ({

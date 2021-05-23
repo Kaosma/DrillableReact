@@ -1,4 +1,4 @@
-// Drill class interface
+// Drill interface
 export interface Drill {
   title: string;
   id: string;
@@ -12,6 +12,7 @@ export interface Drill {
   equipment: number[];
 }
 
+// DrillsSection interface
 export interface DrillsSection {
   sectionTitle: string;
   data: Drill[];
