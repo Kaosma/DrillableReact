@@ -189,6 +189,24 @@ export default function App({ navigation }: { navigation: any }) {
       console.log('error', e);
     }
   }
+
+  // Remove a saved drill from firebase
+  async function removeSavedDrill(id: string) {
+    try {
+      const currentUser = firebase.auth().currentUser;
+      db.collection('users')
+        .doc(currentUser?.uid)
+        .collection('savedDrills')
+        .doc(id)
+        .delete()
+        .then(() => {
+          getAddedDrillsFromDatabase();
+        });
+    } catch (error) {
+      console.log('Error rate drill: ', error);
+    }
+  }
+
   // Returning the navigation screens (including the tab navigator) in a stack navigator
   return (
     <NavigationContainer>
@@ -197,6 +215,7 @@ export default function App({ navigation }: { navigation: any }) {
           savedDrills,
           setSavedDrills,
           getAddedDrillsFromDatabase,
+          removeSavedDrill,
         }}
       >
         <Stack.Navigator

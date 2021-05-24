@@ -6,7 +6,7 @@ import { AppContext } from '../../Context';
 
 // Returning the saved drills screen
 export const SavedDrills = ({ navigation }: { navigation: any }) => {
-  const { getAddedDrillsFromDatabase, savedDrills } = useContext(AppContext);
+  const { savedDrills, getAddedDrillsFromDatabase, removeSavedDrill } = useContext(AppContext);
 
   const renderSectionHeader = ({ section: { sectionTitle } }) => {
     return (
@@ -305,7 +305,9 @@ export const SavedDrills = ({ navigation }: { navigation: any }) => {
 
                   <TouchableOpacity
                     style={styles.drillStandardButton}
-                    onPress={() => {}}
+                    onPress={() => {
+                      removeSavedDrill(drill.id);
+                    }}
                   >
                     <Text style={styles.drillStandardButtonText}>REMOVE</Text>
                   </TouchableOpacity>
